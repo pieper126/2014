@@ -1,5 +1,7 @@
 package stamboom.domain;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.*;
 import javafx.collections.FXCollections;
@@ -10,8 +12,11 @@ public class Administratie implements Serializable{
     //************************datavelden*************************************
     private int nextGezinsNr;
     private int nextPersNr;
-    private final ObservableList<Persoon> personen;
-    private final ObservableList<Gezin> gezinnen;
+    
+    private List<Persoon> personen;
+    private List<Gezin> gezinnen;
+    private transient ObservableList<Gezin> observableGezinnen;
+    private transient ObservableList<Persoon> observablePersonen;
 
     //***********************constructoren***********************************
     /**
@@ -21,8 +26,10 @@ public class Administratie implements Serializable{
      */
     public Administratie() {
         //todo opgave 1
-        personen = FXCollections.observableList(new ArrayList<Persoon>());
-        gezinnen = FXCollections.observableList(new ArrayList<Gezin>());
+        personen = new ArrayList<>();
+        gezinnen = new ArrayList<>();
+        observableGezinnen = FXCollections.observableList(new ArrayList<Gezin>());
+        observablePersonen = FXCollections.observableList(new ArrayList<Persoon>());
         nextGezinsNr = 1;
         nextPersNr = 1;
     }
@@ -92,7 +99,7 @@ public class Administratie implements Serializable{
         }
         
         nextPersNr++;
-        personen.add(returnValue);        
+        observablePersonen.add(returnValue);        
         
         return returnValue;
     }
@@ -125,7 +132,7 @@ public class Administratie implements Serializable{
 
         Gezin gezin = new Gezin(nextGezinsNr, ouder1, ouder2);
         nextGezinsNr++;
-        gezinnen.add(gezin);
+        observableGezinnen.add(gezin);
 
         ouder1.wordtOuderIn(gezin);
         if (ouder2 != null) {
@@ -237,7 +244,7 @@ public class Administratie implements Serializable{
         ouder2.wordtOuderIn(returnValue);
         
         // voegt het toe aan gezinnen
-        gezinnen.add(returnValue);
+        observableGezinnen.add(returnValue);
         
         return returnValue;
         
@@ -303,7 +310,7 @@ public class Administratie implements Serializable{
      */
     public ObservableList<Persoon> getPersonen() {
         // todo opgave 1        
-        return (ObservableList<Persoon>)Collections.unmodifiableList(personen);
+        return FXCollections.unmodifiableObservableList(observablePersonen);
     }
 
     /**
@@ -334,7 +341,7 @@ public class Administratie implements Serializable{
      * @return de geregistreerde gezinnen
      */
     public ObservableList<Gezin> getGezinnen() {
-        return (ObservableList<Gezin>)Collections.unmodifiableList(gezinnen);
+        return FXCollections.unmodifiableObservableList(observableGezinnen);      
     }
 
     /**
@@ -371,5 +378,12 @@ public class Administratie implements Serializable{
         private String formatGeboortePlaats(String geboorteplaats) {
         String returnValue = geboorteplaats.toLowerCase();
         return Character.toUpperCase(returnValue.charAt(0)) + returnValue.substring(1).toLowerCase();
+    }
+        
+    private void readObject(ObjectInputStream ois)
+            throws IOException, ClassNotFoundException {
+        ois.defaultReadObject();
+        observablePersonen = FXCollections.observableList(personen);
+        observableGezinnen = FXCollections.observableList(gezinnen);
     }
 }

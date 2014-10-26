@@ -1,5 +1,7 @@
 package stamboom.domain;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.*;
 import javafx.collections.FXCollections;
@@ -12,7 +14,8 @@ public class Gezin implements Serializable {
     private final int nr;
     private final Persoon ouder1;
     private final Persoon ouder2;
-    private final ObservableList<Persoon> kinderen;
+    private List<Persoon> kinderen;
+    private transient ObservableList<Persoon> observableKinderen;
     /**
      * kan onbekend zijn (dan is het een ongehuwd gezin):
      */
@@ -43,7 +46,8 @@ public class Gezin implements Serializable {
         this.nr = gezinsNr;
         this.ouder1 = ouder1;
         this.ouder2 = ouder2;
-        this.kinderen = FXCollections.observableArrayList(new ArrayList<Persoon>());
+        this.kinderen = new ArrayList<>();
+        observableKinderen = FXCollections.observableList(new ArrayList<Persoon>());
         this.huwelijksdatum = null;
         this.scheidingsdatum = null;
     }
@@ -53,7 +57,7 @@ public class Gezin implements Serializable {
      * @return alle kinderen uit dit gezin
      */
     public ObservableList<Persoon> getKinderen() {
-        return (ObservableList<Persoon>) FXCollections.unmodifiableObservableList(kinderen);
+        return (ObservableList<Persoon>) FXCollections.unmodifiableObservableList(observableKinderen);
     }
 
     /**
@@ -61,7 +65,7 @@ public class Gezin implements Serializable {
      * @return het aantal kinderen in dit gezin
      */
     public int aantalKinderen() {
-        return kinderen.size();
+        return observableKinderen.size();
     }
 
     /**
@@ -167,10 +171,10 @@ public class Gezin implements Serializable {
         //todo opgave 1
         String returnValue = nr + " " + ouder1.getNaam() + " met " + ouder2.getNaam() + " " + StringUtilities.datumString(huwelijksdatum);
 
-        if (!kinderen.isEmpty()) {
+        if (!observableKinderen.isEmpty()) {
             returnValue += "; kinderen:";
 
-            for (Persoon kind : kinderen) {
+            for (Persoon kind : observableKinderen) {
                 returnValue += " -" + kind.getVoornamen();
             }
         }
@@ -178,8 +182,8 @@ public class Gezin implements Serializable {
     }
 
     void breidUitMet(Persoon kind) {
-        if (!kinderen.contains(kind)) {
-            kinderen.add(kind);
+        if (!observableKinderen.contains(kind)) {
+            observableKinderen.add(kind);
         }
     }
 
@@ -220,5 +224,11 @@ public class Gezin implements Serializable {
     public boolean heeftGescheidenOudersOp(Calendar datum) {
         //todo opgave 1   
         return scheidingsdatum != null && (scheidingsdatum.before(datum) || scheidingsdatum.equals(datum));
+    }
+    
+    private void readObject(ObjectInputStream ois)
+            throws IOException, ClassNotFoundException {
+        ois.defaultReadObject();
+        observableKinderen = FXCollections.observableList(kinderen);
     }
 }

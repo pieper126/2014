@@ -1,5 +1,7 @@
 package stamboom.domain;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -19,7 +21,8 @@ public class Persoon implements Serializable {
     private final Calendar geboorteDat;
     private final String geboortePlaats;
     private Gezin ouderlijkGezin;
-    private final ObservableList<Gezin> alsOuderBetrokkenIn;
+    private List<Gezin> alsOuderBetrokkenIn;
+    private transient ObservableList<Gezin> ObservableAlsOuderBetrokkenIn;
     private final Geslacht geslacht;
 
     // ********constructoren***********************************
@@ -44,7 +47,8 @@ public class Persoon implements Serializable {
         geboortePlaats = Character.toUpperCase(gebplaats.charAt(0)) + gebplaats.substring(1).toLowerCase();
         geslacht = g;
         this.ouderlijkGezin = ouderlijkGezin;
-        alsOuderBetrokkenIn = FXCollections.observableList(new ArrayList<Gezin>());
+        alsOuderBetrokkenIn = new ArrayList<>();
+        ObservableAlsOuderBetrokkenIn = FXCollections.observableList(new ArrayList<Gezin>());
     }
 
     // ********methoden****************************************
@@ -154,7 +158,7 @@ public class Persoon implements Serializable {
      * @return de gezinnen waar deze persoon bij betrokken is
      */
     public ObservableList<Gezin> getAlsOuderBetrokkenIn() {
-        return (ObservableList<Gezin>) Collections.unmodifiableList(alsOuderBetrokkenIn);
+        return (ObservableList<Gezin>) Collections.unmodifiableList(ObservableAlsOuderBetrokkenIn);
     }
 
     /**
@@ -192,10 +196,10 @@ public class Persoon implements Serializable {
                 sb.append("; 2e ouder: ").append(ouderlijkGezin.getOuder2().getNaam());
             }
         }
-        if (!alsOuderBetrokkenIn.isEmpty()) {
+        if (!ObservableAlsOuderBetrokkenIn.isEmpty()) {
             sb.append("; is ouder in gezin ");
 
-            for (Gezin g : alsOuderBetrokkenIn) {
+            for (Gezin g : ObservableAlsOuderBetrokkenIn) {
                 sb.append(g.getNr()).append(" ");
             }
         }
@@ -211,8 +215,8 @@ public class Persoon implements Serializable {
      *
      */
     void wordtOuderIn(Gezin g) {
-        if (!alsOuderBetrokkenIn.contains(g)) {
-            alsOuderBetrokkenIn.add(g);
+        if (!ObservableAlsOuderBetrokkenIn.contains(g)) {
+            ObservableAlsOuderBetrokkenIn.add(g);
         }
     }
 
@@ -229,7 +233,7 @@ public class Persoon implements Serializable {
             return null;
         }
         
-        for (Gezin gezin: alsOuderBetrokkenIn) {
+        for (Gezin gezin: ObservableAlsOuderBetrokkenIn) {
             if(gezin.getOuder1() == andereOuder || gezin.getOuder2() == andereOuder)
             {
                 return gezin;
@@ -245,7 +249,7 @@ public class Persoon implements Serializable {
      * @return true als persoon op datum getrouwd is, anders false
      */
     public boolean isGetrouwdOp(Calendar datum) {
-        for (Gezin gezin : alsOuderBetrokkenIn) {
+        for (Gezin gezin : ObservableAlsOuderBetrokkenIn) {
             if (gezin.heeftGetrouwdeOudersOp(datum)) {
                 return true;
             }
@@ -260,7 +264,7 @@ public class Persoon implements Serializable {
      * gehouden met huwelijken in het verleden en in de toekomst
      */
     public boolean kanTrouwenOp(Calendar datum) {
-        for (Gezin gezin : alsOuderBetrokkenIn) {
+        for (Gezin gezin : ObservableAlsOuderBetrokkenIn) {
             if (gezin.heeftGetrouwdeOudersOp(datum)) {
                 return false;
             } else {
@@ -280,7 +284,7 @@ public class Persoon implements Serializable {
      */
     public boolean isGescheidenOp(Calendar datum) {
         //todo opgave 1
-        for (Gezin gezin : alsOuderBetrokkenIn) {
+        for (Gezin gezin : ObservableAlsOuderBetrokkenIn) {
             
         }
         return false;
@@ -367,5 +371,11 @@ public class Persoon implements Serializable {
         }
         System.out.print(builder);
         return builder.toString();
+    }
+    
+    private void readObject(ObjectInputStream ois)
+            throws IOException, ClassNotFoundException {
+        ois.defaultReadObject();
+        ObservableAlsOuderBetrokkenIn = FXCollections.observableList(alsOuderBetrokkenIn);
     }
 }
