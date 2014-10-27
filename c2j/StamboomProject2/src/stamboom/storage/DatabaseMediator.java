@@ -4,14 +4,12 @@
  */
 package stamboom.storage;
 
-import com.mysql.jdbc.PreparedStatement;
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.ResultSet;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.ListIterator;
 import java.util.Properties;
@@ -20,7 +18,6 @@ import stamboom.domain.Geslacht;
 import stamboom.domain.Gezin;
 import stamboom.domain.Persoon;
 import stamboom.util.StringUtilities;
-import oracle.jdbc.pool.OracleDataSource;
 
 public class DatabaseMediator implements IStorageMediator {
 
@@ -92,27 +89,26 @@ public class DatabaseMediator implements IStorageMediator {
     @Override
     public void save(Administratie admin) throws IOException {
         //todo opgave 4  
-        
+
         ListIterator<Gezin> gezinnen = admin.getGezinnen().listIterator();
         ListIterator<Persoon> personen = admin.getPersonen().listIterator();
-        
+
         try {
             initConnection();
-            dropTables();
-            createTables();
-            
-            PreparedStatement ps = (PreparedStatement) conn.prepareStatement("INSERT INTO PERSONEN VALUES (?,?,?,?,?,?,?,?)");
-            
+            cleansTables();
+
+            PreparedStatement ps = conn.prepareStatement("INSERT INTO PERSONEN (persoonsNummer, achternaam, voornamen, tussenvoegsel, geboortedatum, geboorteplaats, geslacht) VALUES (?,?,?,?,?,?,?)");
+
             while (personen.hasNext()) {
                 Persoon persoon = personen.next();
-                
+
                 ps.setInt(1, persoon.getNr());
                 ps.setString(2, persoon.getVoornamen());
                 ps.setString(3, persoon.getTussenvoegsel());
                 ps.setString(4, persoon.getAchternaam());
-                
-                if (persoon.getGeslacht() == Geslacht.MAN ) {
-                     ps.setString(5, "M");
+
+                if (persoon.getGeslacht() == Geslacht.MAN) {
+                    ps.setString(5, "M");
                 } else {
                     ps.setString(5, "V");
                 }
@@ -120,50 +116,65 @@ public class DatabaseMediator implements IStorageMediator {
                 ps.setString(6, StringUtilities.datumString(persoon.getGebDat()));
                 ps.setString(7, persoon.getGebPlaats());
             }
-            
-            ps.executeQuery();
-            
-            ps = (PreparedStatement) conn.prepareStatement("INSERT INTO GEZINEN VALUES (?,?,?,?,?)");
-            
+
+            ps.execute();
+
+            ps = conn.prepareStatement("INSERT INTO GEZINNEN (gezinsNummer, ouder1, ouder2, huwelijksdatum, scheidingsdatum) VALUES (?,?,?,?,?)");
+
             while (gezinnen.hasNext()) {
                 Gezin gezin = gezinnen.next();
-                
+
                 ps.setInt(1, gezin.getNr());
                 ps.setInt(2, gezin.getOuder1().getNr());
-                
+
                 if (gezin.getOuder2() == null) {
                     ps.setNull(3, java.sql.Types.INTEGER);
                 } else {
                     ps.setInt(3, gezin.getOuder2().getNr());
                 }
-                
+
                 if (gezin.getHuwelijksdatum() == null) {
-                    ps.setNull(4, java.sql.Types.VARCHAR);
+                    ps.setString(4, "");
                 } else {
                     ps.setString(4, StringUtilities.datumString(gezin.getHuwelijksdatum()));
                 }
-                
-                if (gezin.getScheidingsdatum() == null) {
-                    ps.setNull(5, java.sql.Types.VARCHAR);
+
+                if (gezin.getScheidingsdatum()== null) {
+                    ps.setString(5, "");
                 } else {
                     ps.setString(5, StringUtilities.datumString(gezin.getScheidingsdatum()));
                 }
-                
-                ps.executeUpdate();
+
+                ps.execute();
+
             }
-            
+
+            ps = conn.prepareStatement("UPDATE PERSONEN SET OUDER = ? WHERE PERSOONSNUMMER = ?");
+            personen = admin.getPersonen().listIterator();
+
+            while (personen.hasNext()) {
+                Persoon prs = personen.next();
+                if (prs.getOuderlijkGezin() == null) {
+                    continue;
+                }
+
+                ps.setInt(1, prs.getOuderlijkGezin().getNr());
+                ps.setInt(2, prs.getNr());
+
+                ps.execute();
+            }
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
-        }
-        finally{
+        } finally {
             closeConnection();
         }
-        
+
     }
 
     @Override
     public final boolean configure(Properties props) {
-        
+
         this.props = props;
 
         try {
@@ -205,34 +216,32 @@ public class DatabaseMediator implements IStorageMediator {
 
     private void initConnection() throws SQLException {
         //opgave 4
-        
 
-        
         String driver = props.getProperty("driver");
-        
+
         if (driver != null) {
             System.setProperty("jdbc:oracle:thin:", driver);
         }
-        
+
         String url = props.getProperty("driver") + props.getProperty("url");
         String username = props.getProperty("username");
         String password = props.getProperty("password");
-        
+
+        conn = DriverManager.getConnection(url, username, password);
+
 //        String url = "jdbc:oracle:thin:192.168.15.50:1521:fhictora";
 //        String username =  "dbi295793";
 //        String password = "IUSCsQWJ11";
 //        
-        OracleDataSource ods = new OracleDataSource();
-        
-        ods.setURL(url);
-        ods.setUser(username);
-        ods.setPassword(password);
-        ods.setServiceName("fhictora");
-        ods.setDescription("fhictora");
-        
-        System.out.println(ods.getServiceName() + ods.getURL() + ":  :" +ods.getDescription());
-        conn = ods.getConnection();
-        
+//        OracleDataSource ods = new OracleDataSource();
+//        
+//        ods.setURL(url);
+//        ods.setUser(username);
+//        ods.setPassword(password);
+//        
+//        
+//        System.out.println(ods.getServiceName() + ods.getURL() + ":  :" +ods.getDescription());
+//        conn = ods.getConnection();
         if (conn == null) {
             throw new SQLException();
         }
@@ -246,23 +255,36 @@ public class DatabaseMediator implements IStorageMediator {
             System.err.println(ex.getMessage());
         }
     }
-    
-    private void dropTables(){
+
+    private void cleansTables() {
         try {
             Statement statement = conn.createStatement();
-            
-            statement.executeUpdate("DROP TABLE PERSOON CASCADE CONSTRAINTS");
-            statement.executeUpdate("DROP TABLE GEZIN CASCADE CONSTRAINTS");
-            
+
+            statement.executeQuery("UPDATE PERSONEN SET OUDERS = NULL");
+            statement.executeQuery("DELETE FROM PERSONEN");
+            statement.executeQuery("DELETE FROM GEZINNEN");
+
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
     }
-    
-    private void createTables(){
+
+    private void dropTables() {
         try {
             Statement statement = conn.createStatement();
-            
+
+            statement.executeUpdate("DROP TABLE PERSOON CASCADE CONSTRAINTS");
+            statement.executeUpdate("DROP TABLE GEZIN CASCADE CONSTRAINTS");
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private void createTables() {
+        try {
+            Statement statement = conn.createStatement();
+
             statement.executeUpdate("ALTER TABLE PERSONEN\n"
                     + "ADD CONSTRAINT PERSONEN_FK1 FOREIGN KEY\n"
                     + "(\n"
@@ -338,10 +360,9 @@ public class DatabaseMediator implements IStorageMediator {
                     + "  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645\n"
                     + "  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1 BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)\n"
                     + "  TABLESPACE \"USERS\" ;");
-            
+
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
     }
 }
-
