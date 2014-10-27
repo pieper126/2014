@@ -100,6 +100,8 @@ public class StamboomController {
      */
     public void saveToDatabase() throws IOException {
         //todo opgave 4
+        initDatabaseMedium();
+        storageMediator.save(admin);
     }
 
 }

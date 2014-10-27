@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Calendar;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
@@ -103,6 +105,7 @@ public class StamboomFXController extends StamboomController implements Initiali
         this.cbOuder1Invoer.setItems(personen);
         this.cbOuder2Invoer.setItems(personen);
         this.cbOuderlijkGezin.setItems(gezinnen);
+        cbOuderlijkGezinInvoer.setItems(gezinnen);
     }
 
     public void selectPersoon(Event evt) {
@@ -323,11 +326,15 @@ public class StamboomFXController extends StamboomController implements Initiali
     public void openStamboom(Event evt) {
         // todo opgave 3
         try {
-            FileChooser filechooser = new FileChooser();
-            File file = filechooser.showOpenDialog(getStage());
-            
-            if (file != null) {
-                deserialize(file);
+            if (withDatabase) {
+                loadFromDatabase();
+            } else {
+                FileChooser filechooser = new FileChooser();
+                File file = filechooser.showOpenDialog(getStage());
+
+                if (file != null) {
+                    deserialize(file);
+                }
             }
         } catch (IOException e) {
             showDialog("exception", e.getMessage());
@@ -338,11 +345,15 @@ public class StamboomFXController extends StamboomController implements Initiali
     public void saveStamboom(Event evt) {
         // todo opgave 3
         try {
-            FileChooser filechooser = new FileChooser();
-            File file = filechooser.showSaveDialog(getStage());
-            
-            if (file != null) {
-                serialize(file);
+            if (withDatabase) {
+                saveToDatabase();
+            } else {
+                FileChooser filechooser = new FileChooser();
+                File file = filechooser.showSaveDialog(getStage());
+
+                if (file != null) {
+                    serialize(file);
+                }
             }
         } catch (IOException e) {
             showDialog("exception", e.getMessage());
@@ -351,13 +362,22 @@ public class StamboomFXController extends StamboomController implements Initiali
 
     
     public void closeApplication(Event evt) {
-        saveStamboom(evt);
+        if (withDatabase) {          
+            try {
+                saveToDatabase();
+            } catch (IOException ex) {
+                showDialog("warning", "wasn't able to save to database");
+            }
+        } else {
+            saveStamboom(evt);
+        }
         getStage().close();
     }
 
    
     public void configureStorage(Event evt) {
         withDatabase = cmDatabase.isSelected();
+        showDialog("notification", cmDatabase.isSelected() ? "now using database" : "now using storage");
     }
 
  
