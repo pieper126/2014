@@ -7,9 +7,12 @@ package stamboom.storage;
 import com.mysql.jdbc.PreparedStatement;
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.GregorianCalendar;
+import java.util.Iterator;
 import java.util.ListIterator;
 import java.util.Properties;
 import stamboom.domain.Administratie;
@@ -17,6 +20,7 @@ import stamboom.domain.Geslacht;
 import stamboom.domain.Gezin;
 import stamboom.domain.Persoon;
 import stamboom.util.StringUtilities;
+import oracle.jdbc.pool.OracleDataSource;
 
 public class DatabaseMediator implements IStorageMediator {
 
@@ -31,6 +35,57 @@ public class DatabaseMediator implements IStorageMediator {
     @Override
     public Administratie load() throws IOException {
         //todo opgave 4
+//        Administratie admin = new Administratie();
+//        try {
+//            initConnection();
+//            Statement stat = this.conn.createStatement();
+//
+//            ResultSet rs = stat.executeQuery("SELECT * FROM Personen");
+//            ArrayList<Integer> oudersNummers = new ArrayList();
+//            while (rs.next()) {
+//                String[] datumdelen = rs.getString("Geboortedatum").split("-");
+//                GregorianCalendar gebdat = new GregorianCalendar(new Integer(datumdelen[2]).intValue(), new Integer(datumdelen[1]).intValue() - 1, new Integer(datumdelen[0]).intValue());
+//
+//                String gebplaats = rs.getString("Geboorteplaats");
+//                String achternaam = rs.getString("Achternaam");
+//                String[] voornamen = rs.getString("Voornamen").split(" ");
+//                String tussenvoegsel = rs.getString("Tussenvoegsel");
+//                Geslacht geslacht;
+//                if (rs.getString("Geslacht").equals("M")) {
+//                    geslacht = Geslacht.MAN;
+//                } else {
+//                    geslacht = Geslacht.VROUW;
+//                }
+//                oudersNummers.add(Integer.valueOf(rs.getInt("Ouders")));
+//                admin.addPersoon(geslacht, voornamen, achternaam, tussenvoegsel, gebdat, gebplaats, null);
+//            }
+//            rs = stat.executeQuery("SELECT * FROM Gezinnen");
+//            while (rs.next()) {
+//                int nrOuder1 = rs.getInt("Ouder1");
+//                int nrOuder2 = rs.getInt("Ouder2");
+//                String huwelijksdatum = rs.getString("Huwelijk");
+//                String scheidingsdatum = rs.getString("Scheiding");
+//                Persoon ouder1 = admin.getPersoon(nrOuder1);
+//                Persoon ouder2 = admin.getPersoon(nrOuder2);
+//                if (huwelijksdatum.isEmpty()) {
+//                    admin.addOngehuwdGezin(ouder1, ouder2);
+//                } else {
+//                    Gezin huwelijk = admin.addHuwelijk(ouder1, ouder2, StringUtilities.datum(huwelijksdatum));
+//                    if (!scheidingsdatum.isEmpty()) {
+//                        admin.setScheiding(huwelijk, StringUtilities.datum(scheidingsdatum));
+//                    }
+//                }
+//            }
+//            for (int i = 0; i < oudersNummers.size(); i++) {
+//                Gezin ouders = admin.getGezin(((Integer) oudersNummers.get(i)).intValue());
+//                Iterator<Persoon> kinderen; 
+//            }
+//        } catch (SQLException exc) {
+//            System.err.println(exc.getMessage());
+//        } finally {
+//            closeConnection();
+//        }
+//        return admin;
         return null;
     }
 
@@ -151,6 +206,7 @@ public class DatabaseMediator implements IStorageMediator {
     private void initConnection() throws SQLException {
         //opgave 4
         
+
         
         String driver = props.getProperty("driver");
         
@@ -166,7 +222,20 @@ public class DatabaseMediator implements IStorageMediator {
 //        String username =  "dbi295793";
 //        String password = "IUSCsQWJ11";
 //        
-        conn = DriverManager.getConnection(url, username, password);
+        OracleDataSource ods = new OracleDataSource();
+        
+        ods.setURL(url);
+        ods.setUser(username);
+        ods.setPassword(password);
+        ods.setServiceName("fhictora");
+        ods.setDescription("fhictora");
+        
+        System.out.println(ods.getServiceName() + ods.getURL() + ":  :" +ods.getDescription());
+        conn = ods.getConnection();
+        
+        if (conn == null) {
+            throw new SQLException();
+        }
     }
 
     private void closeConnection() {
