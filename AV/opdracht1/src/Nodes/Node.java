@@ -2,9 +2,7 @@ package Nodes;
 
 public class Node {
 
-    private Equation currentEquation;
-    
-    protected Node SideA;
+    transient Equation currentEquation;
 
     public Node(Equation currentEquation) {
         this.currentEquation = currentEquation;
@@ -22,4 +20,8 @@ public class Node {
         this.currentEquation = currentEquation;
     }
 
+    @Override
+    public String toString() {
+        return currentEquation.equation;
+    }
 }

@@ -1,6 +1,6 @@
 package Nodes;
 
-public class negation extends Node {
+public class negation extends MonoNode {
 
     public negation(String equation) {
         super(new Equation(equation));

@@ -23,4 +23,13 @@ public class Translater {
         
         return null;
     }
+    
+    public Equation StringToEquation(String equation){
+        return new Equation(equation);
+    }
+    
+    public static Node Parse(String equation){
+        String trimmedEquation = equation.replaceAll("\\s+", "");
+        return Parser.Parse(equation);
+    }
 }

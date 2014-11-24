@@ -5,6 +5,8 @@
  */
 package GUI;
 
+import Nodes.Equation;
+
 /**
  *
  * @author pieper126
@@ -16,6 +18,8 @@ public class Main {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        Equation test = new Equation("=( >(A,B), |( ~(A) ,B) )");
+        System.out.println(test.toString());
     }
     
 }

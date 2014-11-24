@@ -7,14 +7,15 @@ public class Equation {
 
     protected String equation;
 
-    private List<Node> equationInNodes;
+    private Node mainNode;
 
     public Equation(String equation) {
         this.equation = equation;
+        mainNode = Translater.Translater.Parse(equation);
     }
 
-    public List<Node> getEquationInNodes() {
-        return unmodifiableList(equationInNodes);
+    public Node GetMainNode() {
+        return mainNode;
     }
 
     public String getEquation() {
@@ -31,7 +32,7 @@ public class Equation {
 
     @Override
     public String toString() {
-        return equation;
+        return equation + "\n" + mainNode.toString();
     }
 
 }
