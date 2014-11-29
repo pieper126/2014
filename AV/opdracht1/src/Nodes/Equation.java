@@ -32,7 +32,7 @@ public class Equation {
 
     @Override
     public String toString() {
-        return equation + "\n" + mainNode.toString();
+        return mainNode != null ? equation + "\n" + mainNode.toString() : "";
     }
 
 }

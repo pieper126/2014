@@ -1,27 +1,25 @@
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * and open the template in the editor.               
  */
 package Nodes;
-
-import com.sun.org.apache.bcel.internal.generic.AALOAD;
 
 /**
  *
  * @author pieper126
  */
 public class BinaryNode extends Node {
-    protected Node SideA;
-    protected Node SideB;
+    protected Node sideA;
+    protected Node sideB;
     
-    public BinaryNode(Equation currentEquation) {
+    public BinaryNode(Equation currentEquation, Node sideA, Node sideB) {
         super(currentEquation);
-        String stringSideA = super.currentEquation.equation.substring(0, super.currentEquation.equation.indexOf(",") - 1);
-        String stringSideB = super.currentEquation.equation.substring(super.currentEquation.equation.indexOf(",") + 1);
+//        String stringSideA = super.currentEquation.equation.substring(0, super.currentEquation.equation.indexOf(",") - 1); // meerder comma's mogelijk
+//        String stringSideB = super.currentEquation.equation.substring(super.currentEquation.equation.indexOf(",") + 1);
         
-        SideA = Translater.Translater.Parse(stringSideA);
-        SideB = Translater.Translater.Parse(stringSideB);
+        this.sideA = sideA;
+        this.sideB = sideB
     }
     
 }

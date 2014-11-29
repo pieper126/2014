@@ -10,7 +10,7 @@ package Nodes;
  * @author pieper126
  */
 public class MonoNode extends Node {
-    protected AbstractVariable SideA;
+    protected Node SideA;
     
     public MonoNode(Equation currentEquation) {
         super(currentEquation);

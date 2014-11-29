@@ -1,9 +1,11 @@
 package Nodes;
 
 public class Node {
-
     transient Equation currentEquation;
 
+    public Node() {
+    }
+    
     public Node(Equation currentEquation) {
         this.currentEquation = currentEquation;
     }
