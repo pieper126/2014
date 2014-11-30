@@ -2,9 +2,13 @@ package Nodes;
 
 public class negation extends MonoNode {
 
-    public negation(String equation) {
-        super(new Equation(equation));
-        SideA = new Node(new Equation(equation));
+    public negation(Node sideA) {
+        super(sideA);
     }
-    
+
+    @Override
+    public String toString() {
+        return "¬" + "(" + sideA.toString() + ")";
+    }
+
 }

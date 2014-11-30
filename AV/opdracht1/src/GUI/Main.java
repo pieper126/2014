@@ -19,6 +19,8 @@ public class Main {
     public static void main(String[] args) {
         // TODO code application logic here
         Equation test = new Equation("=( >(A,B), |( ~(A) ,B) )");
+//        Equation test = new Equation("=(A,B)");
+//        Equation test = new Equation("A");
         System.out.println(test.toString());
     }
     

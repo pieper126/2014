@@ -13,13 +13,12 @@ public class BinaryNode extends Node {
     protected Node sideA;
     protected Node sideB;
     
-    public BinaryNode(Equation currentEquation, Node sideA, Node sideB) {
-        super(currentEquation);
+    public BinaryNode(Node sideA, Node sideB) {
 //        String stringSideA = super.currentEquation.equation.substring(0, super.currentEquation.equation.indexOf(",") - 1); // meerder comma's mogelijk
 //        String stringSideB = super.currentEquation.equation.substring(super.currentEquation.equation.indexOf(",") + 1);
         
         this.sideA = sideA;
-        this.sideB = sideB
+        this.sideB = sideB;
     }
     
 }

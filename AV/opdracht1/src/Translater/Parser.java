@@ -14,10 +14,10 @@ import Nodes.*;
 public class Parser {
 
     protected static Node Parse(String equation) {
+        // should not be needed
         String trimmedEquation = equation.trim();
-
-        String buffer;
-
+        
+        // checks if the equation is not just a single abstract variable
         if (trimmedEquation.length() == 1) {
             return new AbstractVariable(trimmedEquation);
         }
@@ -33,42 +33,37 @@ public class Parser {
         switch (operator) {
             case "~":
                 if (hasOperator(children)) {
-                    buffer = trimmedEquation.substring(0, 2);
-                    returnValue = Parse(children, 1, buffer, TypeNodes.Negation);
+                    returnValue = Parse(children, 0, "", TypeNodes.Negation);
                 } else {
-                    returnValue = new negation(children);
+                    returnValue = new negation(new AbstractVariable(children));
                 }
                 break;
             case ">":
                 if (hasOperator(children)) {
-                    buffer = trimmedEquation.substring(0, 2);
-                    returnValue = Parse(children, 1, buffer);
+                    returnValue = Parse(children, 0, "", TypeNodes.Implication);
                 } else {
-                    returnValue = new implication(children);
+                    returnValue = new implication(Parse(children.substring(0, children.indexOf(","))), Parse(children.substring(children.indexOf(",") + 1, children.length())));
                 }
                 break;
             case "=":
                 if (hasOperator(children)) {
-                    buffer = trimmedEquation.substring(0, 2);
-                    returnValue = Parse(children, 1, buffer);
+                    returnValue = Parse(children, 0, "", TypeNodes.BiImplication);
                 } else {
-                    returnValue = new BiImplication(children);
+                    returnValue = new BiImplication(Parse(children.substring(0, children.indexOf(","))), Parse(children.substring(children.indexOf(",") + 1, children.length())));
                 }
                 break;
             case "&":
                 if (hasOperator(children)) {
-                    buffer = trimmedEquation.substring(0, 2);
-                    returnValue = Parse(children, 1, buffer);
+                    returnValue = Parse(children, 0, "", TypeNodes.Conjuction);
                 } else {
-                    returnValue = new Conjunction(children);
+                    returnValue = new Conjunction(Parse(children.substring(0, children.indexOf(","))), Parse(children.substring(children.indexOf(",") + 1, children.length())));
                 }
                 break;
             case "|":
                 if (hasOperator(children)) {
-                    buffer = trimmedEquation.substring(0, 2);
-                    returnValue = Parse(children, 1, buffer);
+                    returnValue = Parse(children, 0, "", TypeNodes.Disjunction);
                 } else {
-                    returnValue = new disjuction(children);
+                    returnValue = new disjuction(Parse(children.substring(0, children.indexOf(","))), Parse(children.substring(children.indexOf(",") + 1, children.length())));
                 }
                 break;
         }
@@ -80,12 +75,14 @@ public class Parser {
         String trimmedEquation = equation.trim();
 
         // takes the childern from the given equation
-        String children = equation.substring(2, equation.length() - 1);
+        String children = equation.substring(2, equation.length());
         Node returnValue = null;
+        
+        System.out.println("trimmed:" + trimmedEquation + "\n children: " + children + "\n\n");
 
         // decide what type of operant it is
         if (hasOperator(trimmedEquation)) {
-            buffer = trimmedEquation.substring(0, 2);
+            buffer += trimmedEquation.substring(0, 2);
             returnValue = Parse(children, ++amountOfOperants, buffer, type);
         } else {
             int locationSecondLastParenthesis = 0;
@@ -103,26 +100,26 @@ public class Parser {
                 case BiImplication:
                     Node A = Parse(sideAInTheNode);
                     Node B = Parse(sideBInTheNode);
-                    returnValue = new BiImplication(trimmedEquation, A, B);
+                    returnValue = new BiImplication(A, B);
                     break;
                 case Conjuction:
-                    Node A = Parse(sideAInTheNode);
-                    Node B = Parse(sideBInTheNode);
-                    returnValue = new Conjunction(trimmedEquation, A, B);
+                    A = Parse(sideAInTheNode);
+                    B = Parse(sideBInTheNode);
+                    returnValue = new Conjunction(A, B);
                     break;
                 case Disjunction:
-                    Node A = Parse(sideAInTheNode);
-                    Node B = Parse(sideBInTheNode);
-                    returnValue = new disjuction(trimmedEquation, A, B);
+                    A = Parse(sideAInTheNode);
+                    B = Parse(sideBInTheNode);
+                    returnValue = new disjuction(A, B);
                     break;
                 case Implication:
-                    Node A = Parse(sideAInTheNode);
-                    Node B = Parse(sideBInTheNode);
-                    returnValue = new implication(trimmedEquation, A, B);
+                    A = Parse(sideAInTheNode);
+                    B = Parse(sideBInTheNode);
+                    returnValue = new implication(A, B);
                     break;
                 case Negation:
-                    Node A = Parse(sideAInTheNode);
-                    returnValue = new negation(trimmedEquation, A);
+                    A = Parse(sideAInTheNode);
+                    returnValue = new negation(A);
             }
         }
 
@@ -130,7 +127,7 @@ public class Parser {
     }
 
     private static boolean hasOperator(String input) {
-        input = input.substring(0);
+        input = input.substring(0, 1);
         return input.contains("~") || input.contains(">") || input.contains("=") || input.contains("&") || input.contains("|");
     }
 }

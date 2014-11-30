@@ -1,9 +1,15 @@
 package Nodes;
 
 public class AbstractVariable extends Node {
-
-    public AbstractVariable(String currentEquation) {
-        super(new Equation(currentEquation));
-    }
     
+    public String var;
+
+    public AbstractVariable(String var) {
+        this.var = var;
+    }
+
+    @Override
+    public String toString() {
+        return var;
+    }
 }
