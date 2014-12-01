@@ -30,23 +30,56 @@ public class BinaryNode extends Node {
         ArrayList<Node> returnvalue = new ArrayList<Node>();
 
         // test if sideA is already a Abstract variable
-        if (sideA.getClass().getTypeName() == AbstractVariable.class.getTypeName()) {
-            if (!returnvalue.contains(sideA.toString())) {
+        if (sideA.getClass().getTypeName().equals(AbstractVariable.class.getTypeName())) {
+            if (!returnvalue.contains(sideA)) {
                 returnvalue.add(sideA);
             }
         } else {
-            returnvalue.addAll((ArrayList<Node>)sideA.getDistinctVariable());
+            returnvalue.addAll((ArrayList<Node>) sideA.getDistinctVariable());
         }
 
         // test if sideB is already a Abstract variable
-        if (sideB.getClass().getTypeName() == AbstractVariable.class.getTypeName()) {
-            if (!returnvalue.contains(sideB.toString())) {
+        if (sideB.getClass().getTypeName().equals(AbstractVariable.class.getTypeName())) {
+            if (!returnvalue.contains(sideB)) {
                 returnvalue.add(sideB);
             }
         } else {
-            returnvalue.addAll((ArrayList<Node>)sideB.getDistinctVariable());
+            returnvalue.addAll((ArrayList<Node>) sideB.getDistinctVariable());
         }
-        
+
         return returnvalue;
+    }
+
+    @Override
+    public void setDistinctVariable(List<Node> distinctVars) {
+        if (sideA.getClass().getTypeName().equals(AbstractVariable.class.getTypeName())) {
+            for (Node distinctVar : distinctVars) {
+                if(distinctVar.equals(sideA)){
+                    sideA = distinctVar;
+                }                
+            }
+        } else {
+            sideA.setDistinctVariable(distinctVars);
+        }
+
+        // test if sideB is already a Abstract variable
+        if (sideB.getClass().getTypeName().equals(AbstractVariable.class.getTypeName())) {
+            for (Node distinctVar : distinctVars) {
+                if(distinctVar.equals(sideA)){
+                    sideB = distinctVar;
+                }                
+            }
+        } else {
+            sideB.setDistinctVariable(distinctVars);
+        }
+    }
+
+    @Override
+    public void printTree() {
+    }
+
+    @Override
+    public boolean[] getTruthValues() {
+        return null;
     }
 }

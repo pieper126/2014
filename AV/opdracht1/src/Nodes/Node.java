@@ -5,10 +5,11 @@ import java.util.List;
 
 public abstract class Node {
 
-    public Node() {
-    }
+    public abstract List<Node> getDistinctVariable();
 
-    public List<Node> getDistinctVariable() {
-        return null;
-    }
+    public abstract void printTree();
+
+    public abstract void setDistinctVariable(List<Node> distinctVars);
+    
+    public abstract boolean[] getTruthValues();
 }

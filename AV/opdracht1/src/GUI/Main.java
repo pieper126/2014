@@ -6,6 +6,7 @@
 package GUI;
 
 import Nodes.Equation;
+import Nodes.Node;
 
 /**
  *
@@ -18,10 +19,25 @@ public class Main {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        Equation test = new Equation("=( >(A,B), |( ~(A) ,B) )");
-//        Equation test = new Equation("=(A,B)");
-//        Equation test = new Equation("A");
-        System.out.println(test.toString());
+//        Equation test = new Equation("=( >(A,B), |( ~(A) ,B) )");
+////        Equation test = new Equation("=(A,B)");
+////        Equation test = new Equation("A");
+//        System.out.println(test.toString());
+//        for (Node node : test.getDistinctVariable()) {
+//            System.out.println(node.toString() + "\n");
+//        }
+        
+        test();
     }
-    
+
+    public static void test() {
+        int n = 2;
+        for (int i = 0; i != (1 << n); i++) {
+            String s = Integer.toBinaryString(i);
+            while (s.length() != n) {
+                
+            }
+            System.out.println(s);
+        }
+    }
 }
