@@ -30,6 +30,6 @@ public class Translater {
     
     public static Node Parse(String equation){
         String trimmedEquation = equation.replaceAll("\\s+", "");
-        return Parser.Parse(equation);
+        return Parser.Parse(trimmedEquation);
     }
 }

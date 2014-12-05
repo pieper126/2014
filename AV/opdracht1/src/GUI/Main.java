@@ -5,7 +5,9 @@
  */
 package GUI;
 
+import Nodes.AbstractVariable;
 import Nodes.Equation;
+import Nodes.Node;
 
 /**
  *
@@ -18,8 +20,31 @@ public class Main {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        Equation test = new Equation("=( >(A,B), |( ~(A) ,B) )");
+           Equation test = new Equation("=( >(D,B), &( ~(A) ,D) )");
+////        Equation test = new Equation("=(A,B)");
+////        Equation test = new Equation("A");
         System.out.println(test.toString());
+        for (Node node : test.getDistinctVariable()) {
+            System.out.println(node.toString() + "\n");
+        }
     }
-    
+
+    public static void test() {
+        int n = 4;
+        for (int i = 0; i != (1 << n); i++) {
+            String s = Integer.toBinaryString(i);
+            String out = "";
+            int j = 0;
+            int sizeBooleanArray = (int) Math.pow(n, n);
+            boolean[] truthvalues = new boolean[sizeBooleanArray];
+            while (s.length() != n) {
+                s = '0' + s;
+            }
+            
+            for( int k = 0; k < n; k++) {
+                
+            }
+            System.out.println(s);
+        }
+    }
 }

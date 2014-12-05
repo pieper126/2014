@@ -1,27 +1,15 @@
 package Nodes;
 
-public class Node {
+import java.util.ArrayList;
+import java.util.List;
 
-    transient Equation currentEquation;
+public abstract class Node {
 
-    public Node(Equation currentEquation) {
-        this.currentEquation = currentEquation;
-    }
+    public abstract List<Node> getDistinctVariable();
 
-    public Equation getCurrentEquation() {
-        return currentEquation;
-    }
+    public abstract void printTree();
 
-    /**
-     *
-     * @param currentEquation
-     */
-    public void setCurrentEquation(Equation currentEquation) {
-        this.currentEquation = currentEquation;
-    }
-
-    @Override
-    public String toString() {
-        return currentEquation.equation;
-    }
+    public abstract void setDistinctVariable(List<Node> distinctVars);
+    
+    public abstract boolean[] getTruthValues();
 }
