@@ -26,8 +26,8 @@ public class Equation {
             }
         }
         
-        variableValueAllocation();
         setDistinctVariable();
+        variableValueAllocation();        
         
         truthTable = mainNode.getTruthValues();
     }
@@ -65,15 +65,19 @@ public class Equation {
         int n = distinctVariables.size();
         for (int i = 0; i != (1 << n); i++) {
             String s = Integer.toBinaryString(i);
+            String out = "";
             int j = 0;
-            int sizeBooleanArray = (int) Math.pow(distinctVariables.size(), distinctVariables.size());
+            int sizeBooleanArray = (int) Math.pow(n, n);
             boolean[] truthvalues = new boolean[sizeBooleanArray];
             while (s.length() != n) {
                 s = '0' + s;
-                truthvalues[j] = s.equals("1");
-                j++;
             }
-            ((AbstractVariable) distinctVariables.get(i)).setTruthValues(truthvalues);
+            
+            for( int k = 0; k < n; k++) {
+                distinctVariables.get(k).getTruthValues()[j] = s.charAt(k) == '1' ? true : false;
+            }
+            
+            j++;
         }
     }
 
@@ -97,4 +101,8 @@ public class Equation {
 //    public void printTree(){
 //        mainNode.prinTree();
 //    }
+    
+    
+//    optimalisatie begin bovenaan en werk naar beneden
+//    match gevonden word deze behandeld in de volgende doorloping
 }
