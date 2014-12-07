@@ -12,4 +12,6 @@ public abstract class Node {
     public abstract void setDistinctVariable(List<Node> distinctVars);
     
     public abstract boolean[] getTruthValues();
+    
+    public abstract void setTruthValues(boolean[] truthValues);
 }

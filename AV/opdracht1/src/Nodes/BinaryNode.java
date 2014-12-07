@@ -54,9 +54,10 @@ public class BinaryNode extends Node {
     public void setDistinctVariable(List<Node> distinctVars) {
         if (sideA.getClass().getTypeName().equals(AbstractVariable.class.getTypeName())) {
             for (Node distinctVar : distinctVars) {
-                if(distinctVar.equals(sideA)){
+                if (((AbstractVariable)distinctVar).var.equals(((AbstractVariable)sideA).var)) {                   
                     sideA = distinctVar;
-                }                
+                    System.err.println(toString() + distinctVar.toString());
+                }
             }
         } else {
             sideA.setDistinctVariable(distinctVars);
@@ -65,9 +66,10 @@ public class BinaryNode extends Node {
         // test if sideB is already a Abstract variable
         if (sideB.getClass().getTypeName().equals(AbstractVariable.class.getTypeName())) {
             for (Node distinctVar : distinctVars) {
-                if(distinctVar.equals(sideA)){
+                if (((AbstractVariable)distinctVar).var.equals(((AbstractVariable)sideB).var)) {
                     sideB = distinctVar;
-                }                
+                    System.err.println(toString() + distinctVar.toString());
+                }
             }
         } else {
             sideB.setDistinctVariable(distinctVars);
@@ -81,5 +83,11 @@ public class BinaryNode extends Node {
     @Override
     public boolean[] getTruthValues() {
         return null;
+    }
+
+    @Override
+    public void setTruthValues(boolean[] truthValues) {
+        sideA.setTruthValues(truthValues);
+        sideB.setTruthValues(truthValues);
     }
 }

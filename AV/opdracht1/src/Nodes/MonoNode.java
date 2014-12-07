@@ -57,4 +57,9 @@ public class MonoNode extends Node {
     public boolean[] getTruthValues(){
         return null;
     }
+
+    @Override
+    public void setTruthValues(boolean[] truthValues) {
+        sideA.setTruthValues(truthValues);
+    }
 }

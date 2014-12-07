@@ -20,13 +20,21 @@ public class Main {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-           Equation test = new Equation("=( >(D,B), &( ~(A) ,D) )");
-////        Equation test = new Equation("=(A,B)");
-////        Equation test = new Equation("A");
+//        Equation test = new Equation("=( >(D,B), &( ~(A) ,C) )");
+        Equation test = new Equation(">(A,B)");
+//        Equation test = new Equation("=(=(A,C),B)");
+//        Equation test = new Equation("A");
+
+        System.err.println("asdsadsadadasd");
         System.out.println(test.toString());
+        System.out.println("distinctvar \n");
         for (Node node : test.getDistinctVariable()) {
             System.out.println(node.toString() + "\n");
         }
+        
+        test.printTruthTable();
+
+        test.printingSimplifiedTruthTables();
     }
 
     public static void test() {
@@ -40,9 +48,9 @@ public class Main {
             while (s.length() != n) {
                 s = '0' + s;
             }
-            
-            for( int k = 0; k < n; k++) {
-                
+
+            for (int k = 0; k < n; k++) {
+
             }
             System.out.println(s);
         }

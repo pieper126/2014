@@ -5,11 +5,14 @@ import java.util.List;
 public class AbstractVariable extends Node {
 
     public String var;
-    
+
     private boolean[] truthValues;
+
+    int i = 0;
 
     public AbstractVariable(String var) {
         this.var = var;
+
     }
 
     @Override
@@ -24,7 +27,7 @@ public class AbstractVariable extends Node {
 
     @Override
     public void printTree() {
-        
+
     }
 
     @Override
@@ -36,13 +39,23 @@ public class AbstractVariable extends Node {
     public void setDistinctVariable(List<Node> distinctVars) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    public void setTruthValues(boolean[] truthvalues){
+
+    @Override
+    public void setTruthValues(boolean[] truthvalues) {
         this.truthValues = truthvalues;
     }
-    
+
     @Override
-    public boolean[] getTruthValues(){
-        return truthValues;
+    public boolean[] getTruthValues() {
+        boolean[] returnvalue = null;
+
+        try {
+            returnvalue = truthValues.clone();
+            setTruthValues(returnvalue.clone());
+        } catch (Exception e) {
+            System.err.println(e.getMessage() + e.getLocalizedMessage());
+        }
+
+        return returnvalue;
     }
 }
