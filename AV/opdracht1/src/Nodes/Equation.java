@@ -99,6 +99,8 @@ public class Equation {
             line += truthTable[i] + "\n";
             System.out.println(line);
         }
+
+        System.out.println("------------end of truthTable--------------");
     }
 
     public void printingSimplifiedTruthTables() {
@@ -106,13 +108,13 @@ public class Equation {
         ArrayList<ArrayList<Boolean>> output = new ArrayList<>();
 
         for (int i = 0; i < sizeBooleanArray; i++) {
-            
+
             ArrayList<Boolean> truthTableLine = new ArrayList<>();
-            
+
             for (Node distinctVariable : distinctVariables) {
                 truthTableLine.add(distinctVariable.getTruthValues()[i]);
             }
-            
+
             truthTableLine.add(truthTable[i]);
             input.add(truthTableLine);
         }
@@ -133,28 +135,29 @@ public class Equation {
 //            truthTableList.add(truthTable[j]);
 //        }
 //        input.add(truthTableList);
-
         printingSimplifiedTruthTables(input, output);
     }
 
     private void printingSimplifiedTruthTables(ArrayList<ArrayList<Boolean>> input, ArrayList<ArrayList<Boolean>> output) {
+        // zooi om vormen naar per truthtTableLine inplaats van per distinctVar
         ArrayList<ArrayList<Boolean>> newRun = new ArrayList<>();
         ArrayList<Integer> notToBeShownAgain = new ArrayList<Integer>();
 
         for (int i = 0; i < input.size(); i++) {
             boolean noDifferenceFound = true;
-            for (int k = 1; k < input.size(); k++) {
+            for (int k = 0; k < input.size(); k++) {
                 boolean difference = false;
                 int differenceLocation = -1;
                 int differenceLine = -1;
                 boolean moreThenOneDifference = false;
                 for (int j = 0; j < distinctVariables.size(); j++) {
-                    if (input.get(j).get(i) != (input.get(j).get(k)) && input.get(distinctVariables.size()).get(i) == input.get(distinctVariables.size()).get(k)) {
+                    if (input.get(i).get(j) != (input.get(k).get(j)) && input.get(i).get(distinctVariables.size()) == input.get(k).get(distinctVariables.size())) {
                         if (difference) {
                             moreThenOneDifference = true;
                             break;
                         } else {
                             difference = true;
+                            noDifferenceFound = false;
                             differenceLocation = j;
                         }
                     }
@@ -163,32 +166,57 @@ public class Equation {
                 if (!moreThenOneDifference && difference) {
                     ArrayList<Boolean> simplified = new ArrayList<>();
                     notToBeShownAgain.add(k);
+                    notToBeShownAgain.add(i);
 
                     for (int j = 0; j < distinctVariables.size() + 1; j++) {
-                        simplified.add(input.get(j).get(i));
+                        try {
+                            simplified.add(input.get(i).get(j));
+                        } catch (Exception e) {
+                            System.err.println(e.getMessage());
+                            System.err.println(e.toString());
+                        }
                     }
 
                     simplified.set(differenceLocation, null);
 
-                    newRun.add(simplified);
+                    if (!newRun.contains(simplified)) {
+                        newRun.add(simplified);
+                    }
                 }
 
             }
 
             if (noDifferenceFound && !notToBeShownAgain.contains(i)) {
                 ArrayList<Boolean> noDifferenceLine = new ArrayList<>();
-                for (int j = 0; j < input.size(); j++) {
-                    noDifferenceLine.add(input.get(j).get(i));
+                for (int j = 0; j < distinctVariables.size() + 1; j++) {
+                    try {
+                        noDifferenceLine.add(input.get(i).get(j));
+                    } catch (Exception e) {
+                        System.err.println(e.getMessage());
+                        System.err.println(e.toString());
+                    }
                 }
                 output.add(noDifferenceLine);
             }
         }
 
         if (newRun.isEmpty()) {
+            output.addAll(input);
+            String line = "";
+
+            for (int j = 0; j < distinctVariables.size(); j++) {
+                line += ((AbstractVariable) distinctVariables.get(j)).var + " ";
+            }
+            line += mainNode.toString() + "\n";
+
             for (int j = 0; j < output.size(); j++) {
-                String line = "";
+                line = "";
                 for (int i = 0; i < distinctVariables.size() + 1; i++) {
-                    line += output.get(j).get(i) == null ? " * " : output.get(j).get(i).toString() + " ";
+                    try {
+                        line += output.get(j).get(i) == null ? " * " : output.get(j).get(i).toString() + " ";
+                    } catch (Exception e) {
+                        System.err.println(e.getMessage());
+                    }
                 }
                 System.out.println(line);
             }

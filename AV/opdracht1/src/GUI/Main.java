@@ -20,8 +20,8 @@ public class Main {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-//        Equation test = new Equation("=( >(D,B), &( ~(A) ,C) )");
-        Equation test = new Equation(">(A,B)");
+        Equation test = new Equation("=( >(D,B), &( ~(A) ,C) )");
+//        Equation test = new Equation(">(A,B)");
 //        Equation test = new Equation("=(=(A,C),B)");
 //        Equation test = new Equation("A");
 
