@@ -57,14 +57,13 @@ public class Equation {
 
     public void variableValueAllocation() {
         int n = distinctVariables.size();
-        sizeBooleanArray = (int) Math.pow(n, 2);
+        sizeBooleanArray = n == 1 ? 2 : (int) Math.pow(n, 2);
         int j = 0;
 
         boolean[][] truthvalues = new boolean[distinctVariables.size()][sizeBooleanArray];
 
         for (int i = 0; i != (1 << n); i++) {
             String s = Integer.toBinaryString(i);
-            String out = "";
 
             while (s.length() != n) {
                 s = '0' + s;
@@ -83,13 +82,13 @@ public class Equation {
     }
 
     public void printTruthTable() {
-        System.out.println("truthTable: \n");
+        System.out.print("truthTable: \n");
         String line = "";
         for (int j = 0; j < distinctVariables.size(); j++) {
             line += ((AbstractVariable) distinctVariables.get(j)).var + " ";
         }
         line += mainNode.toString() + "\n";
-        System.out.println(line);
+        System.out.print(line);
 
         for (int i = 0; i < mainNode.getTruthValues().length; i++) {
             line = "";
@@ -97,7 +96,7 @@ public class Equation {
                 line += ((AbstractVariable) distinctVariables.get(j)).getTruthValues()[i] + " ";
             }
             line += truthTable[i] + "\n";
-            System.out.println(line);
+            System.out.print(line);
         }
 
         System.out.println("------------end of truthTable--------------");
@@ -208,6 +207,8 @@ public class Equation {
                 line += ((AbstractVariable) distinctVariables.get(j)).var + " ";
             }
             line += mainNode.toString() + "\n";
+            System.out.print(line);
+            
 
             for (int j = 0; j < output.size(); j++) {
                 line = "";
