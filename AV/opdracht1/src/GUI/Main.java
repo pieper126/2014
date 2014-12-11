@@ -47,10 +47,19 @@ public class Main {
         } while (!exit.trim().toLowerCase().equals("exit"));
 
         // TODO code application logic here
-        Equation test = new Equation("=( >(D,B), &( ~(A) ,C) )");
+//        Equation test = new Equation("=( >(D,B), &( ~(A) ,C) )");
 //        Equation test = new Equation(">(A,B)");
 //        Equation test = new Equation("=(=(A,C),B)");
+//        Equation test = new Equation("=(C,B)");
+        Equation test = new Equation("~(A)");
 //        Equation test = new Equation("A");
+        
+        
+//>(A,B)
+//=(A,B)
+//&(A,B)
+//|(A,B)
+
 
         System.err.println("asdsadsadadasd");
         System.out.println(test.toString());
