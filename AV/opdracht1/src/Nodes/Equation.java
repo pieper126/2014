@@ -14,6 +14,8 @@ public class Equation {
     private ArrayList<Node> distinctVariables;
 
     private boolean[] truthTable;
+    
+    private ArrayList<ArrayList<Boolean>> simplifiedTruthTable;
 
     private int sizeBooleanArray;
 
@@ -202,6 +204,7 @@ public class Equation {
 
         if (newRun.isEmpty()) {
             output.addAll(input);
+            simplifiedTruthTable = output;
             String line = "";
 
             for (int j = 0; j < distinctVariables.size(); j++) {
