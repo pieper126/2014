@@ -20,38 +20,38 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Console console = System.console();
-
-        String exit;
-        do {
-            exit = console.readLine("Enter equation in infix: ");
-
-            Equation equation = new Equation(exit);
-
-            String whatToDo = "";
-            do {
-                whatToDo = console.readLine("enter a option: ");
-
-                switch (whatToDo) {
-                    case "help":
-                        System.out.print("\"normal\" for the normal truthtable \n \"simplified\" for the simplified truthtable \n \"exit\" to exit the application");
-                        break;
-                    case "normal":
-                        equation.printTruthTable();
-                        break;
-                    case "simplified":
-                        equation.printingSimplifiedTruthTables();
-                        break;
-                }
-            } while (!whatToDo.trim().toLowerCase().equals("exit"));
-        } while (!exit.trim().toLowerCase().equals("exit"));
-
+//        Console console = System.console();
+//
+//        String exit;
+//        do {
+//            exit = console.readLine("Enter equation in infix: ");
+//
+//            Equation equation = new Equation(exit);
+//
+//            String whatToDo = "";
+//            do {
+//                whatToDo = console.readLine("enter a option: ");
+//
+//                switch (whatToDo) {
+//                    case "help":
+//                        System.out.print("\"normal\" for the normal truthtable \n \"simplified\" for the simplified truthtable \n \"exit\" to exit the application");
+//                        break;
+//                    case "normal":
+//                        equation.printTruthTable();
+//                        break;
+//                    case "simplified":
+//                        equation.printingSimplifiedTruthTables();
+//                        break;
+//                }
+//            } while (!whatToDo.trim().toLowerCase().equals("exit"));
+//        } while (!exit.trim().toLowerCase().equals("exit"));
+        
         // TODO code application logic here
 //        Equation test = new Equation("=( >(D,B), &( ~(A) ,C) )");
 //        Equation test = new Equation(">(A,B)");
 //        Equation test = new Equation("=(=(A,C),B)");
 //        Equation test = new Equation("=(C,B)");
-        Equation test = new Equation("~(A)");
+        Equation test = new Equation("|(|(|(|(|(A,B),C),D),E),F)");
 //        Equation test = new Equation("A");
         
         

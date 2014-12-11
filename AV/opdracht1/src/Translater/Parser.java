@@ -88,7 +88,7 @@ public class Parser {
             int locationSecondLastParenthesis = 0;
 
             for (int i = 0; i < amountOfOperants; i++) {
-                locationSecondLastParenthesis = equation.indexOf(")", locationSecondLastParenthesis);
+                locationSecondLastParenthesis = equation.indexOf(")", ++locationSecondLastParenthesis);
             }
 
             int locationMainComa = equation.indexOf(",", locationSecondLastParenthesis) == -1 ? equation.length() - 1 : equation.indexOf(",", locationSecondLastParenthesis);

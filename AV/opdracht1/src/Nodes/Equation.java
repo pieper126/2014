@@ -14,7 +14,7 @@ public class Equation {
     private ArrayList<Node> distinctVariables;
 
     private boolean[] truthTable;
-    
+
     private ArrayList<ArrayList<Boolean>> simplifiedTruthTable;
 
     private int sizeBooleanArray;
@@ -59,7 +59,7 @@ public class Equation {
 
     public void variableValueAllocation() {
         int n = distinctVariables.size();
-        sizeBooleanArray = n == 1 ? 2 : (int) Math.pow(n, 2);
+        sizeBooleanArray = 1 << n;
         int j = 0;
 
         boolean[][] truthvalues = new boolean[distinctVariables.size()][sizeBooleanArray];
@@ -72,7 +72,12 @@ public class Equation {
             }
 
             for (int k = 0; k < n; k++) {
+                try{
                 truthvalues[k][j] = '1' == s.charAt(k);
+                } catch (ArrayIndexOutOfBoundsException e){
+                    System.out.println(e.getMessage());
+                    System.err.println(e.getCause());
+                }
             }
 
             j++;
@@ -95,9 +100,9 @@ public class Equation {
         for (int i = 0; i < mainNode.getTruthValues().length; i++) {
             line = "";
             for (int j = 0; j < distinctVariables.size(); j++) {
-                line += ((AbstractVariable) distinctVariables.get(j)).getTruthValues()[i] + " ";
+                line += ((AbstractVariable) distinctVariables.get(j)).getTruthValues()[i] == false ? "0 " : "1 ";
             }
-            line += truthTable[i] + "\n";
+            line += truthTable[i] == false ? "0 \n" : "1 \n";
             System.out.print(line);
         }
 
@@ -211,20 +216,26 @@ public class Equation {
             }
             line += mainNode.toString() + "\n";
             System.out.print(line);
-            
 
             for (int j = 0; j < output.size(); j++) {
                 line = "";
                 for (int i = 0; i < distinctVariables.size() + 1; i++) {
                     try {
-                        line += output.get(j).get(i) == null ? " * " : output.get(j).get(i).toString() + " ";
+                        if (output.get(j).get(i) == null) {
+                            line += "* ";
+                        } else if (output.get(j).get(i) == false) {
+                            line += "0 ";
+                        } else if (output.get(j).get(i) == true) {
+                            line += "1 ";
+                        }
                     } catch (Exception e) {
                         System.err.println(e.getMessage());
                     }
                 }
                 System.out.println(line);
             }
-
+            
+            System.out.println("------------end of truthTable--------------");
         } else {
             printingSimplifiedTruthTables(newRun, output);
         }
