@@ -2,6 +2,7 @@ package Nodes;
 
 import Utils.AbstractVarComparator;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -12,6 +13,8 @@ public class Equation {
     private Node mainNode;
 
     private ArrayList<Node> distinctVariables;
+
+    private ArrayList<Node> comparedDistinctVariables;
 
     private boolean[] truthTable;
 
@@ -32,9 +35,10 @@ public class Equation {
                 distinctVariables.add(var);
             }
         }
-        
-        Collections.sort(distinctVariables, new  AbstractVarComparator());
-        
+
+        comparedDistinctVariables = (ArrayList<Node>) distinctVariables.clone();
+        Collections.sort(comparedDistinctVariables, new AbstractVarComparator());
+
         variableValueAllocation();
         setDistinctVariable();
 
@@ -96,7 +100,7 @@ public class Equation {
         System.out.print("truthTable: \n");
         String line = "";
         for (int j = 0; j < distinctVariables.size(); j++) {
-            line += ((AbstractVariable) distinctVariables.get(j)).var + " ";
+            line += ((AbstractVariable) comparedDistinctVariables.get(j)).var + " ";
         }
         line += mainNode.toString() + "\n";
         System.out.print(line);
@@ -216,7 +220,7 @@ public class Equation {
             String line = "";
 
             for (int j = 0; j < distinctVariables.size(); j++) {
-                line += ((AbstractVariable) distinctVariables.get(j)).var + " ";
+                line += ((AbstractVariable) comparedDistinctVariables.get(j)).var + " ";
             }
             line += mainNode.toString() + "\n";
             System.out.print(line);
@@ -251,18 +255,18 @@ public class Equation {
             if (line.get(line.size() - 1) == true) {
                 outputLine = "(";
 
-                for (int i = 0; i < line.size(); i++) {
+                for (int i = 0; i < line.size() - 1; i++) {
                     if (line.get(i) == null) {
                         // do nothing
-                    } else if (false) {
-                        outputLine += "¬" + distinctVariables.get(i).toString() + "/\\";
-                    } else if (true) {
-                        outputLine += distinctVariables.get(i).toString() + "/\\";
+                    } else if (line.get(i) == false) {
+                        outputLine += "¬" + comparedDistinctVariables.get(i).toString() + "/\\";
+                    } else if (line.get(i) == true) {
+                        outputLine += comparedDistinctVariables.get(i).toString() + "/\\";
                     }
                 }
 
                 if (outputLine.endsWith("/\\")) {
-                    outputLine.substring(0, outputLine.length() - 3);
+                    outputLine = outputLine.substring(0, outputLine.length() - 2);
                 }
 
                 outputLine += ")\\/";
@@ -270,25 +274,31 @@ public class Equation {
         }
 
         if (outputLine.endsWith("\\/")) {
-            outputLine.substring(0, outputLine.length() - 3);
+            outputLine = outputLine.substring(0, outputLine.length() - 2);
         }
-        
+
         System.out.println(outputLine);
     }
 
     @Override
     public boolean equals(Object obj) {
-        Equation toCompareTo = (Equation)obj;
-        
-        if(toCompareTo.distinctVariables.equals(this.distinctVariables)){
-            if (toCompareTo.truthTable.equals(this.truthTable)) {
+        Equation toCompareTo = (Equation) obj;
+
+        if (toCompareTo.comparedDistinctVariables.equals(this.comparedDistinctVariables)) {
+            if (Arrays.equals(toCompareTo.truthTable, this.truthTable)) {
                 return true;
             }
+//            if (toCompareTo.truthTable.length == this.truthTable.length) {
+//
+//                for (int i = 0; i < toCompareTo.truthTable.length; i++) {
+//                    
+//                }
+//            }
         }
-        
+
         return false;
     }
-    
+
     @Override
     public String toString() {
         return mainNode != null ? equation + "\n" + mainNode.toString() : "";

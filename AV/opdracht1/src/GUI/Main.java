@@ -24,29 +24,51 @@ public class Main {
 //
 //        String exit;
 //        do {
-//            exit = console.readLine("Enter equation in infix: ");
+//            exit = console.readLine("Enter equation in prefix: ");
 //
 //            Equation equation = new Equation(exit);
 //
 //            String whatToDo = "";
 //            do {
-//                whatToDo = console.readLine("enter a option: ");
+//                whatToDo = console.readLine("\"normal\" for the normal truthtable \n \"simplified\" for the simplified truthtable \n \"disjunctive normal form\" for the disjunctie normal form \n \"equality\" to check if a another equation is equal \n \"exit\" to exit the application \n"
+//                        + "enter a option: ");
 //
 //                switch (whatToDo) {
 //                    case "help":
-//                        System.out.print("\"normal\" for the normal truthtable \n \"simplified\" for the simplified truthtable \n \"exit\" to exit the application");
+//                        System.out.print("\"normal\" for the normal truthtable \n \"simplified\" for the simplified truthtable \n \"disjunctive normal form\" for the disjunctie normal form \n \"equality\" to check if a another equation is equal \n \"exit\" to exit the application");
 //                        break;
 //                    case "normal":
 //                        long timer = System.currentTimeMillis();
 //                        equation.printTruthTable();
 //                        timer = System.currentTimeMillis() - timer;
-//                        System.out.println("time it took to complete: " + timer + "ms");
+//                        System.out.println("time it took to complete: " + timer + "ms \n");
 //                        break;
 //                    case "simplified":
 //                        timer = System.currentTimeMillis();
 //                        equation.printingSimplifiedTruthTables();
 //                        timer = System.currentTimeMillis() - timer;
-//                        System.out.println("time it took to complete: " + timer + "ms");
+//                        System.out.println("time it took to complete: " + timer + "ms \n");
+//                        break;
+//                    case "disjunctive normal form":
+//                        timer = System.currentTimeMillis();
+//                        equation.printDisjunctiveNormalForm();
+//                        timer = System.currentTimeMillis() - timer;
+//                        System.out.println("time it took to complete: " + timer + "ms \n");
+//                        break;
+//                    case "equality":
+//                        String newEquation = console.readLine("Enter equation in prefix: ");                        
+//                        timer = System.currentTimeMillis();
+//                        try{
+//                        if(equation.equals(new Equation(newEquation))){
+//                            System.out.println("they are equal");
+//                        } else{
+//                            System.out.println("they are not equal");
+//                        }
+//                        } catch (NullPointerException e){
+//                            System.out.println("run simplified first!");
+//                        }
+//                        timer = System.currentTimeMillis() - timer;
+//                        System.out.println("time it took to complete: " + timer + "ms \n");
 //                        break;
 //                }
 //            } while (!whatToDo.trim().toLowerCase().equals("exit"));
@@ -54,26 +76,27 @@ public class Main {
 
         // TODO code application logic here
 //        Equation test = new Equation("=( >(D,B), &( ~(A) ,C) )");
-//        Equation test = new Equation(">(A,B)");
+        Equation test = new Equation("|(~(A),B)");
+        Equation test2 = new Equation(">(A,B)");
 //        Equation test = new Equation("=(=(A,C),B)");
 //        Equation test = new Equation("=(C,B)");
-        Equation test = new Equation("|(|(|(|(|(|(|(|(A,B),C),D),E),F),G),H),I)");
+//        Equation test = new Equation("|(|(|(|(|(|(|(|(A,B),C),D),E),F),G),H),I)");
 //        Equation test = new Equation("A");
 
 //>(A,B)
 //=(A,B)
 //&(A,B)
 //|(A,B)
-        System.err.println("asdsadsadadasd");
-        System.out.println(test.toString());
-        System.out.println("distinctvar \n");
-        for (Node node : test.getDistinctVariable()) {
-            System.out.println(node.toString() + "\n");
-        }
-
         test.printTruthTable();
+        test2.printTruthTable();
 
         test.printingSimplifiedTruthTables();
+        
+        test.printDisjunctiveNormalForm();
+        
+        System.out.println(test.equals(test2));
+        
+        
     }
 
     public static void test() {
