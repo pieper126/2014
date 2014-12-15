@@ -37,30 +37,33 @@ public class Main {
 //                        System.out.print("\"normal\" for the normal truthtable \n \"simplified\" for the simplified truthtable \n \"exit\" to exit the application");
 //                        break;
 //                    case "normal":
+//                        long timer = System.currentTimeMillis();
 //                        equation.printTruthTable();
+//                        timer = System.currentTimeMillis() - timer;
+//                        System.out.println("time it took to complete: " + timer + "ms");
 //                        break;
 //                    case "simplified":
+//                        timer = System.currentTimeMillis();
 //                        equation.printingSimplifiedTruthTables();
+//                        timer = System.currentTimeMillis() - timer;
+//                        System.out.println("time it took to complete: " + timer + "ms");
 //                        break;
 //                }
 //            } while (!whatToDo.trim().toLowerCase().equals("exit"));
 //        } while (!exit.trim().toLowerCase().equals("exit"));
-        
+
         // TODO code application logic here
 //        Equation test = new Equation("=( >(D,B), &( ~(A) ,C) )");
 //        Equation test = new Equation(">(A,B)");
 //        Equation test = new Equation("=(=(A,C),B)");
 //        Equation test = new Equation("=(C,B)");
-        Equation test = new Equation("|(|(|(|(|(A,B),C),D),E),F)");
+        Equation test = new Equation("|(|(|(|(|(|(|(|(A,B),C),D),E),F),G),H),I)");
 //        Equation test = new Equation("A");
-        
-        
+
 //>(A,B)
 //=(A,B)
 //&(A,B)
 //|(A,B)
-
-
         System.err.println("asdsadsadadasd");
         System.out.println(test.toString());
         System.out.println("distinctvar \n");

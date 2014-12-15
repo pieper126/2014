@@ -8,7 +8,7 @@ public class Conjunction extends BinaryNode {
 
     @Override
     public String toString() {
-        return "(" + sideA.toString() + "∧" + sideB.toString() + ")";
+        return "(" + sideA.toString() + "∧ /\\" + sideB.toString() + ")";
     }
 
     @Override

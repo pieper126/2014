@@ -1,8 +1,8 @@
 package Nodes;
 
+import Utils.AbstractVarComparator;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
+import java.util.Collections;
 import java.util.List;
 
 public class Equation {
@@ -19,6 +19,8 @@ public class Equation {
 
     private int sizeBooleanArray;
 
+    private Node DisjunctiveForm;
+
     public Equation(String equation) {
         this.equation = equation;
         mainNode = Translater.Translater.Parse(equation);
@@ -30,7 +32,9 @@ public class Equation {
                 distinctVariables.add(var);
             }
         }
-
+        
+        Collections.sort(distinctVariables, new  AbstractVarComparator());
+        
         variableValueAllocation();
         setDistinctVariable();
 
@@ -72,9 +76,9 @@ public class Equation {
             }
 
             for (int k = 0; k < n; k++) {
-                try{
-                truthvalues[k][j] = '1' == s.charAt(k);
-                } catch (ArrayIndexOutOfBoundsException e){
+                try {
+                    truthvalues[k][j] = '1' == s.charAt(k);
+                } catch (ArrayIndexOutOfBoundsException e) {
                     System.out.println(e.getMessage());
                     System.err.println(e.getCause());
                 }
@@ -234,13 +238,57 @@ public class Equation {
                 }
                 System.out.println(line);
             }
-            
+
             System.out.println("------------end of truthTable--------------");
         } else {
             printingSimplifiedTruthTables(newRun, output);
         }
     }
 
+    public void printDisjunctiveNormalForm() {
+        String outputLine = "";
+        for (ArrayList<Boolean> line : simplifiedTruthTable) {
+            if (line.get(line.size() - 1) == true) {
+                outputLine = "(";
+
+                for (int i = 0; i < line.size(); i++) {
+                    if (line.get(i) == null) {
+                        // do nothing
+                    } else if (false) {
+                        outputLine += "¬" + distinctVariables.get(i).toString() + "/\\";
+                    } else if (true) {
+                        outputLine += distinctVariables.get(i).toString() + "/\\";
+                    }
+                }
+
+                if (outputLine.endsWith("/\\")) {
+                    outputLine.substring(0, outputLine.length() - 3);
+                }
+
+                outputLine += ")\\/";
+            }
+        }
+
+        if (outputLine.endsWith("\\/")) {
+            outputLine.substring(0, outputLine.length() - 3);
+        }
+        
+        System.out.println(outputLine);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        Equation toCompareTo = (Equation)obj;
+        
+        if(toCompareTo.distinctVariables.equals(this.distinctVariables)){
+            if (toCompareTo.truthTable.equals(this.truthTable)) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+    
     @Override
     public String toString() {
         return mainNode != null ? equation + "\n" + mainNode.toString() : "";
