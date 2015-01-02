@@ -253,7 +253,7 @@ public class Equation {
         String outputLine = "";
         for (ArrayList<Boolean> line : simplifiedTruthTable) {
             if (line.get(line.size() - 1) == true) {
-                outputLine = "(";
+                outputLine += "(";
 
                 for (int i = 0; i < line.size() - 1; i++) {
                     if (line.get(i) == null) {

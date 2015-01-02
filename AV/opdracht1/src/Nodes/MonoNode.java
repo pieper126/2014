@@ -45,7 +45,7 @@ public class MonoNode extends Node {
                 }
             }
         } else {
-            setDistinctVariable(distinctVars);
+            sideA.setDistinctVariable(distinctVars);
         }
     }
 

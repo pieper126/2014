@@ -76,25 +76,26 @@ public class Main {
 
         // TODO code application logic here
 //        Equation test = new Equation("=( >(D,B), &( ~(A) ,C) )");
-        Equation test = new Equation("|(~(A),B)");
-        Equation test2 = new Equation(">(A,B)");
+//        Equation test = new Equation("&(~(A),B)");
+//        Equation test2 = new Equation("|(~(~(A)),~(B))");
 //        Equation test = new Equation("=(=(A,C),B)");
 //        Equation test = new Equation("=(C,B)");
 //        Equation test = new Equation("|(|(|(|(|(|(|(|(A,B),C),D),E),F),G),H),I)");
 //        Equation test = new Equation("A");
-
+        Equation test = new Equation("~(|(A,B))");
+        
 //>(A,B)
 //=(A,B)
 //&(A,B)
 //|(A,B)
         test.printTruthTable();
-        test2.printTruthTable();
-
-        test.printingSimplifiedTruthTables();
-        
-        test.printDisjunctiveNormalForm();
-        
-        System.out.println(test.equals(test2));
+//        test2.printTruthTable();
+//
+//        test.printingSimplifiedTruthTables();
+//        
+//        test.printDisjunctiveNormalForm();
+//        
+//        System.out.println(test.equals(test2));
         
         
     }

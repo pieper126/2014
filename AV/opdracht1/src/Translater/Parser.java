@@ -75,7 +75,7 @@ public class Parser {
         String trimmedEquation = equation.trim();
 
         // takes the childern from the given equation
-        String children = equation.substring(2, equation.length());
+        String children = equation.substring(2, equation.length() - 1);
         Node returnValue = null;
         
         System.out.println("trimmed:" + trimmedEquation + "\n children: " + children + "\n\n");
@@ -118,7 +118,7 @@ public class Parser {
                     returnValue = new implication(A, B);
                     break;
                 case Negation:
-                    A = Parse(sideAInTheNode);
+                    A = Parse(sideAInTheNode + "," + sideBInTheNode + ")");
                     returnValue = new negation(A);
             }
         }
