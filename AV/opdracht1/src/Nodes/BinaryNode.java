@@ -90,4 +90,9 @@ public class BinaryNode extends Node {
         sideA.setTruthValues(truthValues);
         sideB.setTruthValues(truthValues);
     }
+
+    @Override
+    public String NANDForm() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

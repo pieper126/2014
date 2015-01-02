@@ -82,13 +82,14 @@ public class Main {
 //        Equation test = new Equation("=(C,B)");
 //        Equation test = new Equation("|(|(|(|(|(|(|(|(A,B),C),D),E),F),G),H),I)");
 //        Equation test = new Equation("A");
-        Equation test = new Equation("~(|(A,B))");
+        Equation test = new Equation("~(A)");
         
 //>(A,B)
 //=(A,B)
 //&(A,B)
 //|(A,B)
         test.printTruthTable();
+        test.printNAND();
 //        test2.printTruthTable();
 //
 //        test.printingSimplifiedTruthTables();

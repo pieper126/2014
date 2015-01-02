@@ -279,6 +279,10 @@ public class Equation {
 
         System.out.println(outputLine);
     }
+    
+    public void printNAND(){
+        System.out.println(mainNode.NANDForm()); 
+    }
 
     @Override
     public boolean equals(Object obj) {

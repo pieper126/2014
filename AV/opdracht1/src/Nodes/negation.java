@@ -7,6 +7,11 @@ public class negation extends MonoNode {
     }
 
     @Override
+    public String NANDForm(){
+        return "(" + sideA.NANDForm()+ "|" + sideA.NANDForm() + ")";
+    }
+    
+    @Override
     public String toString() {
         return "¬" + "(" + sideA.toString() + ")";
     }

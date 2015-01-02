@@ -58,4 +58,9 @@ public class AbstractVariable extends Node {
 
         return returnvalue;
     }
+
+    @Override
+    public String NANDForm() {
+        return this.toString();
+    }
 }

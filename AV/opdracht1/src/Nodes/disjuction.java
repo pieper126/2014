@@ -7,6 +7,11 @@ public class disjuction extends BinaryNode {
     }
 
     @Override
+    public String NANDForm() {
+        return "((" + sideA.NANDForm() + "|" + sideA.NANDForm() + ") | |(" +  sideB.NANDForm() + "|" + sideB.NANDForm() + ")" + ")";
+    }
+
+    @Override
     public String toString() {
         return "(" + sideA.toString() + "∨ \\/" + sideB.toString() + ")";
     }

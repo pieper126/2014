@@ -7,6 +7,11 @@ public class BiImplication extends BinaryNode {
     }
 
     @Override
+    public String NANDForm() {
+        return "((" + sideA.NANDForm() + "|(" + sideB.NANDForm() + "|" + sideB.NANDForm() + "))|(" + sideB.NANDForm() + "|(" + sideA.NANDForm() + "|" + sideA.NANDForm() + ")))|((" + sideA.NANDForm() + "|" + "(" + sideB.NANDForm() + "|" + sideB.NANDForm() + "))|(" + sideB.NANDForm() + "|(" + sideA.NANDForm() + "|" + sideA.NANDForm() + ")))";
+    }
+
+    @Override
     public String toString() {
         return "(" + sideA.toString() + "⇔ <=>" + sideB.toString() + ")";
     }

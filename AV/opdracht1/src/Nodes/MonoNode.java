@@ -62,4 +62,9 @@ public class MonoNode extends Node {
     public void setTruthValues(boolean[] truthValues) {
         sideA.setTruthValues(truthValues);
     }
+
+    @Override
+    public String NANDForm() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

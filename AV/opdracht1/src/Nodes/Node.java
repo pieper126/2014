@@ -14,4 +14,6 @@ public abstract class Node {
     public abstract boolean[] getTruthValues();
     
     public abstract void setTruthValues(boolean[] truthValues);
+    
+    public abstract String NANDForm();
 }
