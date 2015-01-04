@@ -6,7 +6,9 @@
 package Utils;
 
 import Nodes.*;
+import java.lang.ProcessBuilder.Redirect.Type;
 import java.util.ArrayList;
+import jdk.nashorn.internal.runtime.arrays.ArrayLikeIterator;
 
 /**
  *
@@ -114,40 +116,94 @@ public class Resolver {
     private static ArrayList<ArrayList<Node>> resolve(ArrayList<Node> currentCollection) {
         ArrayList<ArrayList<Node>> returnValue = new ArrayList<>();
 
-        Node mainNode = null;
-        
-        for (Node node : currentCollection) {
-            if (!node.getClass().getTypeName().equals("Nodes.AbstractVariable")) {
-                if (node.getClass().getTypeName().equals("Nodes.Negation") && !((Negation)node).getSideA().getClass().getTypeName().equals("Nodes.AbstractVariable")) {
-                    break;
-                }
+        // sorts the collection by using the rules of importance
+        currentCollection.sort(new TableauRuleComparator());
 
-            }
-        }
-        
-        ArrayList<Node> collections = new ArrayList<>();
+        Node mainNode = currentCollection.get(0);
+
+        ArrayList<Node> collections = currentCollection;
+
+        // stops the node from being checked twice
+        collections.remove(mainNode);
+
+        Node sideA = null;
+        Node sideB = null;
+
+        ArrayList<Node> contradiction;
 
         switch (mainNode.getClass().getTypeName()) {
             case "Nodes.Negation":
                 Node child = ((Negation) mainNode).getSideA();
 
                 if (child.getClass().getTypeName().equals("Nodes.Negation")) {
+                    sideA = ((Negation) child).getSideA();
 
-                    collections.add(((Negation) child).getSideA());
+                    if (!collections.contains(sideA)) {
+
+                        contradiction = checkContradiction(collections, createsNodeArrayListWithEnetries(sideA));
+
+                        if (contradiction != null) {
+                            returnValue.add(contradiction);
+                        }
+
+                        collections.add(sideA);
+                    }
 
                     returnValue = resolve(collections);
 
                 } else if (child.getClass().getTypeName().equals("Nodes.Disjunction")) {
+                    sideA = new Negation(((Disjuction) child).getSideA());
+                    sideB = new Negation(((Disjuction) child).getSideB());
 
-                    collections.add(new Negation(((Disjuction) child).getSideA()));
-                    collections.add(new Negation(((Disjuction) child).getSideB()));
+                    if (!collections.contains(sideA)) {
+
+                        contradiction = checkContradiction(collections, createsNodeArrayListWithEnetries(sideA));
+
+                        if (contradiction != null) {
+                            returnValue.add(contradiction);
+                        }
+
+                        collections.add(sideA);
+                    }
+
+                    if (!collections.contains(sideB)) {
+
+                        contradiction = checkContradiction(collections, createsNodeArrayListWithEnetries(sideB));
+
+                        if (contradiction != null) {
+                            returnValue.add(contradiction);
+                        }
+
+                        collections.add(sideB);
+                    }
 
                     returnValue = resolve(collections);
 
                 } else if (child.getClass().getTypeName().equals("Nodes.Implication")) {
+                    sideA = ((Implication) child).getSideA();
+                    sideB = new Negation(((Implication) child).getSideB());
 
-                    collections.add(((Implication) child).getSideA());
-                    collections.add(new Negation(((Implication) child).getSideB()));
+                    if (!collections.contains(sideA)) {
+
+                        contradiction = checkContradiction(collections, createsNodeArrayListWithEnetries(sideA));
+
+                        if (contradiction != null) {
+                            returnValue.add(contradiction);
+                        }
+
+                        collections.add(sideA);
+                    }
+
+                    if (!collections.contains(sideB)) {
+
+                        contradiction = checkContradiction(collections, createsNodeArrayListWithEnetries(sideB));
+
+                        if (contradiction != null) {
+                            returnValue.add(contradiction);
+                        }
+
+                        collections.add(sideB);
+                    }
 
                     returnValue = resolve(collections);
 
@@ -173,18 +229,21 @@ public class Resolver {
 
                 break;
             case "Nodes.Conjunction":
+                // to do add sideA and sideB structure
                 collections.add(((Conjunction) mainNode).getSideA());
                 collections.add(((Conjunction) mainNode).getSideB());
 
                 returnValue = resolve(collections);
                 break;
             case "Nodes.Disjunction":
+                // to do add sideA and sideB structure
                 collections.add(((Disjuction) mainNode).getSideA());
                 collections.add(((Disjuction) mainNode).getSideB());
 
                 returnValue = resolve(collections);
                 break;
             case "Nodes.Implication":
+                // to do add sideA and sideB structure
                 // split the equation into two collections
                 ArrayList<Node> collectionA = (ArrayList<Node>) collections.clone();
                 ArrayList<Node> collectionB = (ArrayList<Node>) collections.clone();
@@ -204,14 +263,15 @@ public class Resolver {
                 returnValue.addAll(resolve(collectionB));
                 break;
             case "Nodes.BiImplication":
-                Node sideA = new Implication(((BiImplication) mainNode).getSideA(), ((BiImplication) mainNode).getSideB());
-                Node sideB = new Implication(((BiImplication) mainNode).getSideB(), ((BiImplication) mainNode).getSideA());
+                // to do add sideA and sideB structure
+                sideA = new Implication(((BiImplication) mainNode).getSideA(), ((BiImplication) mainNode).getSideB());
+                sideB = new Implication(((BiImplication) mainNode).getSideB(), ((BiImplication) mainNode).getSideA());
 
                 collections.add(new Conjunction(sideA, sideB));
 
                 returnValue = resolve(collections);
             default:
-                // geen tegen mogelijkheid meer mogelijk, dus is het niet meer nodig om deze te checken
+                // there are no more posibilities to check
                 return null;
         }
 
@@ -240,5 +300,15 @@ public class Resolver {
         }
 
         return null;
+    }
+
+    private static ArrayList<Node> createsNodeArrayListWithEnetries(Node... ob) {
+        ArrayList<Node> returnvalue = new ArrayList<>();
+
+        for (Node node : ob) {
+            returnvalue.add(node);
+        }
+
+        return returnvalue;
     }
 }
