@@ -1,8 +1,8 @@
 package Nodes;
 
-public class negation extends MonoNode {
+public class Negation extends MonoNode {
 
-    public negation(Node sideA) {
+    public Negation(Node sideA) {
         super(sideA);
     }
 

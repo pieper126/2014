@@ -35,14 +35,14 @@ public class Parser {
                 if (hasOperator(children)) {
                     returnValue = Parse(children, 0, "", TypeNodes.Negation);
                 } else {
-                    returnValue = new negation(new AbstractVariable(children));
+                    returnValue = new Negation(new AbstractVariable(children));
                 }
                 break;
             case ">":
                 if (hasOperator(children)) {
                     returnValue = Parse(children, 0, "", TypeNodes.Implication);
                 } else {
-                    returnValue = new implication(Parse(children.substring(0, children.indexOf(","))), Parse(children.substring(children.indexOf(",") + 1, children.length())));
+                    returnValue = new Implication(Parse(children.substring(0, children.indexOf(","))), Parse(children.substring(children.indexOf(",") + 1, children.length())));
                 }
                 break;
             case "=":
@@ -63,7 +63,7 @@ public class Parser {
                 if (hasOperator(children)) {
                     returnValue = Parse(children, 0, "", TypeNodes.Disjunction);
                 } else {
-                    returnValue = new disjuction(Parse(children.substring(0, children.indexOf(","))), Parse(children.substring(children.indexOf(",") + 1, children.length())));
+                    returnValue = new Disjuction(Parse(children.substring(0, children.indexOf(","))), Parse(children.substring(children.indexOf(",") + 1, children.length())));
                 }
                 break;
         }
@@ -110,16 +110,16 @@ public class Parser {
                 case Disjunction:
                     A = Parse(sideAInTheNode);
                     B = Parse(sideBInTheNode);
-                    returnValue = new disjuction(A, B);
+                    returnValue = new Disjuction(A, B);
                     break;
                 case Implication:
                     A = Parse(sideAInTheNode);
                     B = Parse(sideBInTheNode);
-                    returnValue = new implication(A, B);
+                    returnValue = new Implication(A, B);
                     break;
                 case Negation:
                     A = Parse(sideAInTheNode + "," + sideBInTheNode + ")");
-                    returnValue = new negation(A);
+                    returnValue = new Negation(A);
             }
         }
 

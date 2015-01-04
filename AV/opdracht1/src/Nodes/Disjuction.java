@@ -1,8 +1,8 @@
 package Nodes;
 
-public class disjuction extends BinaryNode {
+public class Disjuction extends BinaryNode {
 
-    public disjuction(Node sideA, Node sideB) {
+    public Disjuction(Node sideA, Node sideB) {
         super(sideA, sideB);
     }
 

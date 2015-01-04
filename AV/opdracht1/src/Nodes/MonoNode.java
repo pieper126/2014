@@ -20,6 +20,10 @@ public class MonoNode extends Node {
         this.sideA = sideA;
     }
 
+    public Node getSideA() {
+        return sideA;
+    }
+
     @Override
     public List<Node> getDistinctVariable() {
         ArrayList<Node> returnvalue = new ArrayList<Node>();
@@ -54,7 +58,7 @@ public class MonoNode extends Node {
     }
 
     @Override
-    public boolean[] getTruthValues(){
+    public boolean[] getTruthValues() {
         return null;
     }
 

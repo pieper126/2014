@@ -25,6 +25,14 @@ public class BinaryNode extends Node {
         this.sideB = sideB;
     }
 
+    public Node getSideB(){
+        return sideB;
+    }
+    
+    public Node getSideA(){
+        return sideA;
+    }
+    
     @Override
     public List<Node> getDistinctVariable() {
         ArrayList<Node> returnvalue = new ArrayList<Node>();

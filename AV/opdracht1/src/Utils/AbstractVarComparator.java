@@ -13,13 +13,13 @@ import java.util.Comparator;
  *
  * @author stijn
  */
-public class AbstractVarComparator implements Comparator<Node>{
+public class AbstractVarComparator implements Comparator<Node> {
 
     @Override
     public int compare(Node o1, Node o2) {
-        return ((AbstractVariable)o1).var.compareTo(((AbstractVariable)o2).var);
+        return ((AbstractVariable) o1).var.compareTo(((AbstractVariable) o2).var);
     }
-    
+
 }
 
 /*public class CustomComparator implements Comparator<MyObject> {

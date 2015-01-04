@@ -1,11 +1,11 @@
 package Nodes;
 
-public class implication extends BinaryNode {
+public class Implication extends BinaryNode {
 
-    public implication(Node sideA, Node sideB) {
+    public Implication(Node sideA, Node sideB) {
         super(sideA, sideB);
     }
-
+    
     @Override
     public String NANDForm() {
         return "(" + sideA.NANDForm() + "| (" +  sideB.NANDForm() + "|" + sideB.NANDForm() + ")" + ")";
