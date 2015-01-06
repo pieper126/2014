@@ -16,7 +16,7 @@ public class Parser {
     protected static Node Parse(String equation) {
         // should not be needed
         String trimmedEquation = equation.trim();
-        
+
         // checks if the equation is not just a single abstract variable
         if (trimmedEquation.length() == 1) {
             return new AbstractVariable(trimmedEquation);
@@ -33,7 +33,7 @@ public class Parser {
         switch (operator) {
             case "~":
                 if (hasOperator(children)) {
-                    returnValue = Parse(children, 0, "", TypeNodes.Negation);
+                    returnValue = Parse(children, -1, "", TypeNodes.Negation);
                 } else {
                     returnValue = new Negation(new AbstractVariable(children));
                 }
@@ -75,9 +75,9 @@ public class Parser {
         String trimmedEquation = equation.trim();
 
         // takes the childern from the given equation
-        String children = equation.substring(2, equation.length() - 1);
+        String children = equation.substring(2, equation.length());
         Node returnValue = null;
-        
+
         System.out.println("trimmed:" + trimmedEquation + "\n children: " + children + "\n\n");
 
         // decide what type of operant it is
@@ -91,10 +91,17 @@ public class Parser {
                 locationSecondLastParenthesis = equation.indexOf(")", ++locationSecondLastParenthesis);
             }
 
-            int locationMainComa = equation.indexOf(",", locationSecondLastParenthesis) == -1 ? equation.length() - 1 : equation.indexOf(",", locationSecondLastParenthesis);
+            int locationMainComa = equation.indexOf(",", locationSecondLastParenthesis) == -1 ? equation.length() /*- 1*/ : equation.indexOf(",", locationSecondLastParenthesis);
 
             String sideAInTheNode = buffer + equation.substring(0, locationMainComa);
-            String sideBInTheNode = equation.substring(locationMainComa + 1);
+
+            String sideBInTheNode = "";
+            
+            if (locationMainComa == equation.length()) {
+                
+            } else {
+                sideBInTheNode = equation.substring(locationMainComa + 1);
+            }
 
             switch (type) {
                 case BiImplication:
@@ -118,7 +125,7 @@ public class Parser {
                     returnValue = new Implication(A, B);
                     break;
                 case Negation:
-                    A = Parse(sideAInTheNode + "," + sideBInTheNode + ")");
+                    A = Parse(sideAInTheNode + "," + sideBInTheNode /*+ ")"*/);
                     returnValue = new Negation(A);
             }
         }
