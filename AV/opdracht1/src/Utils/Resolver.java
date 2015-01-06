@@ -6,9 +6,8 @@
 package Utils;
 
 import Nodes.*;
-import java.lang.ProcessBuilder.Redirect.Type;
+import java.awt.image.ConvolveOp;
 import java.util.ArrayList;
-import jdk.nashorn.internal.runtime.arrays.ArrayLikeIterator;
 
 /**
  *
@@ -17,102 +16,144 @@ import jdk.nashorn.internal.runtime.arrays.ArrayLikeIterator;
 public class Resolver {
 
     public static ArrayList<ArrayList<Node>> resolve(Equation equation) {
-        ArrayList<ArrayList<Node>> returnValue = new ArrayList<>();
+//        ArrayList<ArrayList<Node>> returnValue = new ArrayList<>();
+//
+//        Node mainNode = equation.GetMainNode();
+//        ArrayList<Node> collections = new ArrayList<>();
+//
+//        switch (mainNode.getClass().getTypeName()) {
+//            case "Nodes.Negation":
+//                Node child = ((Negation) mainNode).getSideA();
+//
+//                if (child.getClass().getTypeName().equals("Nodes.Negation")) {
+//
+//                    collections.add(((Negation) child).getSideA());
+//
+//                    returnValue = resolve(collections);
+//
+//                } else if (child.getClass().getTypeName().equals("Nodes.Disjunction")) {
+//
+//                    collections.add(new Negation(((Disjuction) child).getSideA()));
+//                    collections.add(new Negation(((Disjuction) child).getSideB()));
+//
+//                    returnValue = resolve(collections);
+//
+//                } else if (child.getClass().getTypeName().equals("Nodes.Implication")) {
+//
+//                    collections.add(((Implication) child).getSideA());
+//                    collections.add(new Negation(((Implication) child).getSideB()));
+//
+//                    returnValue = resolve(collections);
+//
+//                } else if (child.getClass().getTypeName().equals("Nodes.Conjunction")) {
+//                    // split the equation into two collections
+//                    ArrayList<Node> collectionA = (ArrayList<Node>) collections.clone();
+//                    ArrayList<Node> collectionB = (ArrayList<Node>) collections.clone();
+//
+//                    // because this is the first run we can clear the collection
+//                    collections.clear();
+//
+//                    collectionA.add(new Negation(((Conjunction) child).getSideA()));
+//                    collectionB.add(new Negation(((Conjunction) child).getSideB()));
+//
+//                    returnValue = resolve(collectionA);
+//
+//                    if (returnValue == null) {
+//                        return null;
+//                    }
+//
+//                    ArrayList<ArrayList<Node>> resolveB = resolve(collectionB);
+//
+//                    if (resolveB == null) {
+//                        return null;
+//                    }
+//
+//                    returnValue.addAll(resolveB);
+//                }
+//
+//                break;
+//            case "Nodes.Conjunction":
+//                collections.add(((Conjunction) mainNode).getSideA());
+//                collections.add(((Conjunction) mainNode).getSideB());
+//
+//                returnValue = resolve(collections);
+//                break;
+//            case "Nodes.Disjunction":
+//                // split the equation into two collections
+//                ArrayList<Node> collectionA = (ArrayList<Node>) collections.clone();
+//                ArrayList<Node> collectionB = (ArrayList<Node>) collections.clone();
+//
+//                // because this is the first run we can clear the collection
+//                collections.clear();
+//
+//                collectionA.add(((Disjuction) mainNode).getSideA());
+//                collectionB.add(((Disjuction) mainNode).getSideB());
+//
+//                returnValue = resolve(collectionA);
+//
+//                if (returnValue == null) {
+//                    return null;
+//                }
+//
+//                ArrayList<ArrayList<Node>> resolveB = resolve(collectionB);
+//
+//                if (resolveB == null) {
+//                    return null;
+//                }
+//
+//                returnValue.addAll(resolveB);
+//
+//                break;
+//            case "Nodes.Implication":
+//                // split the equation into two collections
+//                collectionA = (ArrayList<Node>) collections.clone();
+//                collectionB = (ArrayList<Node>) collections.clone();
+//
+//                // because this is the first run we can clear the collection
+//                collections.clear();
+//
+//                collectionA.add(new Negation(((Implication) mainNode).getSideA()));
+//                collectionB.add(((Implication) mainNode).getSideB());
+//
+//                returnValue = resolve(collectionA);
+//
+//                if (returnValue == null) {
+//                    return null;
+//                }
+//
+//                resolveB = resolve(collectionB);
+//
+//                if (resolveB == null) {
+//                    return null;
+//                }
+//
+//                returnValue.addAll(resolveB);
+//
+//                break;
+//            case "Nodes.BiImplication":
+//                Node sideA = new Implication(((BiImplication) mainNode).getSideA(), ((BiImplication) mainNode).getSideB());
+//                Node sideB = new Implication(((BiImplication) mainNode).getSideB(), ((BiImplication) mainNode).getSideA());
+//
+//                collections.add(new Conjunction(sideA, sideB));
+//
+//                returnValue = resolve(collections);
+//            default:
+//                // geen tegen mogelijkheid meer mogelijk, dus is het niet meer nodig om deze te checken
+//                return null;
+//        }
 
-        Node mainNode = equation.GetMainNode();
-        ArrayList<Node> collections = new ArrayList<>();
-
-        switch (mainNode.getClass().getTypeName()) {
-            case "Nodes.Negation":
-                Node child = ((Negation) mainNode).getSideA();
-
-                if (child.getClass().getTypeName().equals("Nodes.Negation")) {
-
-                    collections.add(((Negation) child).getSideA());
-
-                    returnValue = resolve(collections);
-
-                } else if (child.getClass().getTypeName().equals("Nodes.Disjunction")) {
-
-                    collections.add(new Negation(((Disjuction) child).getSideA()));
-                    collections.add(new Negation(((Disjuction) child).getSideB()));
-
-                    returnValue = resolve(collections);
-
-                } else if (child.getClass().getTypeName().equals("Nodes.Implication")) {
-
-                    collections.add(((Implication) child).getSideA());
-                    collections.add(new Negation(((Implication) child).getSideB()));
-
-                    returnValue = resolve(collections);
-
-                } else if (child.getClass().getTypeName().equals("Nodes.Conjunction")) {
-                    // split the equation into two collections
-                    ArrayList<Node> collectionA = (ArrayList<Node>) collections.clone();
-                    ArrayList<Node> collectionB = (ArrayList<Node>) collections.clone();
-
-                    // because this is the first run we can clear the collection
-                    collections.clear();
-
-                    collectionA.add(new Negation(((Implication) child).getSideA()));
-                    collectionB.add(new Negation(((Implication) child).getSideB()));
-
-                    returnValue = resolve(collectionA);
-
-                    if (returnValue == null) {
-                        return null;
-                    }
-
-                    returnValue.addAll(resolve(collectionB));
-                }
-
-                break;
-            case "Nodes.Conjunction":
-                collections.add(((Conjunction) mainNode).getSideA());
-                collections.add(((Conjunction) mainNode).getSideB());
-
-                returnValue = resolve(collections);
-                break;
-            case "Nodes.Disjunction":
-                collections.add(((Disjuction) mainNode).getSideA());
-                collections.add(((Disjuction) mainNode).getSideB());
-
-                returnValue = resolve(collections);
-                break;
-            case "Nodes.Implication":
-                // split the equation into two collections
-                ArrayList<Node> collectionA = (ArrayList<Node>) collections.clone();
-                ArrayList<Node> collectionB = (ArrayList<Node>) collections.clone();
-
-                // because this is the first run we can clear the collection
-                collections.clear();
-
-                collectionA.add(new Negation(((Implication) mainNode).getSideA()));
-                collectionB.add(((Implication) mainNode).getSideB());
-
-                returnValue = resolve(collectionA);
-
-                if (returnValue == null) {
-                    return null;
-                }
-
-                returnValue.addAll(resolve(collectionB));
-                break;
-            case "Nodes.BiImplication":
-                Node sideA = new Implication(((BiImplication) mainNode).getSideA(), ((BiImplication) mainNode).getSideB());
-                Node sideB = new Implication(((BiImplication) mainNode).getSideB(), ((BiImplication) mainNode).getSideA());
-
-                collections.add(new Conjunction(sideA, sideB));
-
-                returnValue = resolve(collections);
-            default:
-                // geen tegen mogelijkheid meer mogelijk, dus is het niet meer nodig om deze te checken
-                return null;
-        }
-
-        return returnValue;
+        return resolve(createsNodeArrayListWithEnetries(equation.GetMainNode()));
     }
 
+    /**
+     * listener abonneert zich op PropertyChangeEvent's zodra property is
+     * gewijzigd
+     *
+     * @param listener
+     * @param property mag null zijn, dan abonneert listener zich op alle
+     * properties; property moet wel een eigenschap zijn waarop je je kunt
+     * abonneren
+     */
     private static ArrayList<ArrayList<Node>> resolve(ArrayList<Node> currentCollection) {
         ArrayList<ArrayList<Node>> returnValue = new ArrayList<>();
 
@@ -138,12 +179,14 @@ public class Resolver {
                 if (child.getClass().getTypeName().equals("Nodes.Negation")) {
                     sideA = ((Negation) child).getSideA();
 
+                    // checks if it isn't already in the collection
                     if (!collections.contains(sideA)) {
 
                         contradiction = checkContradiction(collections, createsNodeArrayListWithEnetries(sideA));
 
                         if (contradiction != null) {
                             returnValue.add(contradiction);
+                            break;
                         }
 
                         collections.add(sideA);
@@ -155,23 +198,27 @@ public class Resolver {
                     sideA = new Negation(((Disjuction) child).getSideA());
                     sideB = new Negation(((Disjuction) child).getSideB());
 
+                    // checks if it isn't already in the collection
                     if (!collections.contains(sideA)) {
 
                         contradiction = checkContradiction(collections, createsNodeArrayListWithEnetries(sideA));
 
                         if (contradiction != null) {
                             returnValue.add(contradiction);
+                            break;
                         }
 
                         collections.add(sideA);
                     }
 
+                    // checks if it isn't already in the collection
                     if (!collections.contains(sideB)) {
 
                         contradiction = checkContradiction(collections, createsNodeArrayListWithEnetries(sideB));
 
                         if (contradiction != null) {
                             returnValue.add(contradiction);
+                            break;
                         }
 
                         collections.add(sideB);
@@ -183,23 +230,27 @@ public class Resolver {
                     sideA = ((Implication) child).getSideA();
                     sideB = new Negation(((Implication) child).getSideB());
 
+                    // checks if it isn't already in the collection
                     if (!collections.contains(sideA)) {
 
                         contradiction = checkContradiction(collections, createsNodeArrayListWithEnetries(sideA));
 
                         if (contradiction != null) {
                             returnValue.add(contradiction);
+                            break;
                         }
 
                         collections.add(sideA);
                     }
 
+                    // checks if it isn't already in the collection
                     if (!collections.contains(sideB)) {
 
                         contradiction = checkContradiction(collections, createsNodeArrayListWithEnetries(sideB));
 
                         if (contradiction != null) {
                             returnValue.add(contradiction);
+                            break;
                         }
 
                         collections.add(sideB);
@@ -212,55 +263,179 @@ public class Resolver {
                     ArrayList<Node> collectionA = (ArrayList<Node>) collections.clone();
                     ArrayList<Node> collectionB = (ArrayList<Node>) collections.clone();
 
-                    // because this is the first run we can clear the collection
-                    collections.clear();
+                    // assign values
+                    sideA = new Negation(((Conjunction) child).getSideA());
+                    sideB = new Negation(((Conjunction) child).getSideB());
 
-                    collectionA.add(new Negation(((Implication) child).getSideA()));
-                    collectionB.add(new Negation(((Implication) child).getSideB()));
+                    // checks if it isn't already in the collection
+                    if (!collectionA.contains(sideA)) {
+
+                        contradiction = checkContradiction(collectionA, createsNodeArrayListWithEnetries(sideA));
+
+                        if (contradiction != null) {
+                            returnValue.add(contradiction);
+                        }
+
+                        collectionA.add(sideA);
+                    }
+
+                    // checks if it isn't already in the collection
+                    if (!collectionB.contains(sideB)) {
+
+                        contradiction = checkContradiction(collectionB, createsNodeArrayListWithEnetries(sideB));
+
+                        if (contradiction != null) {
+                            returnValue.add(contradiction);
+                        }
+
+                        collectionB.add(sideB);
+                    }
 
                     returnValue = resolve(collectionA);
 
+                    // checks if it was able to close the collection of side A
                     if (returnValue == null) {
                         return null;
                     }
 
-                    returnValue.addAll(resolve(collectionB));
+                    ArrayList<ArrayList<Node>> resolveB = resolve(collectionB);
+
+                    // checks if it was able to close the collection of side B
+                    if (resolveB == null) {
+                        return null;
+                    }
+
+                    returnValue.addAll(resolveB);
                 }
 
                 break;
             case "Nodes.Conjunction":
-                // to do add sideA and sideB structure
-                collections.add(((Conjunction) mainNode).getSideA());
-                collections.add(((Conjunction) mainNode).getSideB());
+                sideA = ((Conjunction) mainNode).getSideA();
+                sideB = ((Conjunction) mainNode).getSideB();
+
+                // checks if it isn't already in the collection
+                if (!collections.contains(sideA)) {
+
+                    contradiction = checkContradiction(collections, createsNodeArrayListWithEnetries(sideA));
+
+                    if (contradiction != null) {
+                        returnValue.add(contradiction);
+                    }
+
+                    collections.add(sideA);
+                }
+
+                // checks if it isn't already in the collection
+                if (!collections.contains(sideB)) {
+
+                    contradiction = checkContradiction(collections, createsNodeArrayListWithEnetries(sideB));
+
+                    if (contradiction != null) {
+                        returnValue.add(contradiction);
+                    }
+
+                    collections.add(sideB);
+                }
 
                 returnValue = resolve(collections);
                 break;
             case "Nodes.Disjunction":
-                // to do add sideA and sideB structure
-                collections.add(((Disjuction) mainNode).getSideA());
-                collections.add(((Disjuction) mainNode).getSideB());
-
-                returnValue = resolve(collections);
-                break;
-            case "Nodes.Implication":
-                // to do add sideA and sideB structure
                 // split the equation into two collections
                 ArrayList<Node> collectionA = (ArrayList<Node>) collections.clone();
                 ArrayList<Node> collectionB = (ArrayList<Node>) collections.clone();
 
-                // because this is the first run we can clear the collection
-                collections.clear();
+                // assign values
+                sideA = ((Disjuction) mainNode).getSideA();
+                sideB = ((Disjuction) mainNode).getSideB();
 
-                collectionA.add(new Negation(((Implication) mainNode).getSideA()));
-                collectionB.add(((Implication) mainNode).getSideB());
+                // checks if it isn't already in the collection
+                if (!collectionA.contains(sideA)) {
+
+                    contradiction = checkContradiction(collectionA, createsNodeArrayListWithEnetries(sideA));
+
+                    if (contradiction != null) {
+                        returnValue.add(contradiction);
+                    }
+
+                    collectionA.add(sideA);
+                }
+
+                // checks if it isn't already in the collection
+                if (!collectionB.contains(sideB)) {
+
+                    contradiction = checkContradiction(collectionB, createsNodeArrayListWithEnetries(sideB));
+
+                    if (contradiction != null) {
+                        returnValue.add(contradiction);
+                    }
+
+                    collectionB.add(sideB);
+                }
 
                 returnValue = resolve(collectionA);
 
+                // checks if it was able to close the collection of side A
                 if (returnValue == null) {
                     return null;
                 }
 
-                returnValue.addAll(resolve(collectionB));
+                ArrayList<ArrayList<Node>> resolveB = resolve(collectionB);
+
+                // checks if it was able to close the collection of side B
+                if (resolveB == null) {
+                    return null;
+                }
+
+                returnValue.addAll(resolveB);
+                break;
+            case "Nodes.Implication":
+                // split the equation into two collections
+                collectionA = (ArrayList<Node>) collections.clone();
+                collectionB = (ArrayList<Node>) collections.clone();
+
+                // assign values
+                sideA = new Negation(((Implication) mainNode).getSideA());
+                sideB = ((Implication) mainNode).getSideB();
+
+                // checks if it isn't already in the collection
+                if (!collectionA.contains(sideA)) {
+
+                    contradiction = checkContradiction(collectionA, createsNodeArrayListWithEnetries(sideA));
+
+                    if (contradiction != null) {
+                        returnValue.add(contradiction);
+                    }
+
+                    collectionA.add(sideA);
+                }
+
+                // checks if it isn't already in the collection
+                if (!collectionB.contains(sideB)) {
+
+                    contradiction = checkContradiction(collectionB, createsNodeArrayListWithEnetries(sideB));
+
+                    if (contradiction != null) {
+                        returnValue.add(contradiction);
+                    }
+
+                    collectionB.add(sideB);
+                }
+
+                returnValue = resolve(collectionA);
+
+                // checks if it was able to close the collection of side A
+                if (returnValue == null) {
+                    return null;
+                }
+
+                resolveB = resolve(collectionB);
+
+                // checks if it was able to close the collection of side B
+                if (resolveB == null) {
+                    return null;
+                }
+
+                returnValue.addAll(resolveB);
                 break;
             case "Nodes.BiImplication":
                 // to do add sideA and sideB structure
@@ -310,5 +485,21 @@ public class Resolver {
         }
 
         return returnvalue;
+    }
+
+    private static boolean something(ArrayList<Node> collections, Node side, ArrayList<ArrayList<Node>> returnValue) {
+        // checks if it isn't already in the collection
+        if (!collections.contains(side)) {
+
+            ArrayList<Node> contradiction = checkContradiction(collections, createsNodeArrayListWithEnetries(side));
+
+            if (contradiction != null) {
+                returnValue.add(contradiction);
+                return true;
+            }
+
+            collections.add(side);
+        }
+        return false;
     }
 }
