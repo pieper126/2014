@@ -7,7 +7,6 @@ package Utils;
 
 import Nodes.*;
 import Utils.*;
-import java.awt.image.ConvolveOp;
 import java.util.ArrayList;
 
 /**
@@ -16,7 +15,13 @@ import java.util.ArrayList;
  */
 public class Resolver {
 
-    public static ArrayList<ArrayList<Node>> resolve(Equation equation) {
+    /**
+     * checks equality using Tablue prove
+     * @param equation
+     * @param equation1
+     * @return it returns null if they are not equal, if they are it shows how they are equal
+     */
+    public static ArrayList<ArrayList<Node>> resolve(Equation equation, Equation equation1) {
 //        ArrayList<ArrayList<Node>> returnValue = new ArrayList<>();
 //
 //        Node mainNode = equation.GetMainNode();
@@ -143,7 +148,7 @@ public class Resolver {
 //                return null;
 //        }
 
-        return resolve(createsNodeArrayListWithEnetries(equation.GetMainNode()));
+        return resolve(createsNodeArrayListWithEnetries(new Negation(new Implication(equation.GetMainNode(), equation1.GetMainNode()))));
     }
 
     /**

@@ -30,7 +30,7 @@ public class Main {
 
             String whatToDo = "";
             do {
-                whatToDo = console.readLine("\"1\" for the normal truthtable \n \"2\" for the simplified truthtable \n \"3\" for the disjunctie normal form \n \"4\" to check if a another equation is equal \n \"5\" to give the nand form of this equation \n \"exit\" to exit the application \n"
+                whatToDo = console.readLine("\"1\" for the normal truthtable \n \"2\" for the simplified truthtable \n \"3\" for the disjunctie normal form \n \"4\" to check if a another equation is equal \n \"5\" to give the nand form of this equation \n \"6\" to check if a another equation is equal using tableau \n \"exit\" to exit the application \n"
                         + "enter a option: ");
 
                 switch (whatToDo) {
@@ -73,6 +73,21 @@ public class Main {
                     case "5":
                         timer = System.currentTimeMillis();
                         equation.printNAND();
+                        timer = System.currentTimeMillis() - timer;
+                        System.out.println("time it took to complete: " + timer + "ms \n");
+                        break;
+                    case "6":
+                        newEquation = console.readLine("Enter equation in prefix: ");
+                        timer = System.currentTimeMillis();
+                        try {
+                            if (equation.equalityUsingTableau(new Equation(newEquation))) {
+                                System.out.println("they are equal");
+                            } else {
+                                System.out.println("they are not equal");
+                            }
+                        } catch (NullPointerException e) {
+                            System.out.println("run simplified first!");
+                        }
                         timer = System.currentTimeMillis() - timer;
                         System.out.println("time it took to complete: " + timer + "ms \n");
                         break;

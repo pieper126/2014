@@ -283,6 +283,10 @@ public class Equation {
     public void printNAND(){
         System.out.println(mainNode.NANDForm()); 
     }
+    
+    public boolean equalityUsingTableau(Equation equation){
+        return Utils.Resolver.resolve(equation, this) != null;
+    }
 
     @Override
     public boolean equals(Object obj) {
@@ -292,12 +296,6 @@ public class Equation {
             if (Arrays.equals(toCompareTo.truthTable, this.truthTable)) {
                 return true;
             }
-//            if (toCompareTo.truthTable.length == this.truthTable.length) {
-//
-//                for (int i = 0; i < toCompareTo.truthTable.length; i++) {
-//                    
-//                }
-//            }
         }
 
         return false;
@@ -307,10 +305,4 @@ public class Equation {
     public String toString() {
         return mainNode != null ? equation + "\n" + mainNode.toString() : "";
     }
-
-//    public void printTree(){
-//        mainNode.prinTree();
-//    }
-//    optimalisatie begin bovenaan en werk naar beneden
-//    match gevonden word deze behandeld in de volgende doorloping
 }
