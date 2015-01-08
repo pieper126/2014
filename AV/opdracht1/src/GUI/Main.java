@@ -30,7 +30,7 @@ public class Main {
 //
 //            String whatToDo = "";
 //            do {
-//                whatToDo = console.readLine("\"1\" for the normal truthtable \n \"2\" for the simplified truthtable \n \"3\" for the disjunctie normal form \n \"4\" to check if a another equation is equal \n \"5\" to give the nand form of this equation \n \"6\" to check if a another equation is equal using tableau \n \"exit\" to exit the application \n"
+//                whatToDo = console.readLine("\"1\" for the normal truthtable \n \"2\" for the simplified truthtable \n \"3\" for the disjunctie normal form \n \"4\" to check if a another equation is equal \n \"5\" to give the nand form of this equation \n \"6\" to check if ti's a tautology using tableau \n \"exit\" to exit the application \n"
 //                        + "enter a option: ");
 //
 //                switch (whatToDo) {
@@ -77,13 +77,12 @@ public class Main {
 //                        System.out.println("time it took to complete: " + timer + "ms \n");
 //                        break;
 //                    case "6":
-//                        newEquation = console.readLine("Enter equation in prefix: ");
 //                        timer = System.currentTimeMillis();
 //                        try {
-//                            if (equation.equalityUsingTableau(new Equation(newEquation))) {
-//                                System.out.println("they are equal");
+//                            if (equation.isATautology()) {
+//                                System.out.println("this a tautology");
 //                            } else {
-//                                System.out.println("they are not equal");
+//                                System.out.println("this a tautology");
 //                            }
 //                        } catch (NullPointerException e) {
 //                            System.out.println("run simplified first!");
@@ -103,12 +102,14 @@ public class Main {
 //        Equation test = new Equation("=(C,B)");
 //        Equation test = new Equation("|(|(|(|(|(|(|(|(|(A,B),C),D),E),F),G),H),I),J)");
 //        Equation test = new Equation("A");
-        Equation test = new Equation("~(&(A,B))");
+        Equation test = new Equation(">(>(|(P,Q),R),|(>(P,R),>(Q,R)))");
 //>(A,B)
 //=(A,B)
 //&(A,B)
 //|(A,B)
         test.printTruthTable();
+        
+        test.isATautology();
 //        test.printNAND();
 //        test2.printTruthTable();
 //

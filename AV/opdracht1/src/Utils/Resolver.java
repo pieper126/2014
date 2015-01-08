@@ -21,7 +21,7 @@ public class Resolver {
      * @param equation1
      * @return it returns null if they are not equal, if they are it shows how they are equal
      */
-    public static ArrayList<ArrayList<Node>> resolve(Equation equation, Equation equation1) {
+    public static ArrayList<ArrayList<Node>> resolve(Equation equation) {
 //        ArrayList<ArrayList<Node>> returnValue = new ArrayList<>();
 //
 //        Node mainNode = equation.GetMainNode();
@@ -148,7 +148,7 @@ public class Resolver {
 //                return null;
 //        }
 
-        return resolve(createsNodeArrayListWithEnetries(new Negation(new Implication(equation.GetMainNode(), equation1.GetMainNode()))));
+        return resolve(createsNodeArrayListWithEnetries(new Negation(equation.GetMainNode())));
     }
 
     /**
@@ -158,9 +158,13 @@ public class Resolver {
      */
     private static ArrayList<ArrayList<Node>> resolve(ArrayList<Node> currentCollection) {
         ArrayList<ArrayList<Node>> returnValue = new ArrayList<>();
+        
+        printColletion(currentCollection);
 
         // sorts the collection by using the rules of importance
         currentCollection.sort(new TableauRuleComparator());
+        
+        printColletion(currentCollection);
 
         Node mainNode = currentCollection.get(0);
 
@@ -387,5 +391,12 @@ public class Resolver {
             collections.add(side);
         }
         return false;
+    }
+    
+    private static void printColletion(ArrayList<Node> collection){
+        for (Node node : collection) {
+            System.out.print(node.toString() + ","); 
+        }
+        System.out.println("");
     }
 }

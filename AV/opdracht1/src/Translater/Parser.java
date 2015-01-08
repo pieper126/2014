@@ -13,7 +13,7 @@ import Nodes.*;
  */
 public class Parser {
 
-    protected static Node Parse(String equation) {
+    public static Node Parse(String equation) {
         // should not be needed
         String trimmedEquation = equation.trim();
 

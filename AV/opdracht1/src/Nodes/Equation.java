@@ -284,8 +284,8 @@ public class Equation {
         System.out.println(mainNode.NANDForm()); 
     }
     
-    public boolean equalityUsingTableau(Equation equation){
-        return Utils.Resolver.resolve(equation, this) != null;
+    public boolean isATautology(){
+        return Utils.Resolver.resolve(this) != null;
     }
 
     @Override
