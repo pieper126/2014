@@ -33,7 +33,7 @@ public class TableauRuleComparator implements Comparator<Node> {
                 } else if (o2.getClass().getTypeName().equals(CONJUNCTION) || (o2.getClass().getTypeName().equals(NEGATION) && ((Negation) o2).getSideA().getClass().getTypeName().equals(IMPLICATION)) || (o2.getClass().getTypeName().equals(NEGATION) && ((Negation) o2).getSideA().getClass().getTypeName().equals(DISJUNCTION))) {
                     return 0;
                 } else {
-                    return -1;
+                    return -1;                            
                 }// disjunction rule and implication rule
             } else if (((Negation) o1).getSideA().getClass().getTypeName().equals(CONJUNCTION)) {
                 if (o2.getClass().getTypeName().equals(DISJUNCTION) || o2.getClass().getTypeName().equals(IMPLICATION) || (o2.getClass().getTypeName().equals(NEGATION) && ((Negation) o2).getSideA().getClass().getTypeName().equals(CONJUNCTION))) {

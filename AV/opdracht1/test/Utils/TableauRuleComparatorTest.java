@@ -50,6 +50,7 @@ public class TableauRuleComparatorTest {
         nodesToBeordend.add(parser.Parse("~(~(A))"));
         nodesToBeordend.add(parser.Parse("A"));
         nodesToBeordend.add(parser.Parse("~(>(A,B))"));
+        nodesToBeordend.add(parser.Parse("~(~(>(A,B)))"));
         nodesToBeordend.add(parser.Parse("&(A,B)"));
         nodesToBeordend.add(parser.Parse("A"));
         nodesToBeordend.add(parser.Parse("~(~(B))"));
@@ -57,6 +58,7 @@ public class TableauRuleComparatorTest {
 
         nodeHowItShouldBeOrdend.add(parser.Parse("~(~(A))"));
         nodeHowItShouldBeOrdend.add(parser.Parse("~(~(B))"));
+        nodesToBeordend.add(parser.Parse("~(~(>(A,B)))"));
         nodeHowItShouldBeOrdend.add(parser.Parse("~(>(A,B))"));
         nodeHowItShouldBeOrdend.add(parser.Parse("&(A,B)"));
         nodeHowItShouldBeOrdend.add(parser.Parse(">(A,B)"));
