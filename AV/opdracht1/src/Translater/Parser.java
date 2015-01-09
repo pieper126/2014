@@ -82,8 +82,14 @@ public class Parser {
 
         // decide what type of operant it is
         if (hasOperator(trimmedEquation)) {
+            if (type != TypeNodes.Negation) {
+                ++amountOfOperants;
+            }
+
             buffer += trimmedEquation.substring(0, 2);
-            returnValue = Parse(children, ++amountOfOperants, buffer, type);
+
+            returnValue = Parse(children, amountOfOperants, buffer, type);
+
         } else {
             int locationSecondLastParenthesis = 0;
 
@@ -96,9 +102,9 @@ public class Parser {
             String sideAInTheNode = buffer + equation.substring(0, locationMainComa);
 
             String sideBInTheNode = "";
-            
+
             if (locationMainComa == equation.length()) {
-                
+
             } else {
                 sideBInTheNode = equation.substring(locationMainComa + 1);
             }

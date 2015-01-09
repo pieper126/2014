@@ -82,7 +82,7 @@ public class Main {
 //                            if (equation.isATautology()) {
 //                                System.out.println("this a tautology");
 //                            } else {
-//                                System.out.println("this a tautology");
+//                                System.out.println("this not a tautology");
 //                            }
 //                        } catch (NullPointerException e) {
 //                            System.out.println("run simplified first!");
@@ -103,20 +103,21 @@ public class Main {
 //        Equation test = new Equation("|(|(|(|(|(|(|(|(|(A,B),C),D),E),F),G),H),I),J)");
 //        Equation test = new Equation("A");
         Equation test = new Equation(">(>(|(P,Q),R),|(>(P,R),>(Q,R)))");
+        Equation test2 = new Equation("~(~(>(A,B)))");
 //>(A,B)
 //=(A,B)
 //&(A,B)
 //|(A,B)
         test.printTruthTable();
-        
+
         test.isATautology();
 //        test.printNAND();
 //        test2.printTruthTable();
 //
 //        test.printingSimplifiedTruthTables();
-//        
+//
 //        test.printDisjunctiveNormalForm();
-//        
+//
 //        System.out.println(test.equals(test2));
     }
 

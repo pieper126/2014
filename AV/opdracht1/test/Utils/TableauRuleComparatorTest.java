@@ -24,48 +24,32 @@ public class TableauRuleComparatorTest {
     public void setUp() {
     }
 
-    /**
-     * Test of compare method, of class TableauRuleComparator.
-     */
-    @Test
-    public void testCompare() {
-        System.out.println("compare");
-        Node o1 = null;
-        Node o2 = null;
-        TableauRuleComparator instance = new TableauRuleComparator();
-        int expResult = 0;
-        int result = instance.compare(o1, o2);
-        assertEquals(expResult, result);
-    }
-
     @Test
     public void testComparator() {
         ArrayList<Node> nodesToBeordend = new ArrayList<>();
         ArrayList<Node> nodeHowItShouldBeOrdend = new ArrayList<>();
 
-        Parser parser = new Parser();
+        nodesToBeordend.add(Parser.Parse("~(A)"));
+        nodesToBeordend.add(Parser.Parse("~(B)"));
+        nodesToBeordend.add(Parser.Parse("~(~(A))"));
+        nodesToBeordend.add(Parser.Parse("A"));
+        nodesToBeordend.add(Parser.Parse("~(>(A,B))"));
+        nodesToBeordend.add(Parser.Parse("~(~(>(A,B)))"));
+        nodesToBeordend.add(Parser.Parse("&(A,B)"));
+        nodesToBeordend.add(Parser.Parse("A"));
+        nodesToBeordend.add(Parser.Parse("~(~(B))"));
+        nodesToBeordend.add(Parser.Parse(">(A,B)"));
 
-        nodesToBeordend.add(parser.Parse("~(A)"));
-        nodesToBeordend.add(parser.Parse("~(B)"));
-        nodesToBeordend.add(parser.Parse("~(~(A))"));
-        nodesToBeordend.add(parser.Parse("A"));
-        nodesToBeordend.add(parser.Parse("~(>(A,B))"));
-        nodesToBeordend.add(parser.Parse("~(~(>(A,B)))"));
-        nodesToBeordend.add(parser.Parse("&(A,B)"));
-        nodesToBeordend.add(parser.Parse("A"));
-        nodesToBeordend.add(parser.Parse("~(~(B))"));
-        nodesToBeordend.add(parser.Parse(">(A,B)"));
-
-        nodeHowItShouldBeOrdend.add(parser.Parse("~(~(A))"));
-        nodeHowItShouldBeOrdend.add(parser.Parse("~(~(B))"));
-        nodesToBeordend.add(parser.Parse("~(~(>(A,B)))"));
-        nodeHowItShouldBeOrdend.add(parser.Parse("~(>(A,B))"));
-        nodeHowItShouldBeOrdend.add(parser.Parse("&(A,B)"));
-        nodeHowItShouldBeOrdend.add(parser.Parse(">(A,B)"));
-        nodeHowItShouldBeOrdend.add(parser.Parse("~(A)"));
-        nodeHowItShouldBeOrdend.add(parser.Parse("~(B)"));
-        nodeHowItShouldBeOrdend.add(parser.Parse("A"));
-        nodeHowItShouldBeOrdend.add(parser.Parse("A"));
+        nodeHowItShouldBeOrdend.add(Parser.Parse("~(~(A))"));
+        nodeHowItShouldBeOrdend.add(Parser.Parse("~(~(B))"));
+        nodeHowItShouldBeOrdend.add(Parser.Parse("~(~(>(A,B)))"));
+        nodeHowItShouldBeOrdend.add(Parser.Parse("~(>(A,B))"));
+        nodeHowItShouldBeOrdend.add(Parser.Parse("&(A,B)"));
+        nodeHowItShouldBeOrdend.add(Parser.Parse(">(A,B)"));
+        nodeHowItShouldBeOrdend.add(Parser.Parse("~(A)"));
+        nodeHowItShouldBeOrdend.add(Parser.Parse("~(B)"));
+        nodeHowItShouldBeOrdend.add(Parser.Parse("A"));
+        nodeHowItShouldBeOrdend.add(Parser.Parse("A"));
 
         nodesToBeordend.sort(new TableauRuleComparator());
 
