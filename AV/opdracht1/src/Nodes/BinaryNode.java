@@ -1,7 +1,7 @@
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
- * and open the template in the editor.               
+ * and open the template in the editor.
  */
 package Nodes;
 
@@ -12,12 +12,12 @@ import java.util.List;
  *
  * @author pieper126
  */
-public class BinaryNode extends Node {
+public class BinaryNode extends PropasitionalLogicNode {
 
-    protected Node sideA;
-    protected Node sideB;
+    protected PropasitionalLogicNode sideA;
+    protected PropasitionalLogicNode sideB;
 
-    public BinaryNode(Node sideA, Node sideB) {
+    public BinaryNode(PropasitionalLogicNode sideA, PropasitionalLogicNode sideB) {
 //        String stringSideA = super.currentEquation.equation.substring(0, super.currentEquation.equation.indexOf(",") - 1); // meerder comma's mogelijk
 //        String stringSideB = super.currentEquation.equation.substring(super.currentEquation.equation.indexOf(",") + 1);
 
@@ -25,17 +25,17 @@ public class BinaryNode extends Node {
         this.sideB = sideB;
     }
 
-    public Node getSideB(){
+    public Node getSideB() {
         return sideB;
     }
-    
-    public Node getSideA(){
+
+    public Node getSideA() {
         return sideA;
     }
-    
+
     @Override
-    public List<Node> getDistinctVariable() {
-        ArrayList<Node> returnvalue = new ArrayList<Node>();
+    public List<PropasitionalLogicNode> getDistinctVariable() {
+        ArrayList<PropasitionalLogicNode> returnvalue = new ArrayList<PropasitionalLogicNode>();
 
         // test if sideA is already a Abstract variable
         if (sideA.getClass().getTypeName().equals(AbstractVariable.class.getTypeName())) {
@@ -43,7 +43,7 @@ public class BinaryNode extends Node {
                 returnvalue.add(sideA);
             }
         } else {
-            returnvalue.addAll((ArrayList<Node>) sideA.getDistinctVariable());
+            returnvalue.addAll((ArrayList<PropasitionalLogicNode>) sideA.getDistinctVariable());
         }
 
         // test if sideB is already a Abstract variable
@@ -52,17 +52,17 @@ public class BinaryNode extends Node {
                 returnvalue.add(sideB);
             }
         } else {
-            returnvalue.addAll((ArrayList<Node>) sideB.getDistinctVariable());
+            returnvalue.addAll((ArrayList<PropasitionalLogicNode>) sideB.getDistinctVariable());
         }
 
         return returnvalue;
     }
 
     @Override
-    public void setDistinctVariable(List<Node> distinctVars) {
+    public void setDistinctVariable(List<PropasitionalLogicNode> distinctVars) {
         if (sideA.getClass().getTypeName().equals(AbstractVariable.class.getTypeName())) {
-            for (Node distinctVar : distinctVars) {
-                if (((AbstractVariable)distinctVar).var.equals(((AbstractVariable)sideA).var)) {                   
+            for (PropasitionalLogicNode distinctVar : distinctVars) {
+                if (((AbstractVariable) distinctVar).var.equals(((AbstractVariable) sideA).var)) {
                     sideA = distinctVar;
                     System.err.println(toString() + distinctVar.toString());
                 }
@@ -73,8 +73,8 @@ public class BinaryNode extends Node {
 
         // test if sideB is already a Abstract variable
         if (sideB.getClass().getTypeName().equals(AbstractVariable.class.getTypeName())) {
-            for (Node distinctVar : distinctVars) {
-                if (((AbstractVariable)distinctVar).var.equals(((AbstractVariable)sideB).var)) {
+            for (PropasitionalLogicNode distinctVar : distinctVars) {
+                if (((AbstractVariable) distinctVar).var.equals(((AbstractVariable) sideB).var)) {
                     sideB = distinctVar;
                     System.err.println(toString() + distinctVar.toString());
                 }

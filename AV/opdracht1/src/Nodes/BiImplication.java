@@ -2,7 +2,7 @@ package Nodes;
 
 public class BiImplication extends BinaryNode {
 
-    public BiImplication(Node sideA, Node sideB) {
+    public BiImplication(PropasitionalLogicNode sideA, PropasitionalLogicNode sideB) {
         super(sideA, sideB);
     }
 

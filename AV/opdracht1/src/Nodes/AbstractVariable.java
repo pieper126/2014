@@ -2,7 +2,7 @@ package Nodes;
 
 import java.util.List;
 
-public class AbstractVariable extends Node {
+public class AbstractVariable extends PropasitionalLogicNode {
 
     public String var;
 
@@ -31,12 +31,12 @@ public class AbstractVariable extends Node {
     }
 
     @Override
-    public List<Node> getDistinctVariable() {
+    public List<PropasitionalLogicNode> getDistinctVariable() {
         return null;
     }
 
     @Override
-    public void setDistinctVariable(List<Node> distinctVars) {
+    public void setDistinctVariable(List<PropasitionalLogicNode> distinctVars) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

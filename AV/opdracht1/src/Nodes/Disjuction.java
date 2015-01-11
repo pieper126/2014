@@ -2,13 +2,13 @@ package Nodes;
 
 public class Disjuction extends BinaryNode {
 
-    public Disjuction(Node sideA, Node sideB) {
+    public Disjuction(PropasitionalLogicNode sideA, PropasitionalLogicNode sideB) {
         super(sideA, sideB);
     }
 
     @Override
     public String NANDForm() {
-        return "((" + sideA.NANDForm() + "|" + sideA.NANDForm() + ") | |(" +  sideB.NANDForm() + "|" + sideB.NANDForm() + ")" + ")";
+        return "((" + sideA.NANDForm() + "|" + sideA.NANDForm() + ") | |(" + sideB.NANDForm() + "|" + sideB.NANDForm() + ")" + ")";
     }
 
     @Override

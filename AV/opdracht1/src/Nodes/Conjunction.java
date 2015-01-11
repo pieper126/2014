@@ -2,7 +2,7 @@ package Nodes;
 
 public class Conjunction extends BinaryNode {
 
-    public Conjunction(Node sideA, Node sideB) {
+    public Conjunction(PropasitionalLogicNode sideA, PropasitionalLogicNode sideB) {
         super(sideA, sideB);
     }
 

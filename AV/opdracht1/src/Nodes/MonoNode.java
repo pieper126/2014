@@ -12,21 +12,21 @@ import java.util.List;
  *
  * @author pieper126
  */
-public class MonoNode extends Node {
+public class MonoNode extends PropasitionalLogicNode {
 
-    protected Node sideA;
+    protected PropasitionalLogicNode sideA;
 
-    public MonoNode(Node sideA) {
+    public MonoNode(PropasitionalLogicNode sideA) {
         this.sideA = sideA;
     }
 
-    public Node getSideA() {
+    public PropasitionalLogicNode getSideA() {
         return sideA;
     }
 
     @Override
-    public List<Node> getDistinctVariable() {
-        ArrayList<Node> returnvalue = new ArrayList<Node>();
+    public List<PropasitionalLogicNode> getDistinctVariable() {
+        ArrayList<PropasitionalLogicNode> returnvalue = new ArrayList<PropasitionalLogicNode>();
 
         // test if sideA is already a Abstract variable
         if (sideA.getClass().getTypeName().equals(AbstractVariable.class.getTypeName())) {
@@ -34,16 +34,16 @@ public class MonoNode extends Node {
                 returnvalue.add(sideA);
             }
         } else {
-            returnvalue.addAll((ArrayList<Node>) sideA.getDistinctVariable());
+            returnvalue.addAll((ArrayList<PropasitionalLogicNode>) sideA.getDistinctVariable());
         }
 
         return returnvalue;
     }
 
     @Override
-    public void setDistinctVariable(List<Node> distinctVars) {
+    public void setDistinctVariable(List<PropasitionalLogicNode> distinctVars) {
         if (sideA.getClass().getTypeName().equals(AbstractVariable.class.getTypeName())) {
-            for (Node distinctVar : distinctVars) {
+            for (PropasitionalLogicNode distinctVar : distinctVars) {
                 if (distinctVar.equals(sideA)) {
                     sideA = distinctVar;
                 }

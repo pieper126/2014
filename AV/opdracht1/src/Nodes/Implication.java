@@ -2,13 +2,13 @@ package Nodes;
 
 public class Implication extends BinaryNode {
 
-    public Implication(Node sideA, Node sideB) {
+    public Implication(PropasitionalLogicNode sideA, PropasitionalLogicNode sideB) {
         super(sideA, sideB);
     }
-    
+
     @Override
     public String NANDForm() {
-        return "(" + sideA.NANDForm() + "| (" +  sideB.NANDForm() + "|" + sideB.NANDForm() + ")" + ")";
+        return "(" + sideA.NANDForm() + "| (" + sideB.NANDForm() + "|" + sideB.NANDForm() + ")" + ")";
     }
 
     @Override

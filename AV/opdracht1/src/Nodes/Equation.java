@@ -12,9 +12,9 @@ public class Equation {
 
     private Node mainNode;
 
-    private ArrayList<Node> distinctVariables;
+    private ArrayList<PropasitionalLogicNode> distinctVariables;
 
-    private ArrayList<Node> comparedDistinctVariables;
+    private ArrayList<PropasitionalLogicNode> comparedDistinctVariables;
 
     private boolean[] truthTable;
 
@@ -27,22 +27,22 @@ public class Equation {
     public Equation(String equation) {
         this.equation = equation;
         mainNode = Translater.Translater.Parse(equation);
-        ArrayList<Node> totalVar = (ArrayList<Node>) mainNode.getDistinctVariable();
+        ArrayList<PropasitionalLogicNode> totalVar = (ArrayList<PropasitionalLogicNode>) ((PropasitionalLogicNode) mainNode).getDistinctVariable();
         distinctVariables = new ArrayList<>();
 
-        for (Node var : totalVar) {
+        for (PropasitionalLogicNode var : totalVar) {
             if (!distinctVariables.contains(var)) {
                 distinctVariables.add(var);
             }
         }
 
-        comparedDistinctVariables = (ArrayList<Node>) distinctVariables.clone();
+        comparedDistinctVariables = (ArrayList<PropasitionalLogicNode>) distinctVariables.clone();
         Collections.sort(comparedDistinctVariables, new AbstractVarComparator());
 
         variableValueAllocation();
         setDistinctVariable();
 
-        truthTable = mainNode.getTruthValues();
+        truthTable = ((PropasitionalLogicNode) mainNode).getTruthValues();
     }
 
     public Node GetMainNode() {
@@ -57,12 +57,12 @@ public class Equation {
         this.equation = equation;
     }
 
-    public List<Node> getDistinctVariable() {
+    public List<PropasitionalLogicNode> getDistinctVariable() {
         return distinctVariables;
     }
 
     public void setDistinctVariable() {
-        mainNode.setDistinctVariable(distinctVariables);
+        ((PropasitionalLogicNode) mainNode).setDistinctVariable(distinctVariables);
     }
 
     public void variableValueAllocation() {
@@ -105,7 +105,7 @@ public class Equation {
         line += mainNode.toString() + "\n";
         System.out.print(line);
 
-        for (int i = 0; i < mainNode.getTruthValues().length; i++) {
+        for (int i = 0; i < ((PropasitionalLogicNode) mainNode).getTruthValues().length; i++) {
             line = "";
             for (int j = 0; j < distinctVariables.size(); j++) {
                 line += ((AbstractVariable) distinctVariables.get(j)).getTruthValues()[i] == false ? "0 " : "1 ";
@@ -125,7 +125,7 @@ public class Equation {
 
             ArrayList<Boolean> truthTableLine = new ArrayList<>();
 
-            for (Node distinctVariable : distinctVariables) {
+            for (PropasitionalLogicNode distinctVariable : distinctVariables) {
                 truthTableLine.add(distinctVariable.getTruthValues()[i]);
             }
 
@@ -279,12 +279,12 @@ public class Equation {
 
         System.out.println(outputLine);
     }
-    
-    public void printNAND(){
-        System.out.println(mainNode.NANDForm()); 
+
+    public void printNAND() {
+        System.out.println(((PropasitionalLogicNode) mainNode).NANDForm());
     }
-    
-    public boolean isATautology(){
+
+    public boolean isATautology() {
         return Utils.Resolver.resolve(this) != null;
     }
 

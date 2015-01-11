@@ -13,6 +13,9 @@ import Nodes.*;
  */
 public class Parser {
 
+    private final static int ASCII_CAPITAL_A = 65;
+    private final static int ASCII_CAPITAL_Z = 90;
+
     public static Node Parse(String equation) {
         // should not be needed
         String trimmedEquation = equation.trim();
@@ -64,6 +67,15 @@ public class Parser {
                     returnValue = Parse(children, 0, "", TypeNodes.Disjunction);
                 } else {
                     returnValue = new Disjuction(Parse(children.substring(0, children.indexOf(","))), Parse(children.substring(children.indexOf(",") + 1, children.length())));
+                }
+                break;
+            case "@":
+                break;
+            case "!":
+                break;
+            default:
+                if (((char) operator.charAt(0)) >= ASCII_CAPITAL_A && ((char) operator.charAt(0)) <= ASCII_CAPITAL_Z) {
+
                 }
                 break;
         }
