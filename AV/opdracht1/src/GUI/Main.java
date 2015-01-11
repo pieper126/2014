@@ -110,7 +110,8 @@ public class Main {
 //|(A,B)
         test.printTruthTable();
 
-        test.isATautology();
+        System.out.println(test.isATautology());
+
 //        test.printNAND();
 //        test2.printTruthTable();
 //

@@ -17,9 +17,11 @@ public class Resolver {
 
     /**
      * checks equality using Tablue prove
+     *
      * @param equation
      * @param equation1
-     * @return it returns null if they are not equal, if they are it shows how they are equal
+     * @return it returns null if they are not equal, if they are it shows how
+     * they are equal
      */
     public static ArrayList<ArrayList<Node>> resolve(Equation equation) {
 //        ArrayList<ArrayList<Node>> returnValue = new ArrayList<>();
@@ -152,18 +154,16 @@ public class Resolver {
     }
 
     /**
-     * 
+     *
      * @param currentCollection
-     * @return 
+     * @return
      */
     private static ArrayList<ArrayList<Node>> resolve(ArrayList<Node> currentCollection) {
         ArrayList<ArrayList<Node>> returnValue = new ArrayList<>();
-        
-        printColletion(currentCollection);
 
         // sorts the collection by using the rules of importance
         currentCollection.sort(new TableauRuleComparator());
-        
+
         printColletion(currentCollection);
 
         Node mainNode = currentCollection.get(0);
@@ -223,12 +223,54 @@ public class Resolver {
                     returnValue = resolve(collections);
 
                 } else if (child.getClass().getTypeName().equals(NodeTypenames.CONJUNCTION)) {
-                 // translate it to a better workable formula
-                 sideA = new Negation(new Conjunction(new Implication(((BiImplication) mainNode).getSideA(), ((BiImplication) mainNode).getSideB()), new Implication(((BiImplication) mainNode).getSideB(), ((BiImplication) mainNode).getSideA())));
+                    // split the equation into two collections
+                    ArrayList<Node> collectionA = (ArrayList<Node>) collections.clone();
+                    ArrayList<Node> collectionB = (ArrayList<Node>) collections.clone();
 
-                collections.add(sideA);
+                    // assign values
+                    sideA = new Negation(((Conjunction) child).getSideA());
+                    sideB = new Negation(((Conjunction) child).getSideB());
 
-                returnValue = resolve(collections);
+                    // checks if it isn't already in the collection
+                    if (!checkCollection(collections, sideA, returnValue)) {
+                        ArrayList<ArrayList<Node>> solutionOnCollectionA = new ArrayList<>();
+
+                        collectionA.add(sideA);
+
+                        solutionOnCollectionA = resolve(collectionA);
+
+                        // checks if it was able to close the collection of side A
+                        if (solutionOnCollectionA == null) {
+                            return solutionOnCollectionA;
+                        }
+
+                        returnValue.addAll(solutionOnCollectionA);
+                    }
+
+                    // checks if it isn't already in the collection
+                    if (!checkCollection(collections, sideB, returnValue)) {
+                        ArrayList<ArrayList<Node>> solutionOnCollectionB = new ArrayList<>();
+
+                        collectionB.add(sideB);
+
+                        solutionOnCollectionB = resolve(collectionB);
+
+                        // checks if it was able to close the collection of side B
+                        if (solutionOnCollectionB == null) {
+                            return solutionOnCollectionB;
+                        }
+
+                        returnValue.addAll(solutionOnCollectionB);
+                    }
+
+                    break;
+                } else if (TypeNodeChecker.isBiImplication(child)) {
+                    sideA = new Negation(new Implication(((BiImplication) mainNode).getSideA(), ((BiImplication) mainNode).getSideB()));
+                    sideB = new Negation(new Implication(((BiImplication) mainNode).getSideB(), ((BiImplication) mainNode).getSideA()));
+
+                    collections.add(new Disjuction(sideA, sideB));
+
+                    returnValue = resolve(collections);
                 }
 
                 break;
@@ -258,30 +300,37 @@ public class Resolver {
                 sideB = ((Disjuction) mainNode).getSideB();
 
                 // checks if it isn't already in the collection
-                if (checkCollection(collections, sideA, returnValue)) {
-                    break;
+                if (!checkCollection(collections, sideA, returnValue)) {
+                    ArrayList<ArrayList<Node>> solutionOnCollectionA = new ArrayList<>();
+
+                    collectionA.add(sideA);
+
+                    solutionOnCollectionA = resolve(collectionA);
+
+                    // checks if it was able to close the collection of side A
+                    if (solutionOnCollectionA == null) {
+                        return solutionOnCollectionA;
+                    }
+
+                    returnValue.addAll(solutionOnCollectionA);
                 }
 
                 // checks if it isn't already in the collection
-                if (checkCollection(collections, sideB, returnValue)) {
-                    break;
+                if (!checkCollection(collections, sideB, returnValue)) {
+                    ArrayList<ArrayList<Node>> solutionOnCollectionB = new ArrayList<>();
+
+                    collectionB.add(sideB);
+
+                    solutionOnCollectionB = resolve(collectionB);
+
+                    // checks if it was able to close the collection of side B
+                    if (solutionOnCollectionB == null) {
+                        return solutionOnCollectionB;
+                    }
+
+                    returnValue.addAll(solutionOnCollectionB);
                 }
 
-                returnValue = resolve(collectionA);
-
-                // checks if it was able to close the collection of side A
-                if (returnValue == null) {
-                    return null;
-                }
-
-                ArrayList<ArrayList<Node>> resolveB = resolve(collectionB);
-
-                // checks if it was able to close the collection of side B
-                if (resolveB == null) {
-                    return null;
-                }
-
-                returnValue.addAll(resolveB);
                 break;
             case NodeTypenames.IMPLICATION:
                 // split the equation into two collections
@@ -293,30 +342,37 @@ public class Resolver {
                 sideB = ((Implication) mainNode).getSideB();
 
                 // checks if it isn't already in the collection
-                if (checkCollection(collections, sideA, returnValue)) {
-                    break;
+                if (!checkCollection(collections, sideA, returnValue)) {
+                    ArrayList<ArrayList<Node>> solutionOnCollectionA = new ArrayList<>();
+
+                    collectionA.add(sideA);
+
+                    solutionOnCollectionA = resolve(collectionA);
+
+                    // checks if it was able to close the collection of side A
+                    if (solutionOnCollectionA == null) {
+                        return solutionOnCollectionA;
+                    }
+
+                    returnValue.addAll(solutionOnCollectionA);
                 }
 
                 // checks if it isn't already in the collection
-                if (checkCollection(collections, sideB, returnValue)) {
-                    break;
+                if (!checkCollection(collections, sideB, returnValue)) {
+                    ArrayList<ArrayList<Node>> solutionOnCollectionB = new ArrayList<>();
+
+                    collectionB.add(sideB);
+
+                    solutionOnCollectionB = resolve(collectionB);
+
+                    // checks if it was able to close the collection of side B
+                    if (solutionOnCollectionB == null) {
+                        return solutionOnCollectionB;
+                    }
+
+                    returnValue.addAll(solutionOnCollectionB);
                 }
 
-                returnValue = resolve(collectionA);
-
-                // checks if it was able to close the collection of side A
-                if (returnValue == null) {
-                    return null;
-                }
-
-                resolveB = resolve(collectionB);
-
-                // checks if it was able to close the collection of side B
-                if (resolveB == null) {
-                    return null;
-                }
-
-                returnValue.addAll(resolveB);
                 break;
             case NodeTypenames.BIIMPLICATION:
                 // to do add sideA and sideB structure
@@ -337,18 +393,20 @@ public class Resolver {
     private static ArrayList<Node> checkContradiction(ArrayList<Node> collection, ArrayList<Node> toCheck) {
         for (Node nodeToCheck : toCheck) {
             for (Node nodeUsedToCheck : collection) {
-                if (nodeToCheck.getClass().getTypeName().equals("Nodes.Negation")) {
-                    if (((Negation) nodeToCheck).equals(nodeUsedToCheck)) {
+                if (TypeNodeChecker.isNegation(nodeToCheck)) {
+                    if ((((Negation) nodeToCheck).getSideA()).equals(nodeUsedToCheck)) {
                         ArrayList<Node> returnValue = new ArrayList<>();
                         returnValue.add(nodeToCheck);
                         returnValue.add(nodeUsedToCheck);
+                        System.out.println("contradiction: " + nodeToCheck + " + " + nodeUsedToCheck);
                         return returnValue;
                     }
-                } else if (nodeUsedToCheck.getClass().getTypeName().equals("Nodes.Negation")) {
-                    if (((Negation) nodeUsedToCheck).equals(nodeToCheck)) {
+                } else if (TypeNodeChecker.isNegation(nodeUsedToCheck)) {
+                    if ((((Negation) nodeUsedToCheck).getSideA()).equals(nodeToCheck)) {
                         ArrayList<Node> returnValue = new ArrayList<>();
                         returnValue.add(nodeToCheck);
                         returnValue.add(nodeUsedToCheck);
+                        System.out.println("contradiction: " + nodeToCheck + " + " + nodeUsedToCheck);
                         return returnValue;
                     }
                 }
@@ -385,6 +443,7 @@ public class Resolver {
 
             if (contradiction != null) {
                 returnValue.add(contradiction);
+                System.out.println("");
                 return true;
             }
 
@@ -392,10 +451,11 @@ public class Resolver {
         }
         return false;
     }
-    
-    private static void printColletion(ArrayList<Node> collection){
+
+    private static void printColletion(ArrayList<Node> collection) {
+        System.out.print("new collection:");
         for (Node node : collection) {
-            System.out.print(node.toString() + ","); 
+            System.out.print(node.toString() + ",");
         }
         System.out.println("");
     }
