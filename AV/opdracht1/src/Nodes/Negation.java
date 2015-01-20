@@ -7,10 +7,10 @@ public class Negation extends MonoNode {
     }
 
     @Override
-    public String NANDForm(){
-        return "(" + sideA.NANDForm()+ "|" + sideA.NANDForm() + ")";
+    public String NANDForm() {
+        return "~&(" + sideA.NANDForm() + "," + sideA.NANDForm() + ")";
     }
-    
+
     @Override
     public String toString() {
         return "¬" + "(" + sideA.toString() + ")";
@@ -20,12 +20,12 @@ public class Negation extends MonoNode {
     public boolean[] getTruthValues() {
         boolean[] input = sideA.getTruthValues();
         int length = input.length;
-        
+
         boolean[] afterOperation = new boolean[length];
         for (int i = 0; i < length; i++) {
             afterOperation[i] = !input[i];
         }
-        
+
         return afterOperation;
     }
 }

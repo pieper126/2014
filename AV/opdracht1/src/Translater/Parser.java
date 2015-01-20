@@ -78,8 +78,6 @@ public class Parser {
         String children = equation.substring(2, equation.length());
         Node returnValue = null;
 
-        System.out.println("trimmed:" + trimmedEquation + "\n children: " + children + "\n\n");
-
         // decide what type of operant it is
         if (hasOperator(trimmedEquation)) {
             if (type != TypeNodes.Negation) {

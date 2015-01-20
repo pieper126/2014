@@ -133,22 +133,6 @@ public class Equation {
             input.add(truthTableLine);
         }
 
-//        for (int i = 0; i < distinctVariables.size(); i++) {
-//            ArrayList<Boolean> distinctTruthTable = new ArrayList<>();
-//            boolean[] distinctTruthTableArray = distinctVariables.get(i).getTruthValues();
-//
-//            for (int j = 0; j < sizeBooleanArray; j++) {
-//
-//                distinctTruthTable.add(distinctTruthTableArray[j]);
-//            }
-//            input.add(distinctTruthTable);
-//        }
-//
-//        ArrayList<Boolean> truthTableList = new ArrayList<>();
-//        for (int j = 0; j < sizeBooleanArray; j++) {
-//            truthTableList.add(truthTable[j]);
-//        }
-//        input.add(truthTableList);
         printingSimplifiedTruthTables(input, output);
     }
 
@@ -216,6 +200,7 @@ public class Equation {
 
         if (newRun.isEmpty()) {
             output.addAll(input);
+
             simplifiedTruthTable = output;
             String line = "";
 
@@ -279,12 +264,12 @@ public class Equation {
 
         System.out.println(outputLine);
     }
-    
-    public void printNAND(){
-        System.out.println(mainNode.NANDForm()); 
+
+    public void printNAND() {
+        System.out.println(mainNode.NANDForm());
     }
-    
-    public boolean isATautology(){
+
+    public boolean isATautology() {
         return Utils.Resolver.resolve(this) != null;
     }
 

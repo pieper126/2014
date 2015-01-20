@@ -5,15 +5,15 @@ public class Implication extends BinaryNode {
     public Implication(Node sideA, Node sideB) {
         super(sideA, sideB);
     }
-    
+
     @Override
     public String NANDForm() {
-        return "(" + sideA.NANDForm() + "| (" +  sideB.NANDForm() + "|" + sideB.NANDForm() + ")" + ")";
+        return "~&(" + sideA.NANDForm() + ", ~&(" + sideB.NANDForm() + "," + sideB.NANDForm() + ")" + ")";
     }
 
     @Override
     public String toString() {
-        return "(" + sideA.toString() + "⇒ =>" + sideB.toString() + ")";
+        return "(" + sideA.toString() + "=>" + sideB.toString() + ")";
     }
 
     @Override

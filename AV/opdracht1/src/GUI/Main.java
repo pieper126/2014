@@ -20,6 +20,12 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        /*
+         to do:
+         - biImplication fixen v
+         - fixen disjunctive normal form
+         - dubbele in simplified
+         */
 //        Console console = System.console();
 //
 //        String exit;
@@ -80,9 +86,9 @@ public class Main {
 //                        timer = System.currentTimeMillis();
 //                        try {
 //                            if (equation.isATautology()) {
-//                                System.out.println("this a tautology");
+//                                System.out.println("this is a tautology");
 //                            } else {
-//                                System.out.println("this not a tautology");
+//                                System.out.println("this is not a tautology");
 //                            }
 //                        } catch (NullPointerException e) {
 //                            System.out.println("run simplified first!");
@@ -102,8 +108,9 @@ public class Main {
 //        Equation test = new Equation("=(C,B)");
 //        Equation test = new Equation("|(|(|(|(|(|(|(|(|(A,B),C),D),E),F),G),H),I),J)");
 //        Equation test = new Equation("A");
-        Equation test = new Equation(">(>(|(P,Q),R),|(>(P,R),>(Q,R)))");
-        Equation test2 = new Equation("~(~(>(A,B)))");
+//        Equation test = new Equation(">(>(|(P,Q),R),|(>(P,R),>(Q,R)))");
+//        Equation test2 = new Equation("~(~(>(A,B)))");
+        Equation test = new Equation("=(>(A,B),>(A,B))");
 //>(A,B)
 //=(A,B)
 //&(A,B)

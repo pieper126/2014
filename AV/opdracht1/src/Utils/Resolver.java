@@ -16,140 +16,13 @@ import java.util.ArrayList;
 public class Resolver {
 
     /**
-     * checks equality using Tablue prove
+     * checks equality using Tablue prover
      *
      * @param equation
-     * @param equation1
      * @return it returns null if they are not equal, if they are it shows how
      * they are equal
      */
     public static ArrayList<ArrayList<Node>> resolve(Equation equation) {
-//        ArrayList<ArrayList<Node>> returnValue = new ArrayList<>();
-//
-//        Node mainNode = equation.GetMainNode();
-//        ArrayList<Node> collections = new ArrayList<>();
-//
-//        switch (mainNode.getClass().getTypeName()) {
-//            case "Nodes.Negation":
-//                Node child = ((Negation) mainNode).getSideA();
-//
-//                if (child.getClass().getTypeName().equals("Nodes.Negation")) {
-//
-//                    collections.add(((Negation) child).getSideA());
-//
-//                    returnValue = resolve(collections);
-//
-//                } else if (child.getClass().getTypeName().equals("Nodes.Disjunction")) {
-//
-//                    collections.add(new Negation(((Disjuction) child).getSideA()));
-//                    collections.add(new Negation(((Disjuction) child).getSideB()));
-//
-//                    returnValue = resolve(collections);
-//
-//                } else if (child.getClass().getTypeName().equals("Nodes.Implication")) {
-//
-//                    collections.add(((Implication) child).getSideA());
-//                    collections.add(new Negation(((Implication) child).getSideB()));
-//
-//                    returnValue = resolve(collections);
-//
-//                } else if (child.getClass().getTypeName().equals("Nodes.Conjunction")) {
-//                    // split the equation into two collections
-//                    ArrayList<Node> collectionA = (ArrayList<Node>) collections.clone();
-//                    ArrayList<Node> collectionB = (ArrayList<Node>) collections.clone();
-//
-//                    // because this is the first run we can clear the collection
-//                    collections.clear();
-//
-//                    collectionA.add(new Negation(((Conjunction) child).getSideA()));
-//                    collectionB.add(new Negation(((Conjunction) child).getSideB()));
-//
-//                    returnValue = resolve(collectionA);
-//
-//                    if (returnValue == null) {
-//                        return null;
-//                    }
-//
-//                    ArrayList<ArrayList<Node>> resolveB = resolve(collectionB);
-//
-//                    if (resolveB == null) {
-//                        return null;
-//                    }
-//
-//                    returnValue.addAll(resolveB);
-//                }
-//
-//                break;
-//            case "Nodes.Conjunction":
-//                collections.add(((Conjunction) mainNode).getSideA());
-//                collections.add(((Conjunction) mainNode).getSideB());
-//
-//                returnValue = resolve(collections);
-//                break;
-//            case "Nodes.Disjunction":
-//                // split the equation into two collections
-//                ArrayList<Node> collectionA = (ArrayList<Node>) collections.clone();
-//                ArrayList<Node> collectionB = (ArrayList<Node>) collections.clone();
-//
-//                // because this is the first run we can clear the collection
-//                collections.clear();
-//
-//                collectionA.add(((Disjuction) mainNode).getSideA());
-//                collectionB.add(((Disjuction) mainNode).getSideB());
-//
-//                returnValue = resolve(collectionA);
-//
-//                if (returnValue == null) {
-//                    return null;
-//                }
-//
-//                ArrayList<ArrayList<Node>> resolveB = resolve(collectionB);
-//
-//                if (resolveB == null) {
-//                    return null;
-//                }
-//
-//                returnValue.addAll(resolveB);
-//
-//                break;
-//            case "Nodes.Implication":
-//                // split the equation into two collections
-//                collectionA = (ArrayList<Node>) collections.clone();
-//                collectionB = (ArrayList<Node>) collections.clone();
-//
-//                // because this is the first run we can clear the collection
-//                collections.clear();
-//
-//                collectionA.add(new Negation(((Implication) mainNode).getSideA()));
-//                collectionB.add(((Implication) mainNode).getSideB());
-//
-//                returnValue = resolve(collectionA);
-//
-//                if (returnValue == null) {
-//                    return null;
-//                }
-//
-//                resolveB = resolve(collectionB);
-//
-//                if (resolveB == null) {
-//                    return null;
-//                }
-//
-//                returnValue.addAll(resolveB);
-//
-//                break;
-//            case "Nodes.BiImplication":
-//                Node sideA = new Implication(((BiImplication) mainNode).getSideA(), ((BiImplication) mainNode).getSideB());
-//                Node sideB = new Implication(((BiImplication) mainNode).getSideB(), ((BiImplication) mainNode).getSideA());
-//
-//                collections.add(new Conjunction(sideA, sideB));
-//
-//                returnValue = resolve(collections);
-//            default:
-//                // geen tegen mogelijkheid meer mogelijk, dus is het niet meer nodig om deze te checken
-//                return null;
-//        }
-
         return resolve(createsNodeArrayListWithEnetries(new Negation(equation.GetMainNode())));
     }
 
@@ -265,8 +138,8 @@ public class Resolver {
 
                     break;
                 } else if (TypeNodeChecker.isBiImplication(child)) {
-                    sideA = new Negation(new Implication(((BiImplication) mainNode).getSideA(), ((BiImplication) mainNode).getSideB()));
-                    sideB = new Negation(new Implication(((BiImplication) mainNode).getSideB(), ((BiImplication) mainNode).getSideA()));
+                    sideA = new Negation(new Implication(((BiImplication) child).getSideA(), ((BiImplication) child).getSideB()));
+                    sideB = new Negation(new Implication(((BiImplication) child).getSideB(), ((BiImplication) child).getSideA()));
 
                     collections.add(new Disjuction(sideA, sideB));
 
