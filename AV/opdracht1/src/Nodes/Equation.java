@@ -24,6 +24,11 @@ public class Equation {
 
     private Node DisjunctiveForm;
 
+    /**
+     * represents a propositional
+     *
+     * @param equation should be in the given infix notation
+     */
     public Equation(String equation) {
         this.equation = equation;
         mainNode = Translater.Translater.Parse(equation);
@@ -45,26 +50,53 @@ public class Equation {
         truthTable = mainNode.getTruthValues();
     }
 
+    /**
+     * gets the mainNOde
+     *
+     * @return
+     */
     public Node GetMainNode() {
         return mainNode;
     }
 
+    /**
+     * gets the equation
+     *
+     * @return
+     */
     public String getEquation() {
         return this.equation;
     }
 
+    /**
+     * sets the equation
+     *
+     * @param equation
+     */
     public void setEquation(String equation) {
         this.equation = equation;
     }
 
+    /**
+     * gets all distinct variables
+     *
+     * @return
+     */
     public List<Node> getDistinctVariable() {
         return distinctVariables;
     }
 
+    /**
+     * gives all unique abstract variables their values
+     */
     public void setDistinctVariable() {
         mainNode.setDistinctVariable(distinctVariables);
     }
 
+    /**
+     * gives all unique abstract variables in the distinctVariable list their
+     * values
+     */
     public void variableValueAllocation() {
         int n = distinctVariables.size();
         sizeBooleanArray = 1 << n;
@@ -96,6 +128,9 @@ public class Equation {
         }
     }
 
+    /**
+     * prints out the truthTable
+     */
     public void printTruthTable() {
         System.out.print("truthTable: \n");
         String line = "";
@@ -117,6 +152,9 @@ public class Equation {
         System.out.println("------------end of truthTable--------------");
     }
 
+    /**
+     * prints out the simplified truthTable
+     */
     public void printingSimplifiedTruthTables() {
         ArrayList<ArrayList<Boolean>> input = new ArrayList<>();
         ArrayList<ArrayList<Boolean>> output = new ArrayList<>();
@@ -234,6 +272,9 @@ public class Equation {
         }
     }
 
+    /**
+     * prints out the disjunctive normal form
+     */
     public void printDisjunctiveNormalForm() {
         String outputLine = "";
         for (ArrayList<Boolean> line : simplifiedTruthTable) {
@@ -265,14 +306,26 @@ public class Equation {
         System.out.println(outputLine);
     }
 
+    /**
+     * prints the NAND form
+     */
     public void printNAND() {
         System.out.println(mainNode.NANDForm());
     }
 
+    /**
+     * tests if it is a Tautology using a Tableau 
+     * @return 
+     */
     public boolean isATautology() {
         return Utils.Resolver.resolve(this) != null;
     }
 
+    /**
+     * checks if the given object is equal to this object
+     * @param obj
+     * @return 
+     */
     @Override
     public boolean equals(Object obj) {
         Equation toCompareTo = (Equation) obj;

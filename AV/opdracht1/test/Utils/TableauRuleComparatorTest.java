@@ -5,14 +5,10 @@
  */
 package Utils;
 
-import Nodes.Negation;
 import Nodes.Node;
 import Translater.Parser;
-import com.sun.javafx.scene.control.TableColumnComparatorBase;
 import java.util.ArrayList;
-import org.junit.Before;
-import org.junit.Test;
-import static org.junit.Assert.*;
+import junit.framework.Assert;
 
 /**
  *
@@ -20,11 +16,9 @@ import static org.junit.Assert.*;
  */
 public class TableauRuleComparatorTest {
 
-    @Before
     public void setUp() {
     }
 
-    @Test
     public void testComparator() {
         ArrayList<Node> nodesToBeordend = new ArrayList<>();
         ArrayList<Node> nodeHowItShouldBeOrdend = new ArrayList<>();
@@ -55,7 +49,7 @@ public class TableauRuleComparatorTest {
 
         nodesToBeordend.sort(new TableauRuleComparator());
 
-        assertArrayEquals(nodeHowItShouldBeOrdend.toArray(), nodesToBeordend.toArray());
+        Assert.assertEquals(nodeHowItShouldBeOrdend.toArray(), nodesToBeordend.toArray());
 
     }
 
