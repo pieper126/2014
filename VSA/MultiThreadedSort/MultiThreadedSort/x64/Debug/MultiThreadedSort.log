@@ -1,0 +1,17 @@
+﻿Build started 09-02-15 23:38:31.
+     1>Project "D:\Users\pieper126\Documents\Visual Studio 2013\Projects\MultiThreadedSort\MultiThreadedSort\MultiThreadedSort.vcxproj" on node 2 (Build target(s)).
+     1>_MASM:
+         Assembling testAsm.ASM...
+         cmd.exe /C "C:\Users\pieper126\AppData\Local\Temp\tmp4e2314eba3c34360867b9a2a38d0acb6.cmd"
+         ml64.exe /c /nologo /Zi /Fo"x64\Debug\testAsm.obj" /W3 /errorReport:prompt  /TatestAsm.ASM
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"D:\Users\pieper126\Documents\Visual Studio 2013\Projects\MultiThreadedSort\x64\Debug\MultiThreadedSort.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\Users\pieper126\Documents\Visual Studio 2013\Projects\MultiThreadedSort\x64\Debug\MultiThreadedSort.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\Users\pieper126\Documents\Visual Studio 2013\Projects\MultiThreadedSort\x64\Debug\MultiThreadedSort.lib" /MACHINE:X64 x64\Debug\ArrayVarSize.obj
+         x64\Debug\MultiThreadedSort.obj
+         x64\Debug\stdafx.obj
+         x64\Debug\testAsm.obj
+         MultiThreadedSort.vcxproj -> D:\Users\pieper126\Documents\Visual Studio 2013\Projects\MultiThreadedSort\x64\Debug\MultiThreadedSort.exe
+     1>Done Building Project "D:\Users\pieper126\Documents\Visual Studio 2013\Projects\MultiThreadedSort\MultiThreadedSort\MultiThreadedSort.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.30
