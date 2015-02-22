@@ -1,5 +1,7 @@
 #pragma once
 
+// http://xoax.net/comp_sci/crs/algorithms/lessons/Lesson11/
+
 int* CreatingRandomIntArray(const int length);
 void destroyingArray(void* Array);
 extern "C" int GetValueFromASM();

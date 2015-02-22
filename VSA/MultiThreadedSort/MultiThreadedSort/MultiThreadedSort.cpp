@@ -28,7 +28,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	//intArray[0] = -666;
 	//intArray[ARRAY_SIZE - 1] = -666;
 
-	int* testIntArray = new int[] { 1, 2, 3, 20, 5, 6, 7, 8, 9, 10 };
+	int* testIntArray = new int[] { 2, 3, 1, 4, 5, 9, 8, 7, 6, 10 }; 
 
 	PrintingArray(testIntArray, ARRAY_SIZE);
 
