@@ -13,12 +13,12 @@ using namespace std;
 
 void PrintingArray(const int* inputArray, int length);
 
-const int ARRAY_SIZE = 5000;
+const int ARRAY_SIZE = 10;
 const int SECOND_ARRAY_SIZE = 10;
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	int* intArray = CreatingRandomIntArray(ARRAY_SIZE);
+	//int* intArray = CreatingRandomIntArray(ARRAY_SIZE);
 
 	//printingarray(intarray, array_size);
 
@@ -31,19 +31,26 @@ int _tmain(int argc, _TCHAR* argv[])
 	//fillinggivenarraywithrandomdata(intarray, 10);
 	//fillinggivenarraywithrandomdata(intarray, second_array_size);
 
-	PrintingArray(intArray, ARRAY_SIZE);
+	//intArray[0] = -666;
+	//intArray[ARRAY_SIZE - 1] = -666;
 
-	QuickSortASMTest(intArray, ARRAY_SIZE);
+	int* testIntArray = new int[] { 1, 2, 3, 20, 5, 6, 7, 8, 9, 10 };
 
-	PrintingArray(intArray, ARRAY_SIZE);
+	PrintingArray(testIntArray, ARRAY_SIZE);
 
-	ZeroArray((void*)intArray, ARRAY_SIZE*4);
+	QuickSortASMTest(testIntArray, ARRAY_SIZE);
 
-	PrintingArray(intArray, ARRAY_SIZE);
+	cout << endl;
 
-	FillingGivenArrayWithRandomData(intArray, ARRAY_SIZE * 4);
+	PrintingArray(testIntArray, ARRAY_SIZE);
 
-	PrintingArray(intArray, ARRAY_SIZE);
+	//ZeroArray((void*)intArray, ARRAY_SIZE*4);
+
+	//PrintingArray(intArray, ARRAY_SIZE);
+
+	//FillingGivenArrayWithRandomData(intArray, ARRAY_SIZE * 4);
+
+	//PrintingArray(intArray, ARRAY_SIZE);
 
 	cin.get();
 	return 0;
