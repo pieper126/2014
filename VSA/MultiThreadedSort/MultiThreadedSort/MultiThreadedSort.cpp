@@ -2,12 +2,6 @@
 //
 
 #include "stdafx.h"
-#include <io.h>
-#include <ostream>
-#include <istream>
-#include <iostream>
-#include <random>
-#include <array>
 
 using namespace std;
 

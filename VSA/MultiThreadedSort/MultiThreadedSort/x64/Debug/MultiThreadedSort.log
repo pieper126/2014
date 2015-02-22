@@ -1,10 +1,6 @@
-﻿Build started 22-02-15 12:22:29.
+﻿Build started 22-02-15 12:33:09.
      1>Project "D:\Users\pieper126\Documents\Git\school\2014\VSA\MultiThreadedSort\MultiThreadedSort\MultiThreadedSort.vcxproj" on node 2 (Build target(s)).
-     1>_MASM:
-         Assembling testAsm.ASM...
-         cmd.exe /C "C:\Users\pieper126\AppData\Local\Temp\tmpa74c87e2e82d4daa9c540ef4d082eb22.cmd"
-         ml64.exe /c /nologo /Zi /Fo"x64\Debug\testAsm.obj" /W3 /errorReport:prompt  /TatestAsm.ASM
-       ClCompile:
+     1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /Zi /nologo /W3 /WX- /sdl /Od /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yc"stdafx.h" /Fp"x64\Debug\MultiThreadedSort.pch" /Fo"x64\Debug\\" /Fd"x64\Debug\vc120.pdb" /Gd /TP /errorReport:prompt stdafx.cpp
          stdafx.cpp
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /Zi /nologo /W3 /WX- /sdl /Od /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"x64\Debug\MultiThreadedSort.pch" /Fo"x64\Debug\\" /Fd"x64\Debug\vc120.pdb" /Gd /TP /errorReport:prompt ArrayVarSize.cpp MultiThreadedSort.cpp
@@ -22,4 +18,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:01.68
+Time Elapsed 00:00:00.90
