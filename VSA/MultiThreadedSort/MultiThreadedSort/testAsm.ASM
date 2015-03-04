@@ -61,8 +61,37 @@ SwitchingValuesOfSelectors:
 	jge CallRecursive		; if the left Selector is greater then the right selector we should jump to CallRecursive because, the selectors have passed eachother
 	mov eax, [r10]			; filling rax with the value of the left selector
 	mov ebx, [r11]			; filling rbx with the value of the right selector
+	cmp eax, ebx			; checking if the values are the same
+	je MovingOneStepUp		; jump if the values are equal
 	mov [r10], ebx			; giving the left selector the value of right selector
 	mov [r11], eax			; giving the right selector the value of left selector
+	cmp r9, r10				; testing if the pivot pointer is equal to the  Left selector
+	je SwitchingPivotPointerWithLeftSelector
+	cmp r9, r11				; testing if the pivot pointer is equal to the  right selector
+	je SwitchingPivotPointerWithRightSelector	
+	jmp MainLoop
+
+MovingOneStepUp:
+	add r10, 4				; moving the left selector one step
+	add r11, 4				; moving the right selector one step
+    cmp r10, r15			; test if we went passed the size of the array
+    jle	CallRecursive	    ; if we didn't go passed the end of the array we should jump to the beginning of the loop
+    cmp r11, rcx			; test if we went passed the size of the array
+	jge	CallRecursive   	; if we didn't go passed the end of the array we should jump to the beginning of the loop
+	jmp MainLoop
+
+SwitchingPivotPointerWithRightSelector:
+	;mov rax, r11			; move the pointer of the left selector to rax
+	mov r11, r9				; move the pointer of the pivot to the left selector
+	;mov r9, rax				; move the pointer of the left selector into r9
+	sub r11, 4				; add a byte to the right selector, so we don't keep hanging on the same point 
+	jmp MainLoop
+
+SwitchingPivotPointerWithLeftSelector:
+	;mov rax, r10			; move the pointer of the left selector to rax
+	mov r10, r9				; move the pointer of the pivot to the left selector
+	;mov r9, rax				; move the pointer of the left selector into r9
+	add r10, 4				; add a byte to the left selector, so we don't keep hanging on the same point
 	jmp MainLoop
 		
 CallRecursive:

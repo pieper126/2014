@@ -47,6 +47,9 @@
     <ClCompile Include="MultiThreadedSort.cpp">
       <Filter>Source Files\cpp</Filter>
     </ClCompile>
+    <ClCompile Include="QuickSortCpp.cpp">
+      <Filter>Source Files\cpp</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <MASM Include="testAsm.ASM">

@@ -1,11 +1,13 @@
-﻿Build started 22/2/2015 18:00:48.
+﻿Build started 3/3/2015 13:22:31.
      1>Project "C:\Users\stijn\Documents\GIT repos\2014\VSA\MultiThreadedSort\MultiThreadedSort\MultiThreadedSort.vcxproj" on node 2 (Build target(s)).
-     1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /Zi /nologo /W3 /WX- /sdl /Od /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"x64\Debug\MultiThreadedSort.pch" /Fo"x64\Debug\\" /Fd"x64\Debug\vc120.pdb" /Gd /TP /errorReport:prompt MultiThreadedSort.cpp
-         MultiThreadedSort.cpp
+     1>_MASM:
+         Assembling testAsm.ASM...
+         cmd.exe /C "C:\Users\stijn\AppData\Local\Temp\tmpfc10d1b561e5473aac10aa9be67c11e1.cmd"
+         ml64.exe /c /nologo /Zi /Fo"x64\Debug\testAsm.obj" /W3 /errorReport:prompt  /TatestAsm.ASM
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\stijn\Documents\GIT repos\2014\VSA\MultiThreadedSort\x64\Debug\MultiThreadedSort.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\stijn\Documents\GIT repos\2014\VSA\MultiThreadedSort\x64\Debug\MultiThreadedSort.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\stijn\Documents\GIT repos\2014\VSA\MultiThreadedSort\x64\Debug\MultiThreadedSort.lib" /MACHINE:X64 x64\Debug\ArrayVarSize.obj
          x64\Debug\MultiThreadedSort.obj
+         x64\Debug\QuickSortCpp.obj
          x64\Debug\stdafx.obj
          x64\Debug\EastAsmProcs.obj
          x64\Debug\testAsm.obj
@@ -14,4 +16,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:01.16
+Time Elapsed 00:00:03.38

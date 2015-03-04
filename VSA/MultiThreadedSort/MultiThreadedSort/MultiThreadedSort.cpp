@@ -7,12 +7,12 @@ using namespace std;
 
 void PrintingArray(const int* inputArray, int length);
 
-const int ARRAY_SIZE = 10;
+const int ARRAY_SIZE = 8;
 const int SECOND_ARRAY_SIZE = 10;
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	//int* intArray = CreatingRandomIntArray(ARRAY_SIZE);
+	//int* testIntArray = CreatingRandomIntArray(ARRAY_SIZE);
 
 	//printingarray(intarray, array_size);
 
@@ -28,11 +28,10 @@ int _tmain(int argc, _TCHAR* argv[])
 	//intArray[0] = -666;
 	//intArray[ARRAY_SIZE - 1] = -666;
 
-	int* testIntArray = new int[] { 2, 3, 1, 4, 5, 9, 8, 7, 6, 10 }; 
-
-	PrintingArray(testIntArray, ARRAY_SIZE);
+	int testIntArray[ARRAY_SIZE] = { 10000, 5, 4, 100, 6000, 9000, 25, 30 };
 
 	QuickSortASMTest(testIntArray, ARRAY_SIZE);
+	//QuicksortCpp(testIntArray, ARRAY_SIZE);
 
 	cout << endl;
 
@@ -55,7 +54,7 @@ int* CreatingRandomIntArray(const int length){
 
 	for (size_t i = 0; i < length; i++)
 	{
-		returnValue[i] = rand() % 5000;
+		returnValue[i] = rand() % 10;
 	}	
 
 	return returnValue;
@@ -68,6 +67,6 @@ void destroyingArray(void* Array){
 void PrintingArray(const int* inputArray, const int length){
 	for (size_t i = 0; i < length; i++)
 	{
-		cout << inputArray[i] << endl;
+		cout << inputArray[i] << "-";
 	}
 }
