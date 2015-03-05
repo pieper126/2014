@@ -33,8 +33,7 @@ public class Parser {
 
             // if there are comments in the input we should ignore it
             if (splitText[counter].startsWith(COMMENT)) {
-                counter++;
-                break;
+                // do nothing
             } else if (splitText[counter].startsWith(ALPHABET)) {
                 alphabet = parseAlphabet(splitText[counter]);
             } else if (splitText[counter].startsWith(STATES)) {
@@ -52,7 +51,7 @@ public class Parser {
                 transitions = parseTransitions((Collection) expectedToBeTransitions, alphabet, states);
             }
 
-
+            counter++;
         }
         return "";
     }
@@ -171,7 +170,7 @@ public class Parser {
             if (labelName == "eps") {
                 if (label.getClass().getName().equals("Epsilon")) return label;
             } else {
-                if (((DefinedLabel)label).definedLabel.equals(labelName)) return label;
+                if (((DefinedLabel) label).definedLabel.equals(labelName)) return label;
             }
         }
 

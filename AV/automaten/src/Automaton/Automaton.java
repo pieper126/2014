@@ -38,6 +38,7 @@ public class Automaton {
     public boolean isDeterministicFiniteAutomata(){
         if (finals.size() < 1) return false;
         if (!allStatesHaveAllLables()) return false;
+        if (alphabet.contains(new Epsilon())) return false;
 
         return true;
     }
@@ -46,7 +47,7 @@ public class Automaton {
      * test if all states implement all lables
      * @return
      */
-    public boolean allStatesHaveAllLables(){
+    private boolean allStatesHaveAllLables(){
         for (State state: states){
             if (!state.testIfAllLablesArePresent(alphabet)) return false;
         }
