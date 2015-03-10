@@ -15,9 +15,16 @@ public class State {
 
     private String stateName;
 
+    private Boolean finalState;
+
     public State(String stateName) {
         this.stateName = stateName;
+        this.finalState = false;
         this.transitions = new ArrayList<Transition>();
+    }
+
+    protected State() {
+        this.finalState = false;
     }
 
     /**
@@ -36,6 +43,53 @@ public class State {
      */
     public String getStateName() {
         return stateName;
+    }
+
+    /**
+     * checks if this state is a finalstate
+     *
+     * @return
+     */
+    public boolean isFinalState() {
+        return finalState;
+    }
+
+    /**
+     * sets the state to final
+     */
+    public void setFinal() {
+        this.finalState = true;
+    }
+
+    /**
+     * test if the String is accepted by this state
+     *
+     * @param string characters this State should accept
+     * @return
+     */
+    public boolean isAcceptedString(String string) {
+        if (finalState && string.isEmpty()) {
+            return true;
+        } else if(string.isEmpty()) {
+            return false;
+        }
+
+        String characterToBeTested = string.substring(0, 1);
+        boolean accepted = false;
+
+        for (Transition transition : transitions) {
+            if (transition.getLabel().getClass().getName().equals(Epsilon.getInstance().getClass().getName())) {
+                 accepted = transition.getTo().isAcceptedString(string);
+
+                if (accepted) return accepted;
+            } else if (((DefinedLabel)transition.getLabel()).definedLabel.equals(characterToBeTested)) {
+                accepted = transition.getTo().isAcceptedString(string.substring(1));
+
+                if (accepted) return accepted;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -66,7 +120,8 @@ public class State {
             }
 
             if (found) {
-                break;
+                found = false;
+                continue;
             }
 
             return false;

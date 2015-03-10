@@ -17,11 +17,10 @@ public class Parser {
     private static String FINAL = "final:";
     private static String TRANSITIONS = "transitions:";
 
-    public static String Parse(String input) throws InCorrectFormatException {
+    public static Automaton parse(String input) throws InCorrectFormatException {
         String[] splitText = input.split("\\n");
         Collection<Label> alphabet = null;
         Collection<State> states = null;
-        Collection<Final> finals = null;
         Entry entry = null;
         Collection<Transition> transitions = null;
 
@@ -38,56 +37,71 @@ public class Parser {
                 alphabet = parseAlphabet(splitText[counter]);
             } else if (splitText[counter].startsWith(STATES)) {
                 states = parseState(splitText[counter]);
-                entry = new Entry(((State) ((states.toArray())[0])).getStateName());
+                entry = new Entry((State) ((states.toArray())[0]));
             } else if (splitText[counter].startsWith(FINAL)) {
-                finals = parseFinal(splitText[counter]);
+                if (states == null) {
+                    throw new InCorrectFormatException("states should be defined before assigning the finals");
+                }
+
+                parseFinal(splitText[counter], states);
             } else if (splitText[counter].startsWith(TRANSITIONS)) {
                 if (alphabet == null || states == null) {
                     throw new InCorrectFormatException("states and aphabet should be implentend first!");
                 }
 
                 List<String> expectedToBeTransitions = Arrays.asList(splitText.clone());
-                expectedToBeTransitions = expectedToBeTransitions.subList(counter, expectedToBeTransitions.size() - 1);
+                expectedToBeTransitions = expectedToBeTransitions.subList(counter, expectedToBeTransitions.size());
                 transitions = parseTransitions((Collection) expectedToBeTransitions, alphabet, states);
             }
 
             counter++;
         }
-        return "";
+
+        if (entry == null || states == null || alphabet == null)
+            throw new InCorrectFormatException("format is incorrect");
+
+        return new Automaton(entry, states, alphabet);
+
     }
 
     private static Collection<Label> parseAlphabet(String alphabet) {
-        alphabet.replaceAll("\\s+", "");
-        alphabet = alphabet.substring(7);
+        alphabet = alphabet.replaceAll("\\s+", "");
+        alphabet = alphabet.substring(8);
 
-        String[] alphabetArray = alphabet.split(",");
+        String[] alphabetArray = alphabet.split("");
 
         return createLabelsFromString((Collection) Arrays.asList(alphabetArray));
     }
 
     private static Collection<State> parseState(String states) {
-        states.replaceAll("\\s+", "");
-        states = states.substring(6);
+        states = states.replaceAll("\\s+", "");
+        states = states.substring(7);
 
         String[] separatedStates = states.split(",");
 
         return createStatesFromString((Collection) Arrays.asList(separatedStates));
     }
 
-    private static Collection<Final> parseFinal(String finals) {
-        finals.replaceAll("\\s+", "");
-        finals = finals.substring(5);
+    private static void parseFinal(String finals, Collection<State> states) {
+        finals = finals.replaceAll("\\s+", "");
+        finals = finals.substring(6);
 
         String[] separatedFinals = finals.split(",");
 
-        return createFinalsFromString(Arrays.asList(separatedFinals));
+        createFinalsFromString(Arrays.asList(separatedFinals), states);
     }
 
     private static Collection<Transition> parseTransitions(Collection<String> transitions, Collection<Label> alphabet, Collection<State> states) {
         Collection<Transition> returnValue = new ArrayList<Transition>();
+        int counter = 0;
 
         for (String transitionLine : transitions) {
-            transitionLine.replaceAll("\\s+", "");
+            if (counter == 0) {
+                counter++;
+                continue;
+            }
+
+            transitionLine = transitionLine.replaceAll("\\s+", "");
             String[] transition = transitionLine.split("-->");
 
             // finding the corresponding labels and states
@@ -101,7 +115,6 @@ public class Parser {
 
             // adding the transition to the corresponding states
             try {
-                to.addTransition(trans);
                 from.addTransition(trans);
             } catch (InvalidArgumentException e) {
                 e.printStackTrace();
@@ -115,11 +128,7 @@ public class Parser {
         Collection<Label> returnValue = new ArrayList<Label>();
 
         for (String label : labels) {
-            if (label.equals("eps")) {
-                returnValue.add(new Epsilon());
-            } else {
-                returnValue.add(new DefinedLabel(label));
-            }
+            returnValue.add(new DefinedLabel(label));
         }
 
         return returnValue;
@@ -135,14 +144,10 @@ public class Parser {
         return returnValue;
     }
 
-    private static Collection<Final> createFinalsFromString(Collection<String> finals) {
-        Collection<Final> returnValue = new ArrayList<Final>();
-
+    private static void createFinalsFromString(Collection<String> finals, Collection<State> states) {
         for (String aFinal : finals) {
-            returnValue.add(new Final(aFinal));
+            getStateFromCollection(aFinal, states).setFinal();
         }
-
-        return returnValue;
     }
 
 /*    private static Collection<Transition> createTransitionFromString(Collection<String> transitions) {
@@ -155,7 +160,7 @@ public class Parser {
         return returnValue;
     }*/
 
-    private static State getStateFromCollection(String stateName, Collection<State> states) {
+    private static State getStateFromCollection(final String stateName, Collection<State> states) {
         for (State state : states) {
             if (state.getStateName().equals(stateName)) {
                 return state;
@@ -167,8 +172,8 @@ public class Parser {
 
     private static Label getLabelFromCollection(String labelName, Collection<Label> labels) {
         for (Label label : labels) {
-            if (labelName == "eps") {
-                if (label.getClass().getName().equals("Epsilon")) return label;
+            if (labelName.equals("eps")) {
+                return Epsilon.getInstance();
             } else {
                 if (((DefinedLabel) label).definedLabel.equals(labelName)) return label;
             }

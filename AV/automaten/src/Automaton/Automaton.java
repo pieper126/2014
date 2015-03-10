@@ -11,24 +11,27 @@ public class Automaton {
 
     public Entry entry;
 
-    public ArrayList<Final> finals;
-
     public ArrayList<State> states;
 
     public LinkedList<Label> alphabet;
 
-    public Automaton(Entry entry, Collection<State> states, Collection<Final> finals, Collection<Label> alphabet) {
+    public Automaton(Entry entry, Collection<State> states, Collection<Label> alphabet) {
         this.entry = entry;
         this.states = new ArrayList<State>(states);
-        this.finals = new ArrayList<Final>(finals);
         this.alphabet = new LinkedList<Label>(alphabet);
     }
 
-    public Automaton(String entry, Collection<State> states, Collection<Final> finals, Collection<Label> alphabet) {
-        this.entry = new Entry(entry);
-        this.states = new ArrayList<State>(states);
-        this.finals = new ArrayList<Final>(finals);
-        this.alphabet = new LinkedList<Label>(alphabet);
+    protected Automaton(){
+
+    }
+
+    /**
+     * checks if the given string is accepted by this automaton
+     * @param stringToBeTested
+     * @return
+     */
+    public boolean isStringAccepted(String stringToBeTested){
+        return entry.entryPoint.isAcceptedString(stringToBeTested);
     }
 
     /**
@@ -36,9 +39,9 @@ public class Automaton {
      * @return true if it is a finite and deterministic.
      */
     public boolean isDeterministicFiniteAutomata(){
-        if (finals.size() < 1) return false;
+        if (!hasAFinalState()) return false;
+        if (alphabet.contains(Epsilon.getInstance())) return false;
         if (!allStatesHaveAllLables()) return false;
-        if (alphabet.contains(new Epsilon())) return false;
 
         return true;
     }
@@ -52,5 +55,17 @@ public class Automaton {
             if (!state.testIfAllLablesArePresent(alphabet)) return false;
         }
         return true;
+    }
+
+    /**
+     * test if this automaton has a finalstate
+     * @return
+     */
+    private boolean hasAFinalState(){
+        for (State state : states){
+            if (state.isFinalState()) return true;
+        }
+
+        return false;
     }
 }
