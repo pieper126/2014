@@ -14,8 +14,9 @@
     <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
       <children>
         <Button fx:id="ParseButton" mnemonicParsing="false" text="Parse" />
-        <Button fx:id="DFAButton" mnemonicParsing="false" text="DFA" />
+        <Button id="TestString" fx:id="RegExParseButton" mnemonicParsing="false" text="RegExParse" />
         <Button id="TestString" fx:id="TestStringButton" mnemonicParsing="false" text="Test String" />
+        <Button fx:id="DFAButton" mnemonicParsing="false" text="DFA" />
       </children>
     </HBox>
     <TextArea fx:id="TaInput" prefWidth="200.0" text="input" wrapText="true" GridPane.columnIndex="0" GridPane.rowIndex="0" />

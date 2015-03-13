@@ -2,7 +2,7 @@ package UI;
 
 import Automaton.Automaton;
 import Exceptions.InCorrectFormatException;
-import Parser.Parser;
+import Parser.*;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -36,6 +36,9 @@ public class Controller implements Initializable {
     @FXML
     private Button ParseButton;
 
+    @FXML
+    private Button RegExParseButton;
+
     private Automaton automaton;
 
     @Override
@@ -45,6 +48,7 @@ public class Controller implements Initializable {
         assert TaOutput != null : "fx:id=\"TaOutput\" was not injected: check your FXML file 'sample.fxml'.";
         assert TestStringButton != null : "fx:id=\"TestStringButton\" was not injected: check your FXML file 'sample.fxml'.";
         assert ParseButton != null : "fx:id=\"ParseButton\" was not injected: check your FXML file 'sample.fxml'.";
+        assert RegExParseButton != null : "fx:id=\"RegExParseButton\" was not injected: check your FXML file 'sample.fxml'.";
 
         automaton = null;
 
@@ -55,6 +59,7 @@ public class Controller implements Initializable {
         initializeDFAButton();
         initializeTestStringButton();
         initializeParseButton();
+        initializeRegExParseButton();
     }
 
     private void initializeDFAButton() {
@@ -91,7 +96,7 @@ public class Controller implements Initializable {
                         TaOutput.setText(errorMessage);
                     }
                 } else {
-                    TaOutput.setText(TaOutput.getText() + "\n first use DFA function to create a automaton");
+                    TaOutput.setText(TaOutput.getText() + "\n first use Parse to create a automaton");
                 }
             }
         });
@@ -104,6 +109,27 @@ public class Controller implements Initializable {
                 try {
                     automaton = Parser.parse(TaInput.getText());
                     TaOutput.setText(TaOutput.getText() + "\n input had been parsed ");
+                } catch (Exception e) {
+                    String errorMessage = "the input string was incorrect \n:";
+                    errorMessage += e.getMessage();
+                    TaOutput.setText(errorMessage);
+                }
+            }
+        });
+    }
+
+    private void initializeRegExParseButton(){
+        RegExParseButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                try {
+                    automaton = RegExParser.Parse(TaInput.getText());
+
+                    if (automaton == null) {
+                        TaOutput.setText(TaOutput.getText() + "\n the input string was incorrect ");
+                    } else {
+                        TaOutput.setText(TaOutput.getText() + "\n input had been parsed ");
+                    }
                 } catch (Exception e) {
                     String errorMessage = "the input string was incorrect \n:";
                     errorMessage += e.getMessage();

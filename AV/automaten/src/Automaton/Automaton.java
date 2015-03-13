@@ -2,6 +2,7 @@ package Automaton;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.LinkedList;
 
 /**
@@ -15,10 +16,13 @@ public class Automaton {
 
     public LinkedList<Label> alphabet;
 
-    public Automaton(Entry entry, Collection<State> states, Collection<Label> alphabet) {
+    public LinkedList<State> finals;
+
+    public Automaton(Entry entry, Collection<State> states, Collection<Label> alphabet, Collection<State> finals) {
         this.entry = entry;
         this.states = new ArrayList<State>(states);
         this.alphabet = new LinkedList<Label>(alphabet);
+        this.finals = new LinkedList<>(finals);
     }
 
     protected Automaton(){

@@ -4,10 +4,7 @@ import Automaton.*;
 import Exceptions.InCorrectFormatException;
 import com.sun.javaws.exceptions.InvalidArgumentException;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 public class Parser {
 
@@ -21,6 +18,7 @@ public class Parser {
         String[] splitText = input.split("\\n");
         Collection<Label> alphabet = null;
         Collection<State> states = null;
+        Collection<State> finals = null;
         Entry entry = null;
         Collection<Transition> transitions = null;
 
@@ -43,7 +41,7 @@ public class Parser {
                     throw new InCorrectFormatException("states should be defined before assigning the finals");
                 }
 
-                parseFinal(splitText[counter], states);
+                finals = parseFinal(splitText[counter], states);
             } else if (splitText[counter].startsWith(TRANSITIONS)) {
                 if (alphabet == null || states == null) {
                     throw new InCorrectFormatException("states and aphabet should be implentend first!");
@@ -57,10 +55,10 @@ public class Parser {
             counter++;
         }
 
-        if (entry == null || states == null || alphabet == null)
+        if (entry == null || states == null || alphabet == null || finals == null)
             throw new InCorrectFormatException("format is incorrect");
 
-        return new Automaton(entry, states, alphabet);
+        return new Automaton(entry, states, alphabet, finals);
 
     }
 
@@ -82,13 +80,13 @@ public class Parser {
         return createStatesFromString((Collection) Arrays.asList(separatedStates));
     }
 
-    private static void parseFinal(String finals, Collection<State> states) {
+    private static Collection<State> parseFinal(String finals, Collection<State> states) {
         finals = finals.replaceAll("\\s+", "");
         finals = finals.substring(6);
 
         String[] separatedFinals = finals.split(",");
 
-        createFinalsFromString(Arrays.asList(separatedFinals), states);
+        return createFinalsFromString(Arrays.asList(separatedFinals), states);
     }
 
     private static Collection<Transition> parseTransitions(Collection<String> transitions, Collection<Label> alphabet, Collection<State> states) {
@@ -144,10 +142,16 @@ public class Parser {
         return returnValue;
     }
 
-    private static void createFinalsFromString(Collection<String> finals, Collection<State> states) {
+    private static Collection<State> createFinalsFromString(Collection<String> finals, Collection<State> states) {
+        Collection<State> finalStates = new LinkedList<>();
+
         for (String aFinal : finals) {
-            getStateFromCollection(aFinal, states).setFinal();
+            State isAFinal = getStateFromCollection(aFinal, states);
+            isAFinal.setFinal();
+            finalStates.add(isAFinal);
         }
+
+        return finalStates;
     }
 
 /*    private static Collection<Transition> createTransitionFromString(Collection<String> transitions) {

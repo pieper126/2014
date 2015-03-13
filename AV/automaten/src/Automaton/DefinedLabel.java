@@ -10,4 +10,9 @@ public class DefinedLabel extends Label{
     public DefinedLabel(String definedLabel){
         this.definedLabel = definedLabel;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        return ((DefinedLabel)o).definedLabel.equals(this.definedLabel);
+    }
 }

@@ -61,6 +61,10 @@ public class State {
         this.finalState = true;
     }
 
+    public void unFinal(){
+        this.finalState = false;
+    }
+
     /**
      * test if the String is accepted by this state
      *
@@ -70,7 +74,10 @@ public class State {
     public boolean isAcceptedString(String string) {
         if (finalState && string.isEmpty()) {
             return true;
-        } else if(string.isEmpty()) {
+        } else if (string.isEmpty()) {
+            for (Transition transition : transitions){
+                if (transition.getTo().isAcceptedString(string) && transition.getLabel().getClass().getName().equals(Epsilon.getInstance().getClass().getName())) return true;
+            }
             return false;
         }
 
@@ -79,10 +86,14 @@ public class State {
 
         for (Transition transition : transitions) {
             if (transition.getLabel().getClass().getName().equals(Epsilon.getInstance().getClass().getName())) {
-                 accepted = transition.getTo().isAcceptedString(string);
+                accepted = transition.getTo().isAcceptedString(string);
 
                 if (accepted) return accepted;
-            } else if (((DefinedLabel)transition.getLabel()).definedLabel.equals(characterToBeTested)) {
+            } else if (transition.getLabel().getClass().getName().equals(DotLabel.getInstance().getClass().getName())) {
+                accepted = transition.getTo().isAcceptedString(string.substring(1));
+
+                if (accepted) return accepted;
+            } else if (((DefinedLabel) transition.getLabel()).definedLabel.equals(characterToBeTested)) {
                 accepted = transition.getTo().isAcceptedString(string.substring(1));
 
                 if (accepted) return accepted;
