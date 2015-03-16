@@ -76,7 +76,7 @@ public class State {
             return true;
         } else if (string.isEmpty()) {
             for (Transition transition : transitions){
-                if (transition.getTo().isAcceptedString(string) && transition.getLabel().getClass().getName().equals(Epsilon.getInstance().getClass().getName())) return true;
+                if (!transition.getTo().equals(this) && transition.getTo().isAcceptedString(string) && transition.getLabel().getClass().getName().equals(Epsilon.getInstance().getClass().getName()) ) return true;
             }
             return false;
         }
