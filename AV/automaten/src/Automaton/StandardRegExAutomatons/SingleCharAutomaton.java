@@ -28,7 +28,12 @@ public class SingleCharAutomaton extends Automaton {
         super.finals.add(state);
 
         // define the given label
-        Label label = new DefinedLabel(input);
+        Label label = null;
+        if (input.equals("_")){
+            label = Epsilon.getInstance();
+        } else{
+            label = new DefinedLabel(input);
+        }
         super.alphabet = new LinkedList<>();
         alphabet.add(label);
 

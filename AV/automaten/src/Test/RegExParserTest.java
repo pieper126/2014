@@ -99,5 +99,22 @@ public class RegExParserTest {
         assertFalse(automatonTest.isStringAccepted(shouldFail));
         assertFalse(automatonTest.isStringAccepted(shouldFail1));
         assertFalse(automatonTest.isStringAccepted(shouldFail2));
+
+        automatonTest = RegExParser.Parse(".(a,*(b))");
+        shouldFail = "ab";
+        shouldSucceed = "axb";
+        shouldSucceed1 = "axbb";
+        shouldSucceed2 = "axbbbbbb";
+        shouldSucceed3 = "axbbbbbbbb";
+        shouldFail1 = "b";
+        shouldFail2 = "axd";
+
+        assertTrue(automatonTest.isStringAccepted(shouldSucceed));
+        assertTrue(automatonTest.isStringAccepted(shouldSucceed1));
+        assertTrue(automatonTest.isStringAccepted(shouldSucceed2));
+        assertTrue(automatonTest.isStringAccepted(shouldSucceed3));
+        assertFalse(automatonTest.isStringAccepted(shouldFail));
+        assertFalse(automatonTest.isStringAccepted(shouldFail1));
+        assertFalse(automatonTest.isStringAccepted(shouldFail2));
     }
 }

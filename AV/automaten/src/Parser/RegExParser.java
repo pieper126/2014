@@ -34,15 +34,7 @@ public class RegExParser {
         // decide what type of operant it is
         switch (operator) {
             case "_":
-                // to ask
-//                if (hasOperator(children)) {
-//                    returnValue = Parse(children, -1, "", TypeNodes.Negation);
-//                } else {
-//                    returnValue = new SingleCharAutomaton(children);
-//                    ((SingleCharAutomaton)returnValue).addingTransition(new Transition());
-//                    returnValue = new Negation(new AbstractVariable(children));
-//                }
-                break;
+                throw new InvalidArgumentException(new String[]{"found a random epsilon"});
             case ".":
                 if (hasOperator(children)) {
 //                    Automaton innerAutomaton = Parse(children, 0, "", RegExType.dot);
@@ -80,7 +72,7 @@ public class RegExParser {
         return returnValue;
     }
 
-    protected static Automaton Parse(String equation, int amountOfOperants, String buffer, RegExType type) throws InvalidArgumentException{
+    protected static Automaton Parse(String equation, int amountOfOperants, String buffer, RegExType type) throws InvalidArgumentException {
         String trimmedEquation = equation.trim();
 
         // takes the childern from the given equation
@@ -305,6 +297,7 @@ public class RegExParser {
     private static Automaton createStarAutomaton(Automaton sideA) {
         // create entry point
         State state = new State("s");
+        state.setFinal();
         Entry entry = new Entry(state);
 
         // link entry point to the entry point of the given automaton
@@ -324,6 +317,7 @@ public class RegExParser {
 
         // set finals
         Collection<State> finals = sideA.finals;
+        finals.add(state);
 
         // making transitions so finals can be mapped to the entry point of sideB
         for (State aFinal : sideA.finals) {
