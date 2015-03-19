@@ -2,9 +2,7 @@ package Automaton;
 
 import com.sun.javaws.exceptions.InvalidArgumentException;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
+import java.util.*;
 
 /**
  * Created by pieper126 on 27-02-15.
@@ -55,12 +53,36 @@ public class State {
     }
 
     /**
+     * checks if the the state and is childern are finite
+     * @return
+     */
+    public Boolean isFinite(ArrayList<State> didAlreadyPas){
+        if (didAlreadyPas.contains(this)){
+            List potentionalLoop = didAlreadyPas.subList(didAlreadyPas.indexOf(this), didAlreadyPas.size() - 1);
+            for (Transition transition : transitions){
+                if (potentionalLoop.contains(transition.getTo())) continue;
+                if (transition.getTo().finalStateReachable(new ArrayList<>())) return false;
+            }
+        }
+
+        didAlreadyPas.add(this);
+
+        for (Transition transition : transitions){
+            if (!transition.getTo().isFinite(didAlreadyPas)) return false;
+        }
+        return true;
+    }
+
+    /**
      * sets the state to final
      */
     public void setFinal() {
         this.finalState = true;
     }
 
+    /**
+     * sets the state unfinal
+     */
     public void unFinal(){
         this.finalState = false;
     }
@@ -116,17 +138,46 @@ public class State {
     }
 
     /**
+     * checks if a final state can be reached from this point
+     * @param didAlreadyPas
+     * @return
+     */
+    public boolean finalStateReachable(ArrayList<State> didAlreadyPas){
+        if (finalState){
+            return true;
+        }
+
+        if (didAlreadyPas.contains(this)){
+            List potentionalLoop = didAlreadyPas.subList(didAlreadyPas.indexOf(this), didAlreadyPas.size() - 1);
+            for (Transition transition : transitions){
+                if (potentionalLoop.contains(transition.getTo())) continue;
+                transition.getTo().finalStateReachable(didAlreadyPas);
+            }
+        }
+
+        didAlreadyPas.add(this);
+
+        for (Transition transition : transitions){
+            transition.getTo().finalStateReachable(didAlreadyPas);
+        }
+
+        return false;
+    }
+
+    /**
      * @param labels
      * @return
      */
-    public boolean testIfAllLablesArePresent(Collection<Label> labels) {
+    public boolean testIfAllLabelsArePresent(Collection<Label> labels) {
         boolean found = false;
 
         for (Transition transition : transitions) {
             for (Label label : labels) {
-                if (label.equals(transition.getLabel())) {
-                    found = true;
-                    break;
+                if (!label.getClass().getName().equals(Epsilon.getInstance().getClass().getName())){
+                    if (label.equals(transition.getLabel())) {
+                        found = true;
+                        break;
+                    }
                 }
             }
 
@@ -139,5 +190,25 @@ public class State {
         }
 
         return true;
+    }
+
+
+    public ArrayList<String> generatePossibleWords(Collection<Label> labelsTillNow){
+        ArrayList<String> returnValue = new ArrayList<>();
+
+        for (Transition transition : transitions){
+            labelsTillNow.add(transition.getLabel());
+            returnValue.addAll(transition.getTo().generatePossibleWords(labelsTillNow));
+        }
+
+
+        if (finalState){
+
+            for (Label label : labelsTillNow){
+
+            }
+        }
+
+        return returnValue;
     }
 }

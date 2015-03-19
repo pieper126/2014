@@ -1,5 +1,7 @@
 package Automaton;
 
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -30,6 +32,22 @@ public class Automaton {
     }
 
     /**
+     * checks if the automaton's languages is finite
+     * @return
+     */
+    public boolean isFinite() {
+        return entry.entryPoint.isFinite(new ArrayList<State>());
+    }
+
+    /**
+     * generate all words that can be created by this automaton
+     * @return
+     */
+    public ArrayList<String> generateAllWords(){
+        return entry.entryPoint.generatePossibleWords(new ArrayList<Label>());
+    }
+
+    /**
      * checks if the given string is accepted by this automaton
      * @param stringToBeTested
      * @return
@@ -56,7 +74,7 @@ public class Automaton {
      */
     private boolean allStatesHaveAllLables(){
         for (State state: states){
-            if (!state.testIfAllLablesArePresent(alphabet)) return false;
+            if (!state.testIfAllLabelsArePresent(alphabet)) return false;
         }
         return true;
     }

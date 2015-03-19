@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.text.*?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="423.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="UI.Controller">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="423.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.Controller">
   <children>
     <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
       <children>
@@ -17,6 +17,8 @@
         <Button id="TestString" fx:id="RegExParseButton" mnemonicParsing="false" text="RegExParse" />
         <Button id="TestString" fx:id="TestStringButton" mnemonicParsing="false" text="Test String" />
         <Button fx:id="DFAButton" mnemonicParsing="false" text="DFA" />
+            <Button fx:id="NFAButton" mnemonicParsing="false" text="NFA" />
+            <Button fx:id="showWordsButton" mnemonicParsing="false" text="Shows words" />
       </children>
     </HBox>
     <TextArea fx:id="TaInput" prefWidth="200.0" text="input" wrapText="true" GridPane.columnIndex="0" GridPane.rowIndex="0" />

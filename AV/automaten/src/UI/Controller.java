@@ -39,16 +39,24 @@ public class Controller implements Initializable {
     @FXML
     private Button RegExParseButton;
 
+    @FXML
+    private Button NFAButton;
+
+    @FXML
+    private Button showWordsButton;
+
     private Automaton automaton;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        assert DFAButton != null : "fx:id=\"DFAButton\" was not injected: check your FXML file 'sample.fxml'.";
-        assert TaInput != null : "fx:id=\"TaInput\" was not injected: check your FXML file 'sample.fxml'.";
-        assert TaOutput != null : "fx:id=\"TaOutput\" was not injected: check your FXML file 'sample.fxml'.";
         assert TestStringButton != null : "fx:id=\"TestStringButton\" was not injected: check your FXML file 'sample.fxml'.";
-        assert ParseButton != null : "fx:id=\"ParseButton\" was not injected: check your FXML file 'sample.fxml'.";
+        assert NFAButton != null : "fx:id=\"NFAButton\" was not injected: check your FXML file 'sample.fxml'.";
+        assert TaInput != null : "fx:id=\"TaInput\" was not injected: check your FXML file 'sample.fxml'.";
+        assert DFAButton != null : "fx:id=\"DFAButton\" was not injected: check your FXML file 'sample.fxml'.";
         assert RegExParseButton != null : "fx:id=\"RegExParseButton\" was not injected: check your FXML file 'sample.fxml'.";
+        assert TaOutput != null : "fx:id=\"TaOutput\" was not injected: check your FXML file 'sample.fxml'.";
+        assert ParseButton != null : "fx:id=\"ParseButton\" was not injected: check your FXML file 'sample.fxml'.";
+        assert showWordsButton != null : "fx:id=\"showWordsButton\" was not injected: check your FXML file 'sample.fxml'.";
 
         automaton = null;
 
@@ -60,6 +68,8 @@ public class Controller implements Initializable {
         initializeTestStringButton();
         initializeParseButton();
         initializeRegExParseButton();
+        initializeShowWordsButton();
+        initializNFAButton();
     }
 
     private void initializeDFAButton() {
@@ -139,4 +149,31 @@ public class Controller implements Initializable {
         });
     }
 
+    private void initializeShowWordsButton(){
+        showWordsButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                throw new UnsupportedOperationException("");
+            }
+        });
+    }
+
+    private void initializNFAButton(){
+        NFAButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if (automaton != null) {
+                    try {
+                        TaOutput.setText(TaOutput.getText() + "\n was the input accepted: " + automaton.isFinite());
+                    } catch (Exception e) {
+                        String errorMessage = "the input string was incorrect \n:";
+                        errorMessage += e.getMessage();
+                        TaOutput.setText(errorMessage);
+                    }
+                } else {
+                    TaOutput.setText(TaOutput.getText() + "\n first use Parse to create a automaton");
+                }
+            }
+        });
+    }
 }
